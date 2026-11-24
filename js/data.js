@@ -33,7 +33,7 @@ window.portfolioData = {
     ],
     qrSertifikat: "assets/img/qr-sertifikat.png",
     qrSertifikatText: "Scan atau klik tombol untuk melihat seluruh arsip sertifikat di Google Drive",
-    qrSertifikatUrl: "https://l1nk.dev/0f7udm0",
+    qrSertifikatUrl: "https://drive.google.com/drive/folders/1pPcO7AGU55haVoz0fksYNL3z5EnLFXjU?usp=drive_link",
     printCv: "assets/img/print-cv.png"
   },
 
