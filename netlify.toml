@@ -1,0 +1,5 @@
+# Hanya berkas situs yang dipublikasikan. README, dokumen alur pengerjaan,
+# dan folder scratch/ tetap ada di repo tetapi tidak ikut tersaji di Netlify.
+[build]
+  command = "rm -rf dist && mkdir dist && cp -r index.html css js assets sertifikat dist/"
+  publish = "dist"
