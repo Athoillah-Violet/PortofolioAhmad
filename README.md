@@ -105,21 +105,16 @@ Buka `js/data.js` dan tambahkan objek baru ke dalam array `sertifikat`:
 ## 🌐 Cara Hosting
 
 ### A. Hosting di GitHub Pages
-1. Buat repository baru di GitHub, misalnya `portfolio` atau `<username>.github.io`.
-2. Unggah/push seluruh isi folder ini ke branch `main`:
+1. Repositori GitHub Anda: [https://github.com/Athoillah-Violet/PortofolioAhmad](https://github.com/Athoillah-Violet/PortofolioAhmad)
+2. Unggah/push seluruh isi branch `main`:
    ```bash
-   git init
-   git add .
-   git commit -m "feat: portfolio Ahmad Athoillah Almadany"
-   git branch -M main
-   git remote add origin https://github.com/Athoillah-Violet/<nama-repo>.git
    git push -u origin main
    ```
 3. Buka tab **Settings** di repository GitHub Anda &rarr; pilih menu **Pages** di sebelah kiri.
 4. Pada bagian **Build and deployment**:
    - Source: `Deploy from a branch`
    - Branch: `main` / folder: `/(root)`
-5. Klik **Save**. Situs akan aktif dalam beberapa menit di `https://athoillah-violet.github.io/<nama-repo>/`.
+5. Klik **Save**. Situs akan aktif dalam beberapa menit di [https://athoillah-violet.github.io/PortofolioAhmad/](https://athoillah-violet.github.io/PortofolioAhmad/).
 
 ### B. Hosting di Vercel
 1. Masuk ke [Vercel](https://vercel.com/) menggunakan akun GitHub Anda.
