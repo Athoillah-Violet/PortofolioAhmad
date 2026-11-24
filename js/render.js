@@ -549,9 +549,9 @@ const PortfolioRenderer = {
             </div>
           </div>
 
-          <a href="${qrSertifikatUrl}" target="_blank" rel="noopener noreferrer" class="btn-poster-primary text-sm whitespace-nowrap w-full md:w-auto" aria-label="Buka arsip seluruh sertifikat di ${qrSertifikatUrl}">
+          <a href="${qrSertifikatUrl}" target="_blank" rel="noopener noreferrer" class="btn-poster-primary text-sm whitespace-nowrap w-full md:w-auto" aria-label="Buka arsip seluruh sertifikat di Google Drive">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-            ${UI.sertifikat?.qrAction || "Buka l1nk.dev/0f7udm0 ↗"}
+            ${UI.sertifikat?.qrAction || "Buka Drive ↗"}
           </a>
         </div>
       </div>
