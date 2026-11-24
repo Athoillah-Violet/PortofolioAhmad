@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <linearGradient id="bg_bel-otomatis-iot" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F2742"/>
+      <stop offset="100%" stop-color="#0B1B2E"/>
+    </linearGradient>
+    <pattern id="grid_bel-otomatis-iot" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#bg_bel-otomatis-iot)"/>
+  <rect width="100%" height="100%" fill="url(#grid_bel-otomatis-iot)"/>
+  
+  <!-- Browser topbar mockup -->
+  <rect x="30" y="25" width="740" height="40" rx="8" fill="#163252"/>
+  <circle cx="55" cy="45" r="6" fill="#EF4444" opacity="0.8"/>
+  <circle cx="75" cy="45" r="6" fill="#F59E0B" opacity="0.8"/>
+  <circle cx="95" cy="45" r="6" fill="#10B981" opacity="0.8"/>
+  <rect x="130" y="33" width="520" height="24" rx="4" fill="#0F2742"/>
+  <text x="150" y="49" fill="#94A3B8" font-family="sans-serif" font-size="12">https://athoillah.dev/projects/bel-otomatis-iot</text>
+  
+  <!-- Content card -->
+  <rect x="30" y="80" width="740" height="345" rx="10" fill="#0D2035" stroke="rgba(31, 158, 150, 0.25)" stroke-width="1.5"/>
+  
+  <!-- Accent highlight -->
+  <circle cx="670" cy="170" r="120" fill="#EC4899" opacity="0.08"/>
+  <circle cx="140" cy="340" r="80" fill="#1F9E96" opacity="0.05"/>
+
+  <!-- Badge -->
+  <rect x="70" y="120" width="267" height="28" rx="14" fill="rgba(31, 158, 150, 0.15)" stroke="#EC4899" stroke-width="1"/>
+  <text x="82" y="139" fill="#EC4899" font-family="monospace" font-size="11" font-weight="bold">IOT · EMBEDDED SYSTEM · WEB</text>
+
+  <!-- Big Icon -->
+  <text x="70" y="230" font-size="56">🔔</text>
+
+  <!-- Titles -->
+  <text x="70" y="280" fill="#FFFFFF" font-family="'Space Grotesk', sans-serif" font-size="32" font-weight="bold">Website Bel Otomatis IoT</text>
+  <text x="70" y="320" fill="#94A3B8" font-family="'Inter', sans-serif" font-size="18">Otomasi Bel Terjadwal SMK Syubbanul Wathon</text>
+  
+  <!-- Subtle UI lines -->
+  <line x1="70" y1="355" x2="710" y2="355" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <text x="70" y="385" fill="#6FD3CB" font-family="monospace" font-size="13">Klik untuk melihat detail proyek, galeri &amp; peran teknis &rarr;</text>
+</svg>

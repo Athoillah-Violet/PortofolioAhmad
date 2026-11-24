@@ -1,0 +1,414 @@
+/* ==========================================================================
+   css/style.css
+   Portofolio Pribadi - Ahmad Athoillah Almadany
+   Design Tokens & Visual Identity (Dark & Light Mode, WCAG AA / AAA)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   DESIGN TOKENS: TEMA GELAP (DEFAULT)
+   -------------------------------------------------------------------------- */
+:root,
+[data-theme="dark"],
+html.dark {
+  --bg: #0B1B2E;
+  --bg-elev: #0F2742;
+  --bg-soft: #122C4B;
+  --text: #F1F5F9;
+  --text-muted: #94A3B8;
+  --text-subtle: #64748B;
+  --border: rgba(111, 211, 203, 0.18);
+  --border-hover: rgba(111, 211, 203, 0.45);
+  
+  --accent: #1F9E96;
+  --accent-hover: #17837C;
+  --accent-strong: #6FD3CB;
+  --accent-text: #6FD3CB;
+  --on-accent: #FFFFFF;
+  --chip-bg: rgba(31, 158, 150, 0.15);
+  --overlay: rgba(11, 27, 46, 0.88);
+  --focus: #6FD3CB;
+  --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.45);
+
+  --radius-card: 14px;
+  --radius-photo: 20px;
+  --radius-chip: 9999px;
+
+  /* Backward compatibility aliases */
+  --color-bg: var(--bg);
+  --color-surface: var(--bg-elev);
+  --color-surface-hover: var(--bg-soft);
+  --color-surface-card: var(--bg-elev);
+  --color-border: var(--border);
+  --color-border-hover: var(--border-hover);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-light: var(--accent-text);
+  --color-accent-muted: var(--chip-bg);
+  --color-text-primary: var(--text);
+  --color-text-secondary: var(--text-muted);
+  --color-text-muted: var(--text-subtle);
+
+  /* Variabel Durasi & Easing */
+  --dur-fast: 150ms;
+  --dur-med: 300ms;
+  --dur-slow: 500ms;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* --------------------------------------------------------------------------
+   DESIGN TOKENS: TEMA TERANG (AUDIT & REVISI MENYELURUH WCAG AA)
+   -------------------------------------------------------------------------- */
+[data-theme="light"],
+html.light {
+  --bg: #F4F7FB;
+  --bg-elev: #FFFFFF;
+  --bg-soft: #E8EEF5;
+  --text: #1B2733;
+  --text-muted: #4A5663;
+  --text-subtle: #64748B;
+  --border: #D5DEEA;
+  --border-hover: rgba(18, 118, 111, 0.5);
+  
+  --accent: #12766F;
+  --accent-hover: #0E5E58;
+  --accent-strong: #0B4E49;
+  --accent-text: #12766F; /* Kontras teks > 5.2:1 di atas background putih/terang */
+  --on-accent: #FFFFFF;
+  --chip-bg: rgba(18, 118, 111, 0.10);
+  --overlay: rgba(27, 39, 51, 0.75);
+  --focus: #12766F;
+  --shadow: 0 10px 30px -5px rgba(27, 39, 51, 0.08);
+
+  --color-bg: var(--bg);
+  --color-surface: var(--bg-elev);
+  --color-surface-hover: var(--bg-soft);
+  --color-surface-card: var(--bg-elev);
+  --color-border: var(--border);
+  --color-border-hover: var(--border-hover);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-light: var(--accent-text);
+  --color-accent-muted: var(--chip-bg);
+  --color-text-primary: var(--text);
+  --color-text-secondary: var(--text-muted);
+  --color-text-muted: var(--text-subtle);
+}
+
+/* ==========================================================================
+   RESET & DASAR
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: auto;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  color: var(--text);
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+/* Aksesibilitas: Focus ring yang tegas dan jelas */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Kartu Tema Dinamis */
+.card-theme {
+  background-color: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+}
+
+.card-theme:hover {
+  border-color: var(--border-hover);
+}
+
+/* Chip Keterampilan & Kategori */
+.chip-theme {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: var(--radius-chip);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  background-color: var(--chip-bg);
+  color: var(--accent-text);
+  border: 1px solid var(--border);
+}
+
+/* Tombol Tema */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--bg-elev);
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-soft);
+  border-color: var(--border-hover);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background-color: transparent;
+  color: var(--accent-text);
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1.5px solid var(--accent);
+  cursor: pointer;
+}
+
+.btn-outline:hover {
+  background-color: var(--accent);
+  color: var(--on-accent);
+}
+
+/* ==========================================================================
+   NAVBAR & STICKY HEADER
+   ========================================================================== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background-color: var(--bg-elev);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ==========================================================================
+   MODAL & LIGHTBOX STYLES
+   ========================================================================== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background-color: var(--overlay);
+  backdrop-filter: blur(6px);
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-box {
+  background-color: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-body {
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+}
+
+/* Lightbox untuk Sertifikat */
+.lightbox-container {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background-color: var(--overlay);
+  backdrop-filter: blur(8px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.lightbox-container.active {
+  display: flex;
+}
+
+.lightbox-img-wrapper {
+  position: relative;
+  max-width: 92vw;
+  max-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox-img-wrapper img {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+/* ==========================================================================
+   FOTO PROFIL FULL (PERBAIKAN 2: ASPECT RATIO 3:4 PORTRAIT)
+   ========================================================================== */
+.hero-photo-wrapper {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius-photo);
+  overflow: hidden;
+  background-color: var(--bg-elev);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-photo-wrapper:hover {
+  border-color: var(--border-hover);
+}
+
+.hero-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* ==========================================================================
+   CETAK CV: ATURAN KHUSUS KERTAS F4 (215mm x 330mm)
+   ========================================================================== */
+@page {
+  size: 215mm 330mm;
+  margin: 0;
+}
+
+@media print {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Sembunyikan SEMUA elemen website selain container cetak CV */
+  body * {
+    visibility: hidden !important;
+  }
+
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 215mm !important;
+    height: 330mm !important;
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    overflow: hidden !important;
+  }
+
+  /* Tampilkan HANYA elemen khusus cetak CV */
+  #cv-print-area,
+  #cv-print-area * {
+    visibility: visible !important;
+  }
+
+  #cv-print-area {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 215mm !important;
+    height: 330mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 9999999 !important;
+    display: block !important;
+    background-color: #FFFFFF !important;
+  }
+
+  #cv-print-area img {
+    width: 215mm !important;
+    height: 330mm !important;
+    object-fit: fill !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+  }
+}
