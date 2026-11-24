@@ -23,7 +23,9 @@
 - [x] BAGIAN 1 (Langkah A) selesai: semua fase A-0 sampai A-6 tercentang
 - [x] Hasil Langkah A sudah saya cek di browser (diisi oleh saya, bukan agen)
 - [x] BAGIAN 2 (Langkah B) selesai: semua fase B-0 sampai B-6 tercentang
-- [ ] Hasil Langkah B sudah saya cek di browser dan HP (diisi oleh saya, bukan agen)
+- [X] Hasil Langkah B sudah saya cek di browser dan HP (diisi oleh saya, bukan agen)
+- [ ] BAGIAN 3 (Langkah C) selesai: semua fase B-0 sampai B-6 tercentang
+- [ ] Hasil Langkah C sudah saya cek di browser dan HP (diisi oleh saya, bukan agen)
 
 ---
 
@@ -380,6 +382,125 @@ Detail teknis:
   - **Uji reload di tengah halaman / link jangkar**: Jika halaman di-refresh saat posisi scroll > 80px atau pengunjung datang lewat URL `#proyek`, hero otomatis langsung settle pada kondisi akhir tanpa melompat atau tersangkut.
 
 ---
+---
+
+# BAGIAN 3: LANGKAH C (Perbaikan Hero dan Efek Scroll Berulang)
+
+> Prasyarat: BAGIAN 1 dan BAGIAN 2 sudah selesai. Tambahkan juga dua butir ini di "STATUS UTAMA" bagian atas file:
+> - [ ] BAGIAN 3 (Langkah C) selesai: semua fase C-0 sampai C-6 tercentang
+> - [ ] Hasil Langkah C sudah saya cek di browser dan HP (diisi oleh saya, bukan agen)
+
+## ALUR PENGERJAAN LANGKAH C
+
+### Fase C-0: Persiapan
+- [ ] Baca kode hero: bagian hero di js/render.js, seluruh koordinasi hero di js/anim.js (timeline, ScrollTrigger, pengaman refresh/hash, preloader), dan CSS hero di css/style.css dan css/anim.css
+- [ ] Baca konfigurasi AOS (once, mirror, offset) dan semua tempat yang memanggil AOS.init, AOS.refresh, atau AOS.refreshHard
+- [ ] Simpan titik awal (commit git "sebelum langkah C" atau salin folder cadangan)
+
+### Fase C-1: Diagnosa (jangan menebak, temukan penyebab nyata)
+Masalah yang dilaporkan: efek hero hanya muncul saat halaman baru dibuka atau di-refresh. Setelah itu, kalau pengunjung scroll ke bawah, kembali ke atas, lalu scroll lagi, efeknya tidak muncul lagi.
+- [ ] Periksa pengaman "refresh di tengah halaman / link #bagian" (yang menyetel hero ke keadaan akhir, misalnya hero.progress(1)): apakah ia ikut aktif atau mengunci hero setelah urutan pertama selesai
+- [ ] Periksa ScrollTrigger hero: apakah ada once:true, onLeave yang memanggil kill()/disable()/revert(), toggleActions yang tidak bisa berbalik, atau pin yang dilepas permanen
+- [ ] Periksa apakah ada kelas atau style inline "keadaan akhir" yang ditambahkan lalu tidak pernah dilepas saat kembali ke atas
+- [ ] Periksa AOS: apakah once:true membuat reveal di bagian lain hanya sekali
+- [ ] Catat penyebab sebenarnya di Log (file, baris, dan alasan)
+
+### Fase C-2: Hero dua arah (bisa berulang tanpa batas)
+- [ ] Timeline hero memakai scrub dan benar-benar reversible: scroll turun memajukan urutan, scroll naik memundurkannya, berapa kali pun
+- [ ] Hapus atau perbaiki kode yang membunuh, menonaktifkan, atau membekukan timeline setelah selesai sekali
+- [ ] Pengaman refresh/hash hanya menentukan POSISI AWAL (hero langsung di keadaan akhir), tidak boleh mematikan scrub; scroll ke atas dari sana tetap membalik urutan sampai hanya nama
+- [ ] Kembali ke posisi paling atas SELALU menampilkan keadaan awal (hanya nama) tanpa sisa elemen yang masih terlihat
+- [ ] Versi HP (< 768px): urutan hero juga berulang (turun dan naik), dalam versi ringan tanpa pin panjang
+- [ ] Reduced motion tetap menampilkan hero keadaan akhir tanpa urutan
+
+### Fase C-3: Penataan nama di layar pertama
+- [ ] Susun nama jadi TIGA BARIS: AHMAD / ATHOILLAH / ALMADANY, ukuran huruf disesuaikan agar ketiga baris sama lebar (satu blok persegi padat seperti judul poster), terpusat di layar
+- [ ] Pengepasan lebar memakai cara yang stabil: CSS (clamp, vw, ch) atau fungsi kecil yang dipanggil setelah font Anton selesai dimuat (document.fonts.ready) dan saat resize; tidak boleh ada lompatan ukuran atau layout shift
+- [ ] Blok kuning hanya pada "ATHOILLAH", miring sangat tipis (maksimal 1,5 derajat), tidak menimpa atau menyentuh huruf pada baris lain; beri jarak antarbaris yang cukup
+- [ ] Tambahkan baris kecil di atas blok nama: "PORTOFOLIO · SEMARANG" (Barlow, huruf kapital, jarak huruf lebar)
+- [ ] Petunjuk "gulir ke bawah" tetap ada, terpusat, tidak menabrak blok nama
+- [ ] Hapus lingkaran/blob buram (efek glow atau gradien) di pojok layar; ganti dengan bentuk datar tanpa blur (misalnya strip diagonal kuning tipis atau sudut halftone) dengan opacity rendah
+- [ ] Peralihan dari tiga baris ke susunan akhir hero (foto di kiri, nama dua baris di kanan) berjalan mulus; pilih teknik yang paling bersih (FLIP, atau dua lapisan yang saling cross-fade). Jika memakai dua lapisan, lapisan intro diberi aria-hidden agar pembaca layar tidak membaca nama dua kali, dan tidak boleh ada kedipan
+- [ ] Susunan akhir hero (setelah scroll) TIDAK BERUBAH dari yang sekarang: foto di kiri dengan bingkai kuning, nama dua baris dengan blok kuning, peran, motto, tombol, dan tulisan kuas
+- [ ] Rapi di mode terang dan gelap, dan di 375px, 768px, 1440px (tidak terpotong, tidak menabrak navbar)
+
+### Fase C-4: Reveal berulang di bagian lain
+- [ ] AOS: ubah menjadi once:false dengan mirror:true agar reveal berjalan lagi setiap kali bagian masuk layar dan membalik saat keluar ke arah atas
+- [ ] Pastikan tidak ada kedipan atau elemen "meloncat" saat reveal berulang; sesuaikan offset dan delay bila perlu
+- [ ] Hitung angka di Tentang tetap sekali saja per kunjungan (tidak berulang)
+- [ ] Kartu proyek ber-tilt tetap benar (AOS di pembungkus, tilt di anak) dan tidak bentrok saat reveal berulang
+- [ ] Panggilan AOS.refreshHard() setelah render, setelah gambar utama dimuat, dan setelah ScrollTrigger refresh tetap ada
+- [ ] Reduced motion, tanpa JavaScript, dan library gagal dimuat tetap menampilkan seluruh konten
+
+### Fase C-5: Pengujian di browser sungguhan (WAJIB)
+Pemeriksaan kode atau skrip yang hanya membaca file TIDAK dihitung sebagai bukti. Gunakan browser sungguhan (Playwright, Puppeteer, atau browser bawaan) dengan viewport 1440x900 dan 375x812.
+- [ ] Skenario 1: muat di posisi atas, ambil tangkapan layar (harus hanya nama tiga baris)
+- [ ] Skenario 2: scroll turun sampai hero selesai, tangkapan layar (foto dan semua komponen muncul)
+- [ ] Skenario 3: scroll kembali ke paling atas, tangkapan layar (harus kembali hanya nama, tanpa sisa elemen)
+- [ ] Skenario 4: ulangi turun dan naik minimal 3 siklus; setiap siklus hasilnya sama
+- [ ] Skenario 5: buka lewat link #proyek (atau refresh di tengah halaman), lalu scroll ke atas sampai posisi 0; hero harus membalik ke "hanya nama", lalu scroll turun lagi harus berjalan normal
+- [ ] Skenario 6: reveal di bagian Tentang dan Proyek muncul, keluar layar, lalu muncul lagi saat kembali (periksa kelas aos-animate berganti)
+- [ ] Skenario 7: HP 375px, ulangi skenario 1-4 (versi ringan)
+- [ ] Skenario 8: mode terang dan gelap; reduced motion; tanpa error di console
+- [ ] Simpan tangkapan layar di folder scratch/langkah-c/ dan catat di Log hasil tiap skenario (lulus atau gagal beserta alasannya)
+- [ ] Jika browser sungguhan TIDAK bisa dijalankan, tulis jujur di Log dan di Ringkasan bahwa pengujian skenario belum dilakukan; jangan mencentang butir C-5 dan jangan menulis "semua lulus"
+
+### Fase C-6: Penyelesaian
+- [ ] README diperbarui (cara mengatur panjang scroll hero, penjelasan efek berulang, saklar terkait)
+- [ ] Semua fitur lain tidak rusak: modal proyek, lightbox sertifikat, modal CV (cetak satu halaman F4), formulir mailto, tombol WhatsApp, menu mobile, ganti tema
+- [ ] Isi RINGKASAN AKHIR LANGKAH C di bawah
+
+## SPESIFIKASI LANGKAH C
+
+### Peran
+Kamu adalah creative front-end developer senior. Portofolio sudah jadi dan saya menyukai tampilan hero SETELAH scroll. Tugasmu memperbaiki dua hal saja: (1) penataan nama di layar pertama sebelum scroll, dan (2) efek hero yang hanya muncul sekali sehingga perlu berulang setiap kali pengunjung scroll turun-naik. Jangan mengubah teks, data, link, warna, atau fitur lain.
+
+### Masalah 1: penataan nama di layar pertama
+Kondisi sekarang: nama tampil dua baris ("AHMAD [ATHOILLAH]" lalu "ALMADANY"). Masalahnya:
+- Dua baris tidak seimbang; baris kedua jauh lebih pendek dan menempel ke kiri, sehingga ada lubang kosong di kanan bawah dan blok nama terasa miring ke kiri dibanding petunjuk "gulir ke bawah" yang terpusat.
+- Bagian bawah blok kuning menimpa puncak huruf "NY" pada "ALMADANY", terlihat tidak sengaja.
+- Lingkaran buram di pojok kiri atas dan kanan bawah terlihat seperti glow/gradien, bertentangan dengan gaya datar dan tegas.
+- Layar terasa kosong tanpa penjangkar, nama seperti mengambang.
+
+Target (Opsi 1, tiga baris sama lebar):
+- AHMAD / ATHOILLAH / ALMADANY, tiga baris ditumpuk, ukuran huruf disesuaikan agar sama lebar sehingga membentuk satu blok persegi padat, terpusat horizontal dan vertikal.
+- Blok kuning hanya pada ATHOILLAH, miring sangat tipis, tidak menyentuh baris lain.
+- Baris kecil di atas: "PORTOFOLIO · SEMARANG". Petunjuk gulir tetap di bawah.
+- Elemen dekoratif datar (tanpa blur) menggantikan lingkaran buram.
+- Di HP: susunan tiga baris yang sama, lebar menyesuaikan layar, tidak terpotong, tidak menabrak navbar.
+- Peralihan ke susunan akhir hero harus mulus dan susunan akhir TIDAK diubah.
+
+### Masalah 2: efek hero hanya muncul sekali
+Perilaku yang saya mau:
+- Hero selalu mengikuti posisi scroll dua arah. Scroll turun memunculkan foto dan komponen berurutan; scroll naik membalik urutan sampai hanya nama; berapa kali pun, tanpa batas.
+- Datang lewat link #bagian atau refresh di tengah halaman: hero langsung di keadaan akhir, tetapi tetap bisa berbalik saat pengunjung scroll ke atas.
+- Reveal di bagian lain berulang setiap kali bagian itu masuk layar. Angka hitung naik cukup sekali.
+- Cari penyebab nyata di kode (lihat Fase C-1), jangan hanya menambal gejala.
+
+### Bukti pengujian
+Laporan sebelumnya menyatakan semua uji lulus, tetapi bug ini lolos karena pengujiannya hanya memeriksa isi kode. Kali ini buktikan dengan browser sungguhan memakai skenario turun-naik-turun (lihat Fase C-5), simpan tangkapan layar, dan laporkan apa adanya. Kalau tidak bisa menguji di browser, katakan terus terang.
+
+### Selesai kalau
+- Layar pertama menampilkan nama tiga baris sama lebar, terpusat, tanpa tabrakan, tanpa blob buram, di semua ukuran layar dan kedua tema.
+- Hero berjalan turun dan naik berulang tanpa batas (terbukti oleh tangkapan layar tiap siklus).
+- Link #bagian dan refresh di tengah halaman tidak mengunci hero.
+- Reveal di bagian lain berulang; angka hitung naik sekali.
+- Tampilan hero setelah scroll tidak berubah.
+- Tidak ada error di console; reduced motion dan tanpa JavaScript tetap menampilkan seluruh konten.
+
+## RINGKASAN AKHIR LANGKAH C (diisi agen)
+
+- Penyebab nyata efek hero hanya sekali (file dan baris):
+- Apa yang diubah di file mana:
+- Hasil pengujian skenario C-5 (lulus/gagal per skenario, lokasi tangkapan layar):
+- Hal yang perlu saya periksa:
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 
 ## LOG PENGERJAAN
 
