@@ -207,6 +207,15 @@ const PortfolioAnim = {
     const container = document.querySelector('.hero-intro-name');
     if (!container) return;
 
+    // Pada perangkat mobile (< 768px), gunakan fluid clamp typography murni dari CSS.
+    // Menghindari hardcoded pixel inline style agar pinch-zoom tidak terpancang kaku di pojok kiri atas.
+    if (!this.isDesktop) {
+      container.querySelectorAll('.hero-name-line').forEach((el) => {
+        el.style.fontSize = '';
+      });
+      return;
+    }
+
     const parent = container.closest('#hero');
     const availableWidth = parent ? parent.clientWidth - 48 : window.innerWidth * 0.88;
     const targetWidth = Math.min(Math.max(availableWidth, 280), 720);
@@ -545,7 +554,7 @@ const PortfolioAnim = {
       }
     }
     // ========================================================================
-    // B. VERSI MOBILE (< 768px): URUTAN HERO DUA ARAH TANPA PIN PANJANG
+    // B. VERSI MOBILE (< 768px): URUTAN HERO DUA ARAH TANPA OVERLAP
     // ========================================================================
     else {
       if (header) {
@@ -553,24 +562,43 @@ const PortfolioAnim = {
         header.style.transform = 'none';
       }
 
-      // Scrub responsif dua arah berbasis scroll tanpa pin
+      // Pastikan mainLayer terlihat wajar tanpa tertutup atau terjepit
+      if (photoWrapper) gsap.set(photoWrapper, { opacity: 1, y: 0, clipPath: 'none' });
+      if (photoBgBlock) gsap.set(photoBgBlock, { opacity: 1, xPercent: 0 });
+
+      // Pada mobile, introLayer dan mainLayer disusun berurutan ke bawah (flow normal).
+      // Ketika introLayer di-scroll keluar layar, ia memudar halus (dua arah).
       this.heroTimeline = gsap.timeline({
         scrollTrigger: {
-          trigger: '#hero',
+          trigger: introLayer,
           start: 'top top',
-          end: 'bottom 40%',
+          end: 'bottom 20%',
           scrub: 0.5,
           invalidateOnRefresh: true
         }
       });
 
-      this.heroTimeline
-        .to(introLayer, { opacity: 0, scale: 0.92, duration: 0.35, ease: 'power2.inOut' }, 0)
-        .fromTo(photoWrapper, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }, 0.2)
-        .fromTo(nameEl, { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }, 0.25)
-        .fromTo(roleEls, { opacity: 0, y: 20 }, { opacity: 1, y: 0, stagger: 0.08, duration: 0.3, ease: 'power2.out' }, 0.35)
-        .fromTo(mottoEl, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' }, 0.45)
-        .fromTo(ctaEl, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' }, 0.5);
+      this.heroTimeline.to(introLayer, {
+        opacity: 0.15,
+        scale: 0.96,
+        ease: 'power1.out'
+      });
+
+      // Animasi kemunculan mainLayer saat masuk ke viewport
+      if (photoWrapper || nameEl) {
+        gsap.from([photoWrapper, nameEl, roleEls, mottoEl, ctaEl].filter(Boolean), {
+          scrollTrigger: {
+            trigger: mainLayer,
+            start: 'top 85%',
+            end: 'top 45%',
+            scrub: 0.5
+          },
+          y: 25,
+          opacity: 0.4,
+          stagger: 0.05,
+          ease: 'power2.out'
+        });
+      }
     }
   },
 
