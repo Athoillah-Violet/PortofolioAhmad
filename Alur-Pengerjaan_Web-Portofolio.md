@@ -25,7 +25,9 @@
 - [x] BAGIAN 2 (Langkah B) selesai: semua fase B-0 sampai B-6 tercentang
 - [X] Hasil Langkah B sudah saya cek di browser dan HP (diisi oleh saya, bukan agen)
 - [x] BAGIAN 3 (Langkah C) selesai: semua fase C-0 sampai C-6 tercentang
-- [ ] Hasil Langkah C sudah saya cek di browser dan HP (diisi oleh saya, bukan agen)
+- [X] Hasil Langkah C sudah saya cek di browser dan HP (diisi oleh saya, bukan agen)
+- [ ] BAGIAN 4 (Langkah D) selesai: semua fase D-0 sampai D-5 tercentang
+- [ ] Hasil Langkah D sudah saya cek di HP asli (diisi oleh saya, bukan agen)
 
 ---
 
@@ -517,6 +519,74 @@ Laporan sebelumnya menyatakan semua uji lulus, tetapi bug ini lolos karena pengu
   - Periksa keseimbangan visual blok judul poster 3 baris pada layar awal sebelum scroll.
 
 ---
+---
+
+# BAGIAN 4: LANGKAH D (Perbaikan Overflow di HP + Tata Letak Dua Kolom di HP)
+
+> Tambahkan di "STATUS UTAMA":
+> - [ ] BAGIAN 4 (Langkah D) selesai: semua fase D-0 sampai D-5 tercentang
+> - [ ] Hasil Langkah D sudah saya cek di HP asli (diisi oleh saya, bukan agen)
+
+## ALUR PENGERJAAN LANGKAH D
+
+### Fase D-0: Persiapan
+- [ ] Simpan titik awal (commit git "sebelum langkah D")
+- [ ] Baca css/style.css, css/anim.css, js/render.js, js/anim.js, index.html (viewport meta, wrapper utama, grid tiap bagian)
+
+### Fase D-1: Diagnosa overflow horizontal (jangan menebak)
+Masalah: di HP halaman lebih lebar daripada layar. Navbar berhenti di sekitar 440px sementara latar melebar sampai sekitar 512px; browser memperkecil tampilan dan halaman bisa digeser ke samping.
+- [ ] Buka halaman di viewport 360, 390, dan 412px (Playwright/Puppeteer atau DevTools mobile). Catat document.documentElement.scrollWidth dibanding innerWidth di tiap lebar
+- [ ] Temukan elemen penyebab: skrip yang menandai elemen dengan getBoundingClientRect().right > lebar viewport atau left < 0, pada keadaan awal dan setelah scroll ke setiap bagian
+- [ ] Periksa khusus: transform awal AOS (fade-left/fade-right/flip), elemen miring dan offset shadow, blok kuning hero, stiker QR, label "SEMARANG, ID", marquee, teks Anton nama, elemen width:100vw atau margin negatif, kartu timeline
+- [ ] Catat daftar penyebab di Log (selektor, bagian halaman, alasan)
+
+### Fase D-2: Perbaikan akar masalah overflow
+- [ ] Pastikan <meta name="viewport" content="width=device-width, initial-scale=1"> ada dan benar
+- [ ] Atur html dan body: overflow-x: clip ("hidden" hanya jika "clip" tidak cukup; sticky navbar dan pin ScrollTrigger harus tetap bekerja)
+- [ ] Di layar < 768px, ganti AOS fade-left/fade-right/flip menjadi fade-up, atau bungkus dengan wadah overflow-x: clip
+- [ ] Perbaiki elemen penyebab di sumbernya: max-width: 100%, min-width: 0 pada anak flex/grid, kecilkan offset/rotasi di HP, overflow-wrap: anywhere untuk teks panjang, ganti 100vw dengan 100%, bungkus marquee dalam wadah overflow: clip
+- [ ] Nama di hero tetap pas tanpa terpotong di 360px
+- [ ] Jangan merusak sticky navbar, pin hero di desktop, Lenis, lightbox, modal
+
+### Fase D-3: Dua kolom di HP (breakpoint di bawah 640px; tablet dan desktop TIDAK berubah)
+Aturan umum untuk semua bagian di bawah:
+- grid-template-columns: repeat(2, minmax(0, 1fr)); gap sekitar 10-12px; semua anak grid diberi min-width: 0
+- Offset shadow diperkecil (sekitar 3px) agar tidak menabrak kartu sebelahnya atau melebarkan halaman
+- Garis tebal tetap, tetapi padding dalam kartu dikecilkan; ukuran huruf minimal 11px untuk teks pendukung dan minimal 12px untuk teks isi; target sentuh minimal 40px
+- Di lebar < 340px kembali ke satu kolom (fallback)
+- Isi yang dipotong di HP harus tetap bisa dibaca penuh lewat modal/lightbox saat kartu diketuk
+Daftar:
+- [ ] Keterampilan: kartu kelompok (Web, Pemrograman & Game, Data Sistem & Jaringan, Office, Desain & Editing, Tools AI) tampil dua kolom; chip membungkus rapi di dalam kartu tanpa meluber; marquee tetap di dalam layar
+- [ ] Proyek: kartu dua kolom; gambar dengan rasio tetap (misal 4:3, object-fit: cover); judul maksimal 2 baris (line-clamp); deskripsi panjang disembunyikan di HP dan tampil di modal; tag teknologi maksimal 3 lalu "+n"; tombol Live Demo dan GitHub ditumpuk atau berbentuk kecil dan tetap bisa ditekan; tombol yang linknya kosong disembunyikan
+- [ ] Sertifikat: kartu dua kolom; gambar sertifikat utuh tanpa terpotong (object-fit: contain di atas latar netral, rasio tetap); label kategori dan tahun kecil; judul maksimal 3 baris; penyelenggara 1 baris; baris "Peran" dan teks "Buka" dipadatkan atau disembunyikan, dan ketuk kartu membuka lightbox; filter kategori tetap mudah dipakai (bisa digeser horizontal di dalam wadahnya sendiri tanpa melebarkan halaman)
+- [ ] Perjalanan: dua kelompok "Pendidikan" (kolom kiri) dan "Organisasi & Pengabdian" (kolom kanan) berdampingan; entri dipadatkan (judul, label kecil, tahun jika ada), garis timeline tetap di dalam kolom masing-masing; kolom boleh punya tinggi berbeda dan tidak saling menekan; teks panjang membungkus dengan overflow-wrap
+- [ ] Reveal AOS di bagian-bagian ini memakai fade-up dengan delay bertahap per baris (bukan fade-left/right), agar tidak membuat halaman melebar
+- [ ] Tilt dan efek hover berat tetap nonaktif di HP
+
+### Fase D-4: Pembuktian di browser sungguhan (WAJIB)
+Pemeriksaan kode saja TIDAK dihitung sebagai bukti.
+- [ ] Di 360, 390, dan 412px: scrollWidth sama dengan innerWidth pada keadaan awal dan setelah scroll sampai bawah; halaman tidak bisa digeser ke samping
+- [ ] Tangkapan layar pada 390px untuk Keterampilan, Proyek, Sertifikat, dan Perjalanan: tampil dua kolom, tidak ada teks terpotong aneh, tidak ada kartu menabrak kartu lain; simpan di scratch/langkah-d/
+- [ ] Uji di 320px: fallback satu kolom bekerja, tidak ada overflow
+- [ ] Uji di 768px dan 1440px: tampilan tidak berubah dari sebelumnya
+- [ ] Ketuk kartu proyek dan sertifikat di tampilan HP: modal/lightbox terbuka dan berisi teks lengkap
+- [ ] Uji mode terang dan gelap, serta reduced motion; tidak ada error di console
+- [ ] Catat hasil tiap uji di Log. Jika browser sungguhan tidak bisa dijalankan, tulis jujur dan jangan mencentang butir ini
+
+### Fase D-5: Penyelesaian
+- [ ] README diperbarui (catatan breakpoint dua kolom di HP)
+- [ ] Isi RINGKASAN AKHIR LANGKAH D
+
+## SPESIFIKASI LANGKAH D
+Dua tugas: (1) hentikan halaman melebar di HP dengan mencari penyebab nyata lewat pengukuran, bukan sekadar menutupnya dengan overflow-x: hidden; (2) ubah tata letak di HP (lebar di bawah 640px) menjadi dua kolom untuk bagian Keterampilan, Proyek, Sertifikat, dan Perjalanan, agar kartu tidak terlalu besar dan halaman tidak terlalu panjang. Jangan mengubah isi, warna, gaya poster, atau fitur lain, dan jangan mengubah tampilan tablet dan desktop. Kerjakan (1) dulu, baru (2), karena grid dua kolom bisa langsung rusak oleh sisa masalah overflow.
+Selesai kalau di HP 320-412px halaman tidak bisa digeser ke samping, keempat bagian tampil dua kolom yang rapi dan terbaca, dan semua teks lengkap tetap bisa dibuka lewat modal/lightbox.
+
+## RINGKASAN AKHIR LANGKAH D (diisi agen)
+- Penyebab nyata overflow (selektor, file, baris):
+- Apa yang diubah di file mana:
+- Hasil pengujian lebar 320/360/390/412/768/1440px (lulus/gagal, lokasi tangkapan layar):
+- Hal yang perlu saya periksa:
+
 
 ## LOG PENGERJAAN
 
