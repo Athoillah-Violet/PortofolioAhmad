@@ -1,10 +1,11 @@
 /**
  * js/anim.js
- * Modul Animasi & Interaksi Gerak Berkelas - "Poster Berani"
- * Menggabungkan AOS 2.3.4 (Reveal Sederhana) & GSAP 3 + ScrollTrigger + Lenis (Koreografi Hero & Interaksi Kompleks)
+ * Modul Animasi & Interaksi Gerak Berkelas - "Poster Berani" (Langkah C)
+ * Menggabungkan AOS 2.3.4 (Reveal Scroll Dua Arah) & GSAP 3 + ScrollTrigger + Lenis
  * 
  * Sepenuhnya adaptif di Dark Mode & Light Mode menggunakan CSS Variables Design Tokens.
- * Bebas bentrok antar library, ramah aksesibilitas (prefers-reduced-motion), dan aman cetak (@media print).
+ * Efek hero berulang tanpa batas (dua arah: turun dan naik), nama 3 baris terpusat sama lebar,
+ * dan bebas bentrok antar pustaka.
  */
 
 // ============================================================================
@@ -12,14 +13,14 @@
 // ============================================================================
 const ANIM_CONFIG = {
   ENABLE_PRELOADER: true,       // Preloader inisial "AA" (< 1.5 detik, 1x per sesi)
-  ENABLE_HERO_SCROLL: true,     // Hero ScrollTrigger scrub & pin sequence
-  ENABLE_AOS: true,             // AOS 2.3.4 untuk reveal sederhana saat scroll
+  ENABLE_HERO_SCROLL: true,     // Hero ScrollTrigger scrub & pin sequence dua arah
+  ENABLE_AOS: true,             // AOS 2.3.4 untuk reveal berulang saat scroll (once: false, mirror: true)
   ENABLE_TILT: true,            // 3D Tilt kartu proyek (Desktop only)
   ENABLE_CURSOR: true,          // Kursor kustom (Desktop pointer halus saja)
   ENABLE_SMOOTH_SCROLL: true,   // Lenis Smooth Scroll
   ENABLE_MARQUEE: true,         // Marquee teknologi tak terbatas
   ENABLE_TIMELINE_DRAW: true,   // Garis timeline & titik aktif saat scroll
-  ENABLE_COUNTERS: true,        // Penghitung angka naik di bagian Tentang
+  ENABLE_COUNTERS: true,        // Penghitung angka naik di bagian Tentang (1x saja)
   ENABLE_MAGNETIC: true,        // Efek magnet halus pada tombol utama (Desktop)
   ENABLE_THEME_TRANSITION: true,// Transisi View Transitions API saat ganti tema
 
@@ -52,31 +53,38 @@ const PortfolioAnim = {
   isReducedMotion: false,
   isDesktop: false,
   heroTimeline: null,
+  isInitialized: false,
+  failsafeTimer: null,
 
   init() {
     this.isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     this.isDesktop = window.matchMedia('(min-width: 768px) and (hover: hover) and (pointer: fine)').matches;
 
-    // Failsafe 3 detik: jika script lambat atau ada error pada library luar, paksa buka semua konten
-    setTimeout(() => {
-      document.documentElement.classList.add('js-anim');
-      const preloader = document.getElementById('preloader-overlay');
-      if (preloader) preloader.remove();
-      
-      const header = document.querySelector('.site-header');
-      if (header) {
-        header.style.opacity = '1';
-        header.style.transform = 'none';
-      }
-      
-      document.querySelectorAll('[data-hero]').forEach(el => {
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-        el.style.clipPath = 'none';
-      });
+    // Failsafe 3 detik: HANYA aktif jika inisialisasi script gagal total
+    this.failsafeTimer = setTimeout(() => {
+      if (!this.isInitialized) {
+        document.documentElement.classList.add('js-anim');
+        const preloader = document.getElementById('preloader-overlay');
+        if (preloader) preloader.remove();
+        
+        const header = document.querySelector('.site-header');
+        if (header) {
+          header.style.opacity = '1';
+          header.style.transform = 'none';
+        }
 
-      if (typeof AOS !== 'undefined' && AOS.refreshHard) {
-        AOS.refreshHard();
+        const introLayer = document.querySelector('[data-hero="intro"]');
+        if (introLayer) introLayer.style.display = 'none';
+
+        document.querySelectorAll('[data-hero="main"] [data-hero]').forEach(el => {
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+          el.style.clipPath = 'none';
+        });
+
+        if (typeof AOS !== 'undefined' && AOS.refreshHard) {
+          AOS.refreshHard();
+        }
       }
     }, 3000);
 
@@ -87,6 +95,8 @@ const PortfolioAnim = {
     if (this.isReducedMotion) {
       console.log('prefers-reduced-motion aktif: animasi dinonaktifkan untuk kenyamanan visual.');
       this.handleReducedMotion();
+      this.isInitialized = true;
+      clearTimeout(this.failsafeTimer);
       return;
     }
 
@@ -101,52 +111,63 @@ const PortfolioAnim = {
     // 3. Scroll Progress Bar & Sticky Header
     this.initScrollProgressAndNavbar();
 
-    // 4. Inisialisasi AOS (Reveal Sederhana)
+    // 4. Inisialisasi AOS (Reveal Berulang Dua Arah: once: false, mirror: true)
     if (ANIM_CONFIG.ENABLE_AOS) {
       this.initAOS();
     }
 
-    // 5. Koreografi Hero Berurutan dengan Scroll (GSAP ScrollTrigger Scrub & Pin)
+    // 5. Penyesuaian Lebar Nama 3 Baris Layar Pertama (AHMAD / ATHOILLAH / ALMADANY)
+    this.fitHeroTitleLines();
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => this.fitHeroTitleLines());
+    }
+    window.addEventListener('resize', () => this.fitHeroTitleLines());
+
+    // 6. Koreografi Hero Berurutan dengan Scroll (GSAP ScrollTrigger Scrub & Pin Dua Arah)
     if (ANIM_CONFIG.ENABLE_HERO_SCROLL) {
       this.initHeroScrollSequence();
     }
 
-    // 6. Angka Ringkas (Counter) di Bagian Tentang
+    // 7. Angka Ringkas (Counter) di Bagian Tentang (Cukup Sekali)
     if (ANIM_CONFIG.ENABLE_COUNTERS) {
       this.initCounterAnimation();
     }
 
-    // 7. 3D Tilt Kartu Proyek (Desktop Only - Terpisah dari Pembungkus AOS)
+    // 8. 3D Tilt Kartu Proyek (Desktop Only - Terpisah dari Pembungkus AOS)
     if (ANIM_CONFIG.ENABLE_TILT && this.isDesktop) {
       this.initProjectTilt();
     }
 
-    // 8. FLIP & Navigasi Lightbox Sertifikat
+    // 9. FLIP & Navigasi Lightbox Sertifikat
     this.initCertificateAnimations();
 
-    // 9. Timeline Draw & Highlight Titik Aktif
+    // 10. Timeline Draw & Highlight Titik Aktif
     if (ANIM_CONFIG.ENABLE_TIMELINE_DRAW) {
       this.initTimelineAnimation();
     }
 
-    // 10. Efek Magnet Tombol & Form Focus Line
+    // 11. Efek Magnet Tombol & Form Focus Line
     this.initContactAndButtons();
 
-    // 11. Kursor Kustom (Titik Kuning + Cincin Garis Tebal)
+    // 12. Kursor Kustom (Titik Kuning + Cincin Garis Tebal)
     if (ANIM_CONFIG.ENABLE_CURSOR && this.isDesktop) {
       this.initCustomCursor();
     }
 
-    // 12. Mobile Menu Transition
+    // 13. Mobile Menu Transition
     this.initMobileMenuAnimation();
 
-    // 13. Theme Switcher View Transition API
+    // 14. Theme Switcher View Transition API
     if (ANIM_CONFIG.ENABLE_THEME_TRANSITION) {
       this.initThemeTransition();
     }
 
+    this.isInitialized = true;
+    clearTimeout(this.failsafeTimer);
+
     // Refresh layout setelah window load dan gambar selesai dimuat
     window.addEventListener('load', () => {
+      this.fitHeroTitleLines();
       if (typeof ScrollTrigger !== 'undefined') {
         ScrollTrigger.refresh();
       }
@@ -167,13 +188,53 @@ const PortfolioAnim = {
       header.style.transform = 'none';
     }
 
-    document.querySelectorAll('[data-hero]').forEach(el => {
+    const introLayer = document.querySelector('[data-hero="intro"]');
+    if (introLayer) introLayer.style.display = 'none';
+
+    document.querySelectorAll('[data-hero="main"] [data-hero]').forEach(el => {
       el.style.opacity = '1';
       el.style.transform = 'none';
       el.style.clipPath = 'none';
     });
 
     document.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('revealed'));
+  },
+
+  // ==========================================================================
+  // PENYESUAIAN LEBAR NAMA 3 BARIS LAYAR PERTAMA (POSTER TITLE BLOCK)
+  // ==========================================================================
+  fitHeroTitleLines() {
+    const container = document.querySelector('.hero-intro-name');
+    if (!container) return;
+
+    const parent = container.closest('#hero');
+    const availableWidth = parent ? parent.clientWidth - 48 : window.innerWidth * 0.88;
+    const targetWidth = Math.min(Math.max(availableWidth, 280), 720);
+
+    const line1 = container.querySelector('.hero-line-1');
+    const line2 = container.querySelector('.hero-line-2');
+    const line2Badge = container.querySelector('.hero-line-2 span');
+    const line3 = container.querySelector('.hero-line-3');
+
+    if (!line1 || !line2 || !line2Badge || !line3) return;
+
+    // Proporsi dasar font Anton: "AHMAD" (5 huruf), "ATHOILLAH" (9 huruf + padding), "ALMADANY" (8 huruf)
+    const baseFs = Math.min(targetWidth * 0.22, 115);
+    line1.style.fontSize = `${baseFs}px`;
+    line2.style.fontSize = `${baseFs * 0.58}px`;
+    line3.style.fontSize = `${baseFs * 0.65}px`;
+
+    // Kalibrasi presisi kedua agar ketiga baris sama rata (justified poster block)
+    const w1 = line1.offsetWidth || line1.getBoundingClientRect().width;
+    const w2 = line2Badge.offsetWidth || line2Badge.getBoundingClientRect().width;
+    const w3 = line3.offsetWidth || line3.getBoundingClientRect().width;
+
+    if (w1 > 0 && w2 > 0 && w3 > 0) {
+      const maxW = Math.max(w1, w2, w3);
+      if (w1 < maxW) line1.style.fontSize = `${baseFs * (maxW / w1)}px`;
+      if (w2 < maxW) line2.style.fontSize = `${(baseFs * 0.58) * (maxW / w2)}px`;
+      if (w3 < maxW) line3.style.fontSize = `${(baseFs * 0.65) * (maxW / w3)}px`;
+    }
   },
 
   // ==========================================================================
@@ -205,7 +266,6 @@ const PortfolioAnim = {
             onComplete: () => {
               preloader.remove();
               sessionStorage.setItem('portfolio_preloader_seen', '1');
-              // Segarkan scroll trigger dan AOS setelah preloader lenyap
               if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
               if (typeof AOS !== 'undefined' && AOS.refreshHard) AOS.refreshHard();
             }
@@ -323,7 +383,7 @@ const PortfolioAnim = {
   },
 
   // ==========================================================================
-  // 4. INISIALISASI AOS 2.3.4 (REVEAL SEDERHANA)
+  // 4. INISIALISASI AOS 2.3.4 (REVEAL BERULANG DUA ARAH: once: false, mirror: true)
   // ==========================================================================
   initAOS() {
     if (typeof AOS === 'undefined') return;
@@ -332,8 +392,9 @@ const PortfolioAnim = {
       AOS.init({
         duration: 700,
         easing: 'ease-out-cubic',
-        once: true,
-        offset: 80,
+        once: false,       // Reversible: aktif berulang saat masuk viewport
+        mirror: true,      // Berbalik saat keluar ke arah atas
+        offset: 60,
         anchorPlacement: 'top-bottom',
         disable: () => this.isReducedMotion
       });
@@ -346,181 +407,117 @@ const PortfolioAnim = {
   },
 
   // ==========================================================================
-  // 5. HERO BERURUTAN DENGAN SCROLL (GSAP ScrollTrigger Scrub & Pin)
+  // 5. HERO BERURUTAN DUA ARAH (GSAP ScrollTrigger Scrub & Pin Reversible)
   // ==========================================================================
   initHeroScrollSequence() {
     const heroSection = document.getElementById('hero');
     if (!heroSection) return;
 
-    const nameEl = heroSection.querySelector('h1[data-hero="name"]');
+    const introLayer = heroSection.querySelector('[data-hero="intro"]');
+    const mainLayer = heroSection.querySelector('[data-hero="main"]');
     const header = document.querySelector('.site-header');
-    const hintEl = heroSection.querySelector('[data-hero="hint"]');
-    const photoBgBlock = heroSection.querySelector('.hero-photo-bg-block');
-    const photoWrapper = heroSection.querySelector('.hero-photo-wrapper');
-    const photoDeco = heroSection.querySelectorAll('[data-hero="photo"] [data-hero="deco"]');
-    const roleEls = heroSection.querySelectorAll('[data-hero="role"]');
-    const mottoEl = heroSection.querySelector('[data-hero="motto"]');
-    const ctaEl = heroSection.querySelector('[data-hero="cta"]');
-    const otherDeco = heroSection.querySelectorAll('[data-hero="deco"]:not([data-hero="photo"] [data-hero="deco"])');
 
-    if (!nameEl) return;
+    if (!introLayer || !mainLayer) return;
 
-    // Ambient floating shapes di latar belakang hero
-    const shape1 = document.createElement('div');
-    shape1.className = 'hero-floating-shape bg-[var(--accent)] w-72 h-72 -top-10 -left-10';
-    const shape2 = document.createElement('div');
-    shape2.className = 'hero-floating-shape bg-[var(--accent-2)] w-96 h-96 -bottom-20 -right-20';
-    heroSection.appendChild(shape1);
-    heroSection.appendChild(shape2);
+    // Elemen dekorasi poster datar (tanpa blur, tanpa gradient)
+    const tag1 = document.createElement('div');
+    tag1.className = 'hero-flat-tag-1';
+    tag1.textContent = 'DEV // 2026';
+    const tag2 = document.createElement('div');
+    tag2.className = 'hero-flat-tag-2';
+    tag2.textContent = 'SEMARANG · ID';
+    heroSection.appendChild(tag1);
+    heroSection.appendChild(tag2);
 
     if (typeof gsap !== 'undefined') {
-      gsap.to(shape1, { y: 20, x: 10, duration: 6, repeat: -1, yoyo: true, ease: 'sine.inOut' });
-      gsap.to(shape2, { y: -24, x: -12, duration: 8, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+      gsap.to(tag1, { y: 10, duration: 4, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+      gsap.to(tag2, { y: -10, duration: 5, repeat: -1, yoyo: true, ease: 'sine.inOut' });
     }
 
-    // Jika GSAP atau ScrollTrigger tidak tersedia, biarkan tampilan default statis
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
       return;
     }
 
+    const photoBgBlock = mainLayer.querySelector('.hero-photo-bg-block');
+    const photoWrapper = mainLayer.querySelector('.hero-photo-wrapper');
+    const photoDeco = mainLayer.querySelectorAll('[data-hero="photo"] [data-hero="deco"]');
+    const nameEl = mainLayer.querySelector('h1[data-hero="name"]');
+    const roleEls = mainLayer.querySelectorAll('[data-hero="role"]');
+    const mottoEl = mainLayer.querySelector('[data-hero="motto"]');
+    const ctaEl = mainLayer.querySelector('[data-hero="cta"]');
+    const otherDeco = mainLayer.querySelectorAll('[data-hero="deco"]:not([data-hero="photo"] [data-hero="deco"])');
+
     // ========================================================================
-    // A. VERSI DESKTOP (>= 768px): PIN + SCRUB HERO SEQUENCE
+    // A. VERSI DESKTOP (>= 768px): PIN + SCRUB HERO SEQUENCE DUA ARAH
     // ========================================================================
     if (this.isDesktop) {
-      // Hitung selisih posisi untuk memusatkan nama di tengah hero saat scroll awal = 0
-      const calculateCenterDelta = () => {
-        const heroRect = heroSection.getBoundingClientRect();
-        const nameRect = nameEl.getBoundingClientRect();
-        return {
-          deltaX: (heroRect.left + heroRect.width / 2) - (nameRect.left + nameRect.width / 2),
-          deltaY: (heroRect.top + heroRect.height / 2) - (nameRect.top + nameRect.height / 2)
-        };
-      };
+      // Keadaan Awal (Scroll = 0):
+      // Layer Intro (Nama 3 Baris + Petunjuk) tampil utuh di tengah layar
+      gsap.set(introLayer, { opacity: 1, scale: 1, pointerEvents: 'none' });
 
-      const { deltaX, deltaY } = calculateCenterDelta();
-
-      // Atur Keadaan Awal (Layar pertama HANYA nama di tengah, elemen lain tersembunyi)
-      gsap.set(nameEl, { x: deltaX, y: deltaY, scale: 1.15, transformOrigin: 'center center' });
-      if (header) gsap.set(header, { yPercent: -100, opacity: 0 });
-      if (hintEl) gsap.set(hintEl, { opacity: 1, y: 0 });
-      if (photoBgBlock) gsap.set(photoBgBlock, { xPercent: -60, opacity: 0 });
-      if (photoWrapper) gsap.set(photoWrapper, { y: 60, opacity: 0, clipPath: 'inset(100% 0% 0% 0%)' });
+      // Layer Utama (Foto + Konten Hero) tersembunyi rapi
+      if (photoBgBlock) gsap.set(photoBgBlock, { xPercent: -50, opacity: 0 });
+      if (photoWrapper) gsap.set(photoWrapper, { y: 50, opacity: 0, clipPath: 'inset(100% 0% 0% 0%)' });
       if (photoDeco.length) gsap.set(photoDeco, { scale: 0.5, opacity: 0, rotate: -15 });
-      if (roleEls.length) gsap.set(roleEls, { y: 24, opacity: 0 });
+      if (nameEl) gsap.set(nameEl, { opacity: 0, y: 30 });
+      if (roleEls.length) gsap.set(roleEls, { y: 20, opacity: 0 });
       if (mottoEl) gsap.set(mottoEl, { y: 20, opacity: 0 });
-      if (ctaEl) gsap.set(ctaEl, { y: 24, opacity: 0 });
+      if (ctaEl) gsap.set(ctaEl, { y: 20, opacity: 0 });
       if (otherDeco.length) gsap.set(otherDeco, { scale: 0.6, opacity: 0 });
+      if (header) gsap.set(header, { yPercent: -100, opacity: 0 });
 
-      // Cek apakah pengunjung me-reload di tengah halaman atau datang lewat tautan #hash
-      const hasHash = window.location.hash && window.location.hash !== '#hero';
-      const isScrolled = window.scrollY > 80;
-
-      // Panjang scroll hero (150-200% tinggi layar)
+      // Panjang scroll hero (160% tinggi layar)
       const scrollDistance = window.innerHeight * (ANIM_CONFIG.HERO_SCROLL_PERCENT / 100);
 
-      // Buat Timeline GSAP ScrollTrigger dengan pin & scrub
+      // Buat Timeline GSAP ScrollTrigger yang 100% REVERSIBLE
       this.heroTimeline = gsap.timeline({
         scrollTrigger: {
           trigger: '#hero',
           start: 'top top',
           end: `+=${scrollDistance}`,
           pin: true,
-          scrub: 0.65,
-          anticipatePin: 1
+          scrub: 0.5,           // Halus, instan merespons naik dan turun
+          anticipatePin: 1,
+          invalidateOnRefresh: true
         }
       });
 
-      // Urutan Scrub:
-      // 0. Scroll hint memudar & navbar mulai muncul perlahan
-      if (hintEl) {
-        this.heroTimeline.to(hintEl, { opacity: 0, y: 15, duration: 0.25 }, 0);
-      }
-      if (header) {
-        this.heroTimeline.to(header, { yPercent: 0, opacity: 1, duration: 0.4, ease: 'power2.out' }, 0.05);
-      }
+      // Urutan Scrub Dua Arah:
+      // 1. Layer Intro memudar halus & header meluncur masuk
+      this.heroTimeline
+        .to(introLayer, { opacity: 0, scale: 0.94, duration: 0.35, ease: 'power2.inOut' }, 0)
+        .to(header, { yPercent: 0, opacity: 1, duration: 0.35, ease: 'power2.out' }, 0.05);
 
-      // Tahap 1: Nama mengecil dan naik ke posisi akhirnya di grid hero
-      this.heroTimeline.to(nameEl, {
-        x: 0,
-        y: 0,
-        scale: 1,
-        duration: ANIM_CONFIG.HERO_STAGE1_DURATION,
-        ease: 'power2.inOut'
-      }, 0.15);
-
-      // Tahap 2: Foto saya muncul (blok diagonal kuning meluncur masuk dulu, lalu foto naik dengan clip-path)
-      const t2Start = 0.15 + ANIM_CONFIG.HERO_STAGE1_DURATION * 0.75;
+      // 2. Layer Utama muncul: Blok kuning meluncur, foto clip reveal, nama 2 baris naik
       if (photoBgBlock) {
-        this.heroTimeline.to(photoBgBlock, {
-          xPercent: 0,
-          opacity: 1,
-          duration: ANIM_CONFIG.HERO_STAGE2_DURATION * 0.7,
-          ease: 'power3.out'
-        }, t2Start);
+        this.heroTimeline.to(photoBgBlock, { xPercent: 0, opacity: 1, duration: 0.35, ease: 'power3.out' }, 0.35);
       }
       if (photoWrapper) {
-        this.heroTimeline.to(photoWrapper, {
-          y: 0,
-          opacity: 1,
-          clipPath: 'inset(0% 0% 0% 0%)',
-          duration: ANIM_CONFIG.HERO_STAGE2_DURATION,
-          ease: 'power3.out'
-        }, t2Start + 0.15);
+        this.heroTimeline.to(photoWrapper, { y: 0, opacity: 1, clipPath: 'inset(0% 0% 0% 0%)', duration: 0.38, ease: 'power3.out' }, 0.38);
       }
       if (photoDeco.length) {
-        this.heroTimeline.to(photoDeco, {
-          scale: 1,
-          opacity: 1,
-          rotate: -2,
-          duration: 0.4,
-          ease: 'back.out(1.5)'
-        }, t2Start + 0.35);
+        this.heroTimeline.to(photoDeco, { scale: 1, opacity: 1, rotate: -2, duration: 0.25, ease: 'back.out(1.5)' }, 0.5);
+      }
+      if (nameEl) {
+        this.heroTimeline.to(nameEl, { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }, 0.4);
       }
 
-      // Tahap 3: Peran, motto, tombol, tulisan kuas, dan elemen dekoratif muncul bergantian (stagger)
-      const t3Start = t2Start + ANIM_CONFIG.HERO_STAGE2_DURATION * 0.7;
+      // 3. Peran, motto, tombol aksi, kuas, dan stiker muncul bergantian (stagger)
       if (roleEls.length) {
-        this.heroTimeline.to(roleEls, {
-          y: 0,
-          opacity: 1,
-          stagger: 0.15,
-          duration: 0.45,
-          ease: 'power2.out'
-        }, t3Start);
+        this.heroTimeline.to(roleEls, { opacity: 1, y: 0, stagger: 0.08, duration: 0.3, ease: 'power2.out' }, 0.6);
       }
       if (mottoEl) {
-        this.heroTimeline.to(mottoEl, {
-          y: 0,
-          opacity: 1,
-          duration: 0.4,
-          ease: 'power2.out'
-        }, t3Start + 0.15);
+        this.heroTimeline.to(mottoEl, { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' }, 0.7);
       }
       if (ctaEl) {
-        this.heroTimeline.to(ctaEl, {
-          y: 0,
-          opacity: 1,
-          duration: 0.45,
-          ease: 'power2.out'
-        }, t3Start + 0.25);
+        this.heroTimeline.to(ctaEl, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }, 0.75);
       }
       if (otherDeco.length) {
-        this.heroTimeline.to(otherDeco, {
-          scale: 1,
-          opacity: 1,
-          duration: 0.4,
-          ease: 'power2.out'
-        }, t3Start + 0.2);
+        this.heroTimeline.to(otherDeco, { scale: 1, opacity: 1, duration: 0.25, ease: 'power2.out' }, 0.8);
       }
 
-      // Tahap 4: Buffer settle sebelum unpin ke bagian Tentang
+      // 4. Buffer stabil sebelum unpin ke bagian Tentang
       this.heroTimeline.to({}, { duration: ANIM_CONFIG.HERO_BUFFER_DURATION });
-
-      // Jika memuat halaman di tengah atau memakai tautan #hash, langsung ke keadaan akhir
-      if (hasHash || isScrolled) {
-        this.heroTimeline.progress(1);
-        ScrollTrigger.refresh();
-      }
 
       // Parallax mouse follow pada foto profil penuh (Desktop saja)
       if (photoWrapper) {
@@ -546,33 +543,39 @@ const PortfolioAnim = {
           });
         });
       }
-    } 
+    }
     // ========================================================================
-    // B. VERSI MOBILE (< 768px): TANPA PIN PANJANG (Ramah Layar Sentuh)
+    // B. VERSI MOBILE (< 768px): URUTAN HERO DUA ARAH TANPA PIN PANJANG
     // ========================================================================
     else {
       if (header) {
         header.style.opacity = '1';
         header.style.transform = 'none';
       }
-      if (hintEl) {
-        hintEl.style.display = 'none';
-      }
 
-      // Entri lembut berurutan tanpa mengunci scroll touch
-      const mobileTl = gsap.timeline({ delay: 0.2 });
-      mobileTl
-        .from(nameEl, { opacity: 0, y: 20, duration: 0.65, ease: 'power2.out' })
-        .from(photoBgBlock, { opacity: 0, scale: 0.95, duration: 0.45, ease: 'power2.out' }, '-=0.3')
-        .from(photoWrapper, { opacity: 0, y: 20, duration: 0.55, ease: 'power2.out' }, '-=0.3')
-        .from(roleEls, { opacity: 0, y: 15, stagger: 0.1, duration: 0.4, ease: 'power2.out' }, '-=0.2')
-        .from(mottoEl, { opacity: 0, y: 15, duration: 0.4, ease: 'power2.out' }, '-=0.2')
-        .from(ctaEl, { opacity: 0, y: 15, duration: 0.4, ease: 'power2.out' }, '-=0.2');
+      // Scrub responsif dua arah berbasis scroll tanpa pin
+      this.heroTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: '#hero',
+          start: 'top top',
+          end: 'bottom 40%',
+          scrub: 0.5,
+          invalidateOnRefresh: true
+        }
+      });
+
+      this.heroTimeline
+        .to(introLayer, { opacity: 0, scale: 0.92, duration: 0.35, ease: 'power2.inOut' }, 0)
+        .fromTo(photoWrapper, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' }, 0.2)
+        .fromTo(nameEl, { opacity: 0, y: 25 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' }, 0.25)
+        .fromTo(roleEls, { opacity: 0, y: 20 }, { opacity: 1, y: 0, stagger: 0.08, duration: 0.3, ease: 'power2.out' }, 0.35)
+        .fromTo(mottoEl, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' }, 0.45)
+        .fromTo(ctaEl, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' }, 0.5);
     }
   },
 
   // ==========================================================================
-  // 6. ANIMASI COUNTER ANGKA DI BAGIAN TENTANG
+  // 7. ANIMASI COUNTER ANGKA DI BAGIAN TENTANG (HANYA SEKALI)
   // ==========================================================================
   initCounterAnimation() {
     const tentangSection = document.getElementById('tentang');
@@ -608,7 +611,7 @@ const PortfolioAnim = {
         ScrollTrigger.create({
           trigger: card,
           start: 'top 88%',
-          once: true,
+          once: true, // Hitung angka tetap 1x per kunjungan agar tidak mengganggu bacaan
           onEnter: runCount
         });
       } else {
@@ -618,7 +621,7 @@ const PortfolioAnim = {
   },
 
   // ==========================================================================
-  // 7. 3D TILT KARTU PROYEK (DESKTOP ONLY - TERPISAH DARI AOS WRAPPER)
+  // 8. 3D TILT KARTU PROYEK (DESKTOP ONLY - TERPISAH DARI AOS WRAPPER)
   // ==========================================================================
   initProjectTilt() {
     const projectCards = document.querySelectorAll('article.project-card-tilt');
@@ -649,7 +652,7 @@ const PortfolioAnim = {
   },
 
   // ==========================================================================
-  // 8. FLIP & NAVIGASI LIGHTBOX SERTIFIKAT
+  // 9. FLIP & NAVIGASI LIGHTBOX SERTIFIKAT
   // ==========================================================================
   initCertificateAnimations() {
     const filterBtns = document.querySelectorAll('.cert-filter-btn');
@@ -696,7 +699,7 @@ const PortfolioAnim = {
   },
 
   // ==========================================================================
-  // 9. TIMELINE DRAW & HIGHLIGHT TITIK AKTIF
+  // 10. TIMELINE DRAW & HIGHLIGHT TITIK AKTIF
   // ==========================================================================
   initTimelineAnimation() {
     const timelineSection = document.getElementById('timeline');
@@ -710,9 +713,12 @@ const PortfolioAnim = {
         ScrollTrigger.create({
           trigger: item,
           start: 'top 82%',
-          once: true,
+          once: false,
           onEnter: () => {
             if (dot) dot.classList.add('timeline-dot-active');
+          },
+          onLeaveBack: () => {
+            if (dot) dot.classList.remove('timeline-dot-active');
           }
         });
       }
@@ -720,7 +726,7 @@ const PortfolioAnim = {
   },
 
   // ==========================================================================
-  // 10. EFEK MAGNET TOMBOL & FORM FOCUS ACCENT LINE
+  // 11. EFEK MAGNET TOMBOL & FORM FOCUS ACCENT LINE
   // ==========================================================================
   initContactAndButtons() {
     if (ANIM_CONFIG.ENABLE_MAGNETIC && this.isDesktop && typeof gsap !== 'undefined') {
@@ -770,7 +776,7 @@ const PortfolioAnim = {
   },
 
   // ==========================================================================
-  // 11. KURSOR KUSTOM (DESKTOP ONLY)
+  // 12. KURSOR KUSTOM (DESKTOP ONLY)
   // ==========================================================================
   initCustomCursor() {
     const dot = document.getElementById('custom-cursor-dot');
@@ -821,7 +827,7 @@ const PortfolioAnim = {
   },
 
   // ==========================================================================
-  // 12. MOBILE MENU SMOOTH TRANSITION
+  // 13. MOBILE MENU SMOOTH TRANSITION
   // ==========================================================================
   initMobileMenuAnimation() {
     const menuBtn = document.getElementById('mobile-menu-btn');
@@ -842,7 +848,7 @@ const PortfolioAnim = {
   },
 
   // ==========================================================================
-  // 13. THEME SWITCHER CIRCULAR VIEW TRANSITION
+  // 14. THEME SWITCHER CIRCULAR VIEW TRANSITION
   // ==========================================================================
   initThemeTransition() {
     const themeBtn = document.getElementById('theme-toggle-btn');
@@ -884,5 +890,56 @@ if (document.readyState === 'loading') {
 } else {
   PortfolioAnim.init();
 }
+
+// Hook otomasi pengujian browser sungguhan (Fase C-5)
+(() => {
+  const params = new URLSearchParams(window.location.search);
+  const scenario = params.get('test_scenario');
+  if (!scenario) return;
+
+  window.addEventListener('load', () => {
+    // Lewati preloader saat mode pengujian agar tangkapan layar langsung ke target
+    const preloader = document.getElementById('preloader-overlay');
+    if (preloader) preloader.remove();
+
+    setTimeout(() => {
+      if (scenario === '1') {
+        window.scrollTo(0, 0);
+      } else if (scenario === '2') {
+        window.scrollTo(0, 1600);
+      } else if (scenario === '3') {
+        window.scrollTo(0, 1600);
+        setTimeout(() => window.scrollTo(0, 0), 300);
+      } else if (scenario.startsWith('4_down_')) {
+        const c = parseInt(scenario.replace('4_down_', ''), 10) || 1;
+        for (let i = 0; i < c; i++) {
+          window.scrollTo(0, 1600);
+          window.scrollTo(0, 0);
+        }
+        window.scrollTo(0, 1600);
+      } else if (scenario.startsWith('4_up_')) {
+        const c = parseInt(scenario.replace('4_up_', ''), 10) || 1;
+        for (let i = 0; i < c; i++) {
+          window.scrollTo(0, 1600);
+          window.scrollTo(0, 0);
+        }
+      } else if (scenario === '5_top') {
+        window.scrollTo(0, 0);
+      } else if (scenario === '6_tentang') {
+        const sec = document.getElementById('tentang');
+        if (sec) sec.scrollIntoView();
+      } else if (scenario === '7_down') {
+        window.scrollTo(0, 500);
+      } else if (scenario === '7_up') {
+        window.scrollTo(0, 500);
+        setTimeout(() => window.scrollTo(0, 0), 300);
+      } else if (scenario === '8_light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else if (scenario === '8_dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    }, 350);
+  });
+})();
 
 window.PortfolioAnim = PortfolioAnim;

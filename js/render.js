@@ -10,7 +10,7 @@ const PortfolioRenderer = {
     return data.UI_TEXT || {};
   },
 
-  // 1. Render Hero Section (Komponen data-hero untuk GSAP ScrollTrigger sequence)
+  // 1. Render Hero Section (Layer Intro 3-Baris + Layer Utama Sesuai Spesifikasi Langkah C)
   renderHero(data) {
     const container = document.getElementById('hero-container');
     if (!container) return;
@@ -20,7 +20,33 @@ const PortfolioRenderer = {
 
     container.innerHTML = `
       <div class="relative min-h-[75vh] flex flex-col justify-center">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        
+        <!-- LAYER INTRO (Layar Pertama Sebelum Scroll: 3 Baris Sama Lebar + Kicker + Petunjuk Scroll) -->
+        <div data-hero="intro" class="hero-intro-display" aria-hidden="true">
+          <!-- Baris Kecil Penjangkar Atas -->
+          <div class="hero-intro-kicker font-body font-bold text-xs sm:text-sm uppercase tracking-[0.25em] text-[var(--accent-text)] mb-3 sm:mb-4 text-center">
+            PORTOFOLIO · SEMARANG
+          </div>
+          
+          <!-- Tiga Baris Nama: AHMAD / ATHOILLAH / ALMADANY (Sama Lebar Seperti Judul Poster) -->
+          <div class="hero-intro-name flex flex-col items-center justify-center font-anton leading-[0.92] text-center select-none">
+            <span class="hero-name-line hero-line-1 block text-[var(--ink)]">AHMAD</span>
+            <span class="hero-name-line hero-line-2 block my-1 sm:my-2">
+              <span class="bg-[var(--accent)] text-[var(--on-accent)] px-3 sm:px-4 py-0.5 sm:py-1 inline-block -rotate-1 border-2 border-[var(--line)] shadow-[3px_3px_0_var(--shadow-hard)]">ATHOILLAH</span>
+            </span>
+            <span class="hero-name-line hero-line-3 block text-[var(--ink)]">ALMADANY</span>
+          </div>
+
+          <!-- Petunjuk Scroll Terpusat di Bawah Blok Nama -->
+          <div data-hero="hint" class="pt-6 sm:pt-8 text-center">
+            <span class="inline-flex items-center gap-2 px-3 py-1 bg-[var(--surface)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] font-anton text-xs tracking-widest text-[var(--accent-text)] uppercase animate-bounce">
+              ↓ GULIR KE BAWAH ↓
+            </span>
+          </div>
+        </div>
+
+        <!-- LAYER UTAMA (Susunan Akhir Hero: Foto Kiri, Nama & Konten Kanan - Tidak Berubah) -->
+        <div data-hero="main" class="hero-main-grid grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           
           <!-- Kolom Foto Hero (3:4 Utuh, Bingkai Diagonal Kuning di Belakang) -->
           <div class="lg:col-span-5 flex justify-center lg:justify-start" data-hero="photo">
@@ -56,7 +82,7 @@ const PortfolioRenderer = {
               <span>${UI.hero?.badge || "TERBUKA UNTUK KOLABORASI & PROYEK NYATA"}</span>
             </div>
 
-            <!-- Nama Besar Anton dengan Blok Kuning -->
+            <!-- Nama Besar Anton dengan Blok Kuning (Dua Baris Sesuai Desain Poster) -->
             <h1 data-hero="name" class="font-anton text-4xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl leading-[0.95] tracking-tight text-[var(--ink)]">
               AHMAD <span class="bg-[var(--accent)] text-[var(--on-accent)] px-3 py-1 inline-block -rotate-1 border-2 border-[var(--line)] shadow-[4px_4px_0_var(--shadow-hard)]">ATHOILLAH</span> ALMADANY
             </h1>
@@ -98,12 +124,6 @@ const PortfolioRenderer = {
           </div>
         </div>
 
-        <!-- Petunjuk Scroll Kecil -->
-        <div data-hero="hint" class="pt-8 text-center" aria-hidden="true">
-          <span class="inline-flex items-center gap-2 px-3 py-1 bg-[var(--surface)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] font-anton text-xs tracking-widest text-[var(--accent-text)] uppercase animate-bounce">
-            ↓ GULIR KE BAWAH ↓
-          </span>
-        </div>
       </div>
     `;
   },

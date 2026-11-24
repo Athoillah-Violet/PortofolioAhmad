@@ -137,24 +137,23 @@ Website dilengkapi modal CV yang dapat mencetak lembar CV resmi secara langsung:
 
 ---
 
-## ✨ Fitur Animasi & Interaksi Gerak (Langkah B)
+## ✨ Fitur Animasi & Interaksi Gerak (Langkah B & C)
 
 Animasi dikoreografi secara modular dan terpisah di [css/anim.css](file:///d:/web%20portofolio/css/anim.css) dan [js/anim.js](file:///d:/web%20portofolio/js/anim.js) dengan pembagian tugas yang jelas tanpa bentrok:
-- **AOS 2.3.4**: Menangani *reveal* sederhana (judul bagian, kartu grid, chip keterampilan, thumbnail sertifikat, entri timeline, blok kontak, footer).
-- **GSAP 3 + ScrollTrigger + Lenis**: Menangani koreografi kompleks (urutan hero scroll berurutan, counter angka naik, 3D tilt kartu proyek, preloader, kursor kustom, smooth scroll, marquee).
+- **AOS 2.3.4 (Reveal Berulang Dua Arah)**: Menangani *scroll reveal* pada judul bagian, kartu grid, chip keterampilan, thumbnail sertifikat, entri timeline, blok kontak, dan footer (`once: false, mirror: true`).
+- **GSAP 3 + ScrollTrigger + Lenis (Koreografi Kompleks & Hero Dua Arah)**: Menangani urutan hero scroll yang 100% berulang tanpa batas saat digulir turun dan naik, nama 3 baris poster sama rata di layar awal, counter angka naik (1x), 3D tilt kartu proyek, preloader, kursor kustom, smooth scroll, dan marquee.
 
-### Fitur Utama Animasi Langkah B:
-1. **Preloader Gaya Poster Berani (< 1.5s)**: Tirai kuning dan hitam membuka (*curtain split*), inisial "AA" huruf Anton, dan hitungan persen. Tampil 1x per sesi peramban (`sessionStorage`).
-2. **Koreografi Hero Scroll Berurutan (Scrub & Pin)**:
-   - Keadaan awal: layar pertama **hanya nama** (Anton, besar, di tengah).
-   - Saat pengunjung melakukan scroll:
-     - Tahap 1: Nama mengecil dan naik ke posisi grid hero.
-     - Tahap 2: Blok diagonal kuning meluncur masuk, lalu foto profil naik dengan efek *clip-path*.
-     - Tahap 3: Peran, motto, tombol aksi, tulisan kuas, dan dekorasi muncul bergantian (*stagger*).
-     - Tahap 4: Scroll berlanjut secara normal ke bagian Tentang tanpa tersangkut atau melompat.
-   - Petunjuk scroll kecil otomatis menghilang saat scroll dimulai.
-   - **Tahan Reload / Hash**: Jika pengunjung me-reload halaman di posisi tengah atau membuka tautan langsung ke `#proyek`, hero langsung berada di kondisi akhir tanpa terjebak.
-   - **Versi Layar Ponsel (< 768px)**: Tanpa *pinning* panjang untuk menjaga kelancaran gulir sentuh.
+### Fitur Utama Animasi Langkah C:
+1. **Layar Pertama Hero: Blok Nama Poster 3 Baris Sama Lebar**:
+   - Tiga baris nama: **AHMAD** / **[ATHOILLAH]** / **ALMADANY** ditumpuk rapi di tengah layar dengan blok kuning aksen miring -1° pada kata "ATHOILLAH" tanpa menimpa baris lain.
+   - Dilengkapi kicker penjangkar atas `PORTOFOLIO · SEMARANG` dan petunjuk scroll terpusat di bawah.
+   - Ukuran huruf disesuaikan otomatis dengan kalibrasi presisi (`fitHeroTitleLines()`) saat font Anton siap, sehingga membentuk satu blok persegi padat poster tanpa layout shift.
+   - Bebas dari blob/lingkaran buram (diganti dengan elemen dekorasi grafis poster berani datar tanpa blur).
+2. **Koreografi Hero Scroll Berulang Tanpa Batas (Reversible Scrub Dua Arah)**:
+   - **Gulir Turun**: Blok nama 3 baris intro memudar halus, navbar turun, blok diagonal kuning meluncur masuk, foto profil naik dengan efek *clip-path*, dan komponen peran, motto, tombol aksi, serta tulisan kuas muncul bergantian (*stagger*).
+   - **Gulir Naik**: Seluruh komponen hero mundur secara terbalik (*reverse*) dengan mulus, dan saat mencapai posisi paling atas (`scrollY = 0`), halaman kembali menampilkan tampilan bersih nama 3 baris intro. Dapat diulang berapa kali pun tanpa batas!
+   - **Bebas Kunci URL Hash / Reload**: Membuka tautan langsung seperti `#proyek` atau me-reload di tengah halaman tidak pernah mengunci hero; saat pengunjung menggulir ke atas ke posisi 0, hero tetap membalik ke keadaan intro awal.
+   - **Versi Layar Ponsel (< 768px)**: Menerapkan scrub dua arah ringan berbasis posisi scroll tanpa penguncian pin panjang, sehingga jari pengguna tidak terjebak.
 3. **Pemisahan Tilt & AOS**: Kartu proyek dibungkus oleh `.project-aos-wrap` (AOS reveal) dan kartu anak `.project-card-tilt` (3D tilt & glare), mencegah tabrakan *matrix transform*.
 4. **Central Ticker Terpusat**: Lenis `on('scroll')` sinkron dengan `ScrollTrigger.update`, dan `ScrollTrigger.refresh()` otomatis menyegarkan `AOS.refreshHard()`.
 5. **Aksesibilitas & Keyboard Focus**: Navigasi atas otomatis terlihat jika elemen menu/tombol menerima fokus keyboard (Tab) melalui `.site-header:focus-within`.
@@ -171,7 +170,7 @@ const ANIM_CONFIG = {
   ENABLE_SMOOTH_SCROLL: true,   // false: gunakan native scrolling bawaan browser
   ENABLE_MARQUEE: true,         // false: matikan marquee teknologi
   ENABLE_TIMELINE_DRAW: true,   // false: timeline statis tanpa highlight scroll
-  ENABLE_COUNTERS: true,        // false: tampilkan angka statistik langsung
+  ENABLE_COUNTERS: true,        // false: tampilkan angka statistik langsung (hanya 1x hitung)
   ENABLE_MAGNETIC: true,        // false: matikan efek magnet pada tombol utama
   ENABLE_THEME_TRANSITION: true,// false: transisi tema instan tanpa view transitions
 
