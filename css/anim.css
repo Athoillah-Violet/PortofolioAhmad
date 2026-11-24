@@ -281,21 +281,21 @@
    7B. HERO INTRO DISPLAY (LAYAR PERTAMA 3 BARIS SAMA LEBAR)
    -------------------------------------------------------------------------- */
 .hero-intro-display {
-  position: absolute;
-  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 20;
-  pointer-events: none;
-  padding: 1.5rem;
+  text-align: center;
 }
 
 .hero-intro-name {
   width: 100%;
   max-width: 680px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero-name-line {
@@ -304,18 +304,63 @@
   text-align: center;
 }
 
-/* Proporsi fallback sebelum kalkulasi JS fitting */
+/* Fluid responsive typography: stabil dan elastis saat zoom */
 .hero-line-1 {
-  font-size: clamp(3.2rem, 15vw, 7.8rem);
-  line-height: 0.9;
+  font-size: clamp(2.8rem, 15vw, 7.5rem);
+  line-height: 0.88;
+  letter-spacing: 0.03em;
 }
 .hero-line-2 {
-  font-size: clamp(1.8rem, 8.5vw, 4.4rem);
+  font-size: clamp(1.6rem, 8.5vw, 4.3rem);
   line-height: 1.15;
 }
 .hero-line-3 {
-  font-size: clamp(2.1rem, 9.8vw, 5.1rem);
-  line-height: 0.95;
+  font-size: clamp(1.9rem, 10vw, 5rem);
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+}
+
+/* Responsif Mobile (< 768px): Mencegah tumpang tindih & bebas dari masalah zoom */
+@media (max-width: 767px) {
+  #hero {
+    overflow: visible !important;
+    padding-top: 1rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .hero-intro-display {
+    position: relative;
+    width: 100%;
+    min-height: calc(100svh - 4.5rem);
+    padding: 1.5rem 0.5rem 2.5rem 0.5rem;
+    z-index: 2;
+  }
+
+  .hero-main-grid {
+    position: relative;
+    width: 100%;
+    padding-top: 2rem;
+    z-index: 1;
+  }
+}
+
+/* Konfigurasi Hero untuk Pinning Desktop (>= 768px) */
+@media (min-width: 768px) {
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-intro-display {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    pointer-events: none;
+    padding: 1.5rem;
+  }
 }
 
 .hero-code-badge {
