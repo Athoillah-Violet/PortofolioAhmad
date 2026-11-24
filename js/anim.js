@@ -398,6 +398,17 @@ const PortfolioAnim = {
     if (typeof AOS === 'undefined') return;
 
     try {
+      // Pada perangkat mobile (< 768px), konversikan semua efek lateral (fade-left/fade-right/flip)
+      // menjadi fade-up agar tidak memicu overflow horizontal di luar layar
+      if (!this.isDesktop) {
+        document.querySelectorAll('[data-aos]').forEach((el) => {
+          const effect = el.getAttribute('data-aos');
+          if (effect && (effect.includes('left') || effect.includes('right') || effect.includes('flip'))) {
+            el.setAttribute('data-aos', 'fade-up');
+          }
+        });
+      }
+
       AOS.init({
         duration: 700,
         easing: 'ease-out-cubic',

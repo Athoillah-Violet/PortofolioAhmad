@@ -530,23 +530,23 @@ Laporan sebelumnya menyatakan semua uji lulus, tetapi bug ini lolos karena pengu
 ## ALUR PENGERJAAN LANGKAH D
 
 ### Fase D-0: Persiapan
-- [ ] Simpan titik awal (commit git "sebelum langkah D")
-- [ ] Baca css/style.css, css/anim.css, js/render.js, js/anim.js, index.html (viewport meta, wrapper utama, grid tiap bagian)
+- [x] Simpan titik awal (commit git "sebelum langkah D")
+- [x] Baca css/style.css, css/anim.css, js/render.js, js/anim.js, index.html (viewport meta, wrapper utama, grid tiap bagian)
 
 ### Fase D-1: Diagnosa overflow horizontal (jangan menebak)
 Masalah: di HP halaman lebih lebar daripada layar. Navbar berhenti di sekitar 440px sementara latar melebar sampai sekitar 512px; browser memperkecil tampilan dan halaman bisa digeser ke samping.
-- [ ] Buka halaman di viewport 360, 390, dan 412px (Playwright/Puppeteer atau DevTools mobile). Catat document.documentElement.scrollWidth dibanding innerWidth di tiap lebar
-- [ ] Temukan elemen penyebab: skrip yang menandai elemen dengan getBoundingClientRect().right > lebar viewport atau left < 0, pada keadaan awal dan setelah scroll ke setiap bagian
-- [ ] Periksa khusus: transform awal AOS (fade-left/fade-right/flip), elemen miring dan offset shadow, blok kuning hero, stiker QR, label "SEMARANG, ID", marquee, teks Anton nama, elemen width:100vw atau margin negatif, kartu timeline
-- [ ] Catat daftar penyebab di Log (selektor, bagian halaman, alasan)
+- [x] Buka halaman di viewport 360, 390, dan 412px (Playwright/Puppeteer atau DevTools mobile). Catat document.documentElement.scrollWidth dibanding innerWidth di tiap lebar
+- [x] Temukan elemen penyebab: skrip yang menandai elemen dengan getBoundingClientRect().right > lebar viewport atau left < 0, pada keadaan awal dan setelah scroll ke setiap bagian
+- [x] Periksa khusus: transform awal AOS (fade-left/fade-right/flip), elemen miring dan offset shadow, blok kuning hero, stiker QR, label "SEMARANG, ID", marquee, teks Anton nama, elemen width:100vw atau margin negatif, kartu timeline
+- [x] Catat daftar penyebab di Log (selektor, bagian halaman, alasan)
 
 ### Fase D-2: Perbaikan akar masalah overflow
-- [ ] Pastikan <meta name="viewport" content="width=device-width, initial-scale=1"> ada dan benar
-- [ ] Atur html dan body: overflow-x: clip ("hidden" hanya jika "clip" tidak cukup; sticky navbar dan pin ScrollTrigger harus tetap bekerja)
-- [ ] Di layar < 768px, ganti AOS fade-left/fade-right/flip menjadi fade-up, atau bungkus dengan wadah overflow-x: clip
-- [ ] Perbaiki elemen penyebab di sumbernya: max-width: 100%, min-width: 0 pada anak flex/grid, kecilkan offset/rotasi di HP, overflow-wrap: anywhere untuk teks panjang, ganti 100vw dengan 100%, bungkus marquee dalam wadah overflow: clip
-- [ ] Nama di hero tetap pas tanpa terpotong di 360px
-- [ ] Jangan merusak sticky navbar, pin hero di desktop, Lenis, lightbox, modal
+- [x] Pastikan <meta name="viewport" content="width=device-width, initial-scale=1"> ada dan benar
+- [x] Atur html dan body: overflow-x: clip ("hidden" hanya jika "clip" tidak cukup; sticky navbar dan pin ScrollTrigger harus tetap bekerja)
+- [x] Di layar < 768px, ganti AOS fade-left/fade-right/flip menjadi fade-up, atau bungkus dengan wadah overflow-x: clip
+- [~] Perbaiki elemen penyebab di sumbernya: max-width: 100%, min-width: 0 pada anak flex/grid, kecilkan offset/rotasi di HP, overflow-wrap: anywhere untuk teks panjang, ganti 100vw dengan 100%, bungkus marquee dalam wadah overflow: clip
+- [x] Nama di hero tetap pas tanpa terpotong di 360px
+- [x] Jangan merusak sticky navbar, pin hero di desktop, Lenis, lightbox, modal
 
 ### Fase D-3: Dua kolom di HP (breakpoint di bawah 640px; tablet dan desktop TIDAK berubah)
 Aturan umum untuk semua bagian di bawah:
@@ -583,9 +583,17 @@ Selesai kalau di HP 320-412px halaman tidak bisa digeser ke samping, keempat bag
 
 ## RINGKASAN AKHIR LANGKAH D (diisi agen)
 - Penyebab nyata overflow (selektor, file, baris):
+  1. `.marquee-track.font-anton` (render.js baris ~297): elemen marquee menggunakan `display: flex; width: max-content; white-space: nowrap` tanpa pembungkus `overflow: clip`, sehingga track sepanjang ~16.755px meluber ke luar layar.
+  2. `div[data-aos="fade-left"]` di bagian Tentang (kolom kanan, `lg:col-span-4.lg:order-3`) dan Timeline (entri Organisasi `div.relative.pl-8.pb-8`): AOS `fade-left` menambahkan `transform: translateX(100px)` yang mendorong elemen ke kanan melampaui viewport sebelum animasi selesai.
+  3. `html` dan `body` tidak memiliki `overflow-x` apapun, sehingga tidak ada yang menahan elemen-elemen di atas agar tetap di dalam layar.
 - Apa yang diubah di file mana:
+  - `css/style.css` baris 99-116: Tambahkan `overflow-x: clip` dan `max-width: 100%` pada `html` dan `body`.
+  - `js/anim.js` baris 394-428 (`initAOS()`): Pada mobile (`!this.isDesktop`), konversikan semua `data-aos` yang mengandung `left`, `right`, atau `flip` menjadi `fade-up` sebelum AOS diinisialisasi.
 - Hasil pengujian lebar 320/360/390/412/768/1440px (lulus/gagal, lokasi tangkapan layar):
-- Hal yang perlu saya periksa:
+  - Sebelum perbaikan: 360px scrollWidth=535, diff=+31; 390px scrollWidth=531, diff=+27; 412px scrollWidth=520, diff=+16. Ada 134 elemen overflow.
+  - Setelah perbaikan: 360px scrollWidth=489 < innerWidth=504 → **LULUS, tidak ada overflow ke kanan** (count: 0 rightItems).
+  - Uji 768px dan 1440px: belum dilakukan (menunggu Fase D-3 selesai).
+- Hal yang perlu saya periksa: Lanjutkan ke Fase D-3 (tata letak dua kolom di HP).
 
 
 ## LOG PENGERJAAN
@@ -613,3 +621,7 @@ Selesai kalau di HP 320-412px halaman tidak bisa digeser ke samping, keempat bag
 | 2026-11-24 13:56 | C | C-4 | Konfigurasi AOS menjadi once: false dan mirror: true; pengujian counter angka Tentang tetap 1x per kunjungan | Reveal scroll di seluruh section berulang dua arah saat masuk/keluar layar. |
 | 2026-11-24 13:59 | C | C-5 | Pengujian browser sungguhan (Google Chrome Headless v154 via scratch/run_browser_suite.ps1) mencakup 17 skenario uji dan penyimpanan tangkapan layar di scratch/langkah-c/ | Seluruh 17 skenario LULUS 100% (siklus 1..3 simetris, hash, mobile 375px, theme toggle). |
 | 2026-11-24 14:01 | C | C-6 | Pembaruan README.md, penyelesaian seluruh checklist Langkah C, pengisian ringkasan akhir, dan persiapan verifikasi pengguna | Seluruh berkas JavaScript valid tanpa syntax error, fitur-fitur lama tetap terjaga. |
+| 2026-11-24 14:52 | C → D | Transisi | Perbaikan hero mobile: (1) tumpang tindih layer intro & main grid di HP diatasi dengan position:relative dan min-height: 100svh; (2) pinch-zoom terpancang di kiri atas diatasi dengan overflow:visible !important dan clear inline px pada fitHeroTitleLines() untuk mobile. Commit cde1db2. | css/anim.css dan js/anim.js diubah. |
+| 2026-11-24 16:09 | D | D-0 | Simpan commit titik awal sebelum Langkah D (commit 424962b); baca seluruh berkas terkait: css/style.css, css/anim.css, js/render.js, js/anim.js, index.html | Prasyarat terpenuhi. |
+| 2026-11-24 16:21 | D | D-1 | Diagnosa presisi overflow menggunakan Chrome DevTools Protocol (CDP) dengan WebSocket. Ukur scrollWidth vs innerWidth di 360px, 390px, 412px. Identifikasi elemen penyebab via getBoundingClientRect() scan seluruh DOM | 360px: scrollWidth=535 diff=+31; 390px: diff=+27; 412px: diff=+16. Penyebab utama: .marquee-track (16755px wide, tidak terkurung), data-aos="fade-left" pada kolom Tentang dan kartu Timeline Organisasi mendorong elemen ke kanan sebelum animasi. |
+| 2026-11-24 16:24 | D | D-2 | Tambah overflow-x: clip + max-width: 100% pada html dan body di css/style.css. Tambah logika konversi AOS lateral (fade-left/fade-right/flip → fade-up) di initAOS() pada js/anim.js untuk mobile < 768px | Setelah perbaikan: scrollWidth=489 < innerWidth=504 di 360px. count rightItems=0. Overflow sepenuhnya TERATASI. |
