@@ -34,7 +34,7 @@ window.portfolioData = {
     qrSertifikat: "assets/img/qr-sertifikat.png",
     qrSertifikatText: "Scan atau klik tombol untuk melihat seluruh arsip sertifikat di Google Drive",
     qrSertifikatUrl: "https://drive.google.com/drive/folders/1pPcO7AGU55haVoz0fksYNL3z5EnLFXjU?usp=drive_link",
-    printCv: "assets/img/print-cv.png"
+    printCv: "assets/CV-Ahmad-Athoillah-Almadany.pdf"
   },
 
   // Microcopy Antarmuka (Gaya Poster Berani, Bahasa Indonesia Lugas Orang Pertama)
@@ -43,7 +43,7 @@ window.portfolioData = {
       badge: "TERBUKA UNTUK KOLABORASI & PROYEK NYATA",
       brushAccent: "Siap bangun web solid!",
       btnProyek: "Lihat Karya",
-      btnKontak: "Ajak Ngobrol",
+      btnKontak: "HUBUNGI SAYA",
       btnCv: "Periksa CV"
     },
     tentang: {
@@ -55,12 +55,12 @@ window.portfolioData = {
       tentangTitle: "Tentang Saya",
       statProyek: "Proyek Selesai",
       statSertifikat: "Sertifikasi",
-      statOrganisasi: "Tahun Organisasi",
+      statOrganisasi: "Organisasi",
       statTools: "Tools Dikuasai"
     },
     keterampilan: {
       badge: "02 KETERAMPILAN",
-      judulWord1: "SENJATA",
+      judulWord1: "SKILL",
       judulWord2: "KODE",
       subjudul: "Teknologi yang saya gunakan untuk mewujudkan ide menjadi produk fungsional."
     },
@@ -380,6 +380,7 @@ window.portfolioData = {
       ],
       linkLive: "",
       linkGithub: "",
+      linkUnduh: "https://drive.google.com/drive/folders/1cGnZnWCo-v5iUn-y70zcSVuA-I_ewtDM?usp=drive_link",
       unggulan: false
     }
   ],

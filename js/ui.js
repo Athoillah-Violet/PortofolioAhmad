@@ -203,6 +203,16 @@ const PortfolioUI = {
         }
       }
 
+      const unduhLink = document.getElementById('project-modal-unduh');
+      if (unduhLink) {
+        if (project.linkUnduh) {
+          unduhLink.href = project.linkUnduh;
+          unduhLink.classList.remove('hidden');
+        } else {
+          unduhLink.classList.add('hidden');
+        }
+      }
+
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
     };

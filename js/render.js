@@ -139,11 +139,10 @@ const PortfolioRenderer = {
     const totalProyek = data.proyek.length;
     const totalSertifikat = data.sertifikat.length;
 
-    let totalTahunOrganisasi = 0;
+    let totalOrganisasi = 0;
     data.organisasiPengabdian.forEach(item => {
-      const match = item.durasi.match(/(\d+)\s*tahun/i);
-      if (match) {
-        totalTahunOrganisasi += parseInt(match[1], 10);
+      if (!item.kategori || item.kategori.toLowerCase() === 'organisasi') {
+        totalOrganisasi++;
       }
     });
 
@@ -245,8 +244,8 @@ const PortfolioRenderer = {
                 </div>
 
                 <div class="p-3.5 bg-[var(--bg-alt)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] text-center stat-counter-box" data-aos="fade-up" data-aos-delay="150">
-                  <div class="font-anton text-3xl sm:text-4xl text-[var(--ink)] leading-none"><span class="stat-number" data-target="${totalTahunOrganisasi}">${totalTahunOrganisasi}</span>+</div>
-                  <div class="text-[11px] font-bold uppercase tracking-wider text-[var(--ink-muted)] mt-1.5">${UI.tentang?.statOrganisasi || "Thn Org"}</div>
+                  <div class="font-anton text-3xl sm:text-4xl text-[var(--ink)] leading-none"><span class="stat-number" data-target="${totalOrganisasi}">${totalOrganisasi}</span>+</div>
+                  <div class="text-[11px] font-bold uppercase tracking-wider text-[var(--ink-muted)] mt-1.5">${UI.tentang?.statOrganisasi || "Organisasi"}</div>
                 </div>
 
                 <div class="p-3.5 bg-[var(--bg-alt)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] text-center stat-counter-box" data-aos="fade-up" data-aos-delay="200">
@@ -347,6 +346,13 @@ const PortfolioRenderer = {
         </a>
       ` : '';
 
+      const unduhBtnHtml = p.linkUnduh ? `
+        <a href="${p.linkUnduh}" target="_blank" rel="noopener noreferrer" class="btn-poster-primary text-xs py-2 px-3 flex items-center gap-1.5" aria-label="Unduh file ${p.judul}" onclick="event.stopPropagation()">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+          Unduh
+        </a>
+      ` : '';
+
       return `
         <div class="project-aos-wrap" data-aos="fade-up" data-aos-delay="${delay}">
           <article class="project-card-tilt poster-card flex flex-col justify-between overflow-hidden cursor-pointer group h-full" data-project-id="${p.id}" tabindex="0" role="button" aria-label="Buka detail proyek ${p.judul}">
@@ -397,6 +403,7 @@ const PortfolioRenderer = {
                 <div class="flex items-center gap-2">
                   ${githubBtnHtml}
                   ${liveBtnHtml}
+                  ${unduhBtnHtml}
                 </div>
               </div>
             </div>
