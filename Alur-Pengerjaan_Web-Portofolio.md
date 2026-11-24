@@ -21,7 +21,7 @@
 ## STATUS UTAMA
 
 - [x] BAGIAN 1 (Langkah A) selesai: semua fase A-0 sampai A-6 tercentang
-- [ ] Hasil Langkah A sudah saya cek di browser (diisi oleh saya, bukan agen)
+- [x] Hasil Langkah A sudah saya cek di browser (diisi oleh saya, bukan agen)
 - [ ] BAGIAN 2 (Langkah B) selesai: semua fase B-0 sampai B-6 tercentang
 - [ ] Hasil Langkah B sudah saya cek di browser dan HP (diisi oleh saya, bukan agen)
 

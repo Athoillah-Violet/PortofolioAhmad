@@ -161,8 +161,8 @@ window.portfolioData = {
     {
       institusi: "MI Nurul Islam 1 Wonokerto",
       jurusan: "Pendidikan Dasar",
-      periode: "", // TODO: isi tahun
-      year: "", // TODO: isi tahun
+      periode: "2012/2013 - 2017/2018", // TODO: isi tahun
+      year: "2012/2013 - 2017/2018", // TODO: isi tahun
       type: "formal",
       kategoriLabel: "Pendidikan formal",
       deskripsi: ""
@@ -170,8 +170,8 @@ window.portfolioData = {
     {
       institusi: "Madrasah Diniyah Rhodhotul Tholibin",
       jurusan: "Pendidikan Dasar Agama",
-      periode: "", // TODO: isi tahun
-      year: "", // TODO: isi tahun
+      periode: "2014/2015 - 2017/2018", // TODO: isi tahun
+      year: "2014/2015 - 2017/2018", // TODO: isi tahun
       type: "nonformal",
       kategoriLabel: "Pendidikan agama",
       deskripsi: ""
@@ -179,8 +179,8 @@ window.portfolioData = {
     {
       institusi: "Pondok Pesantren Api Asri",
       jurusan: "Pendidikan Keagamaan & Pesantren",
-      periode: "", // TODO: isi tahun
-      year: "", // TODO: isi tahun
+      periode: "2018/2019 - 2023/2024", // TODO: isi tahun
+      year: "2018/2019 - 2023/2024", // TODO: isi tahun
       type: "nonformal",
       kategoriLabel: "Pendidikan agama",
       deskripsi: ""
@@ -188,8 +188,8 @@ window.portfolioData = {
     {
       institusi: "SMP Syubbanul Wathon",
       jurusan: "Pendidikan Menengah Pertama",
-      periode: "", // TODO: isi tahun
-      year: "", // TODO: isi tahun
+      periode: "2018/2019 - 2020/2021", // TODO: isi tahun
+      year: "2018/2019 - 2020/2021", // TODO: isi tahun
       type: "formal",
       kategoriLabel: "Pendidikan formal",
       deskripsi: ""
