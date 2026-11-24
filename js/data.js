@@ -22,10 +22,98 @@ window.portfolioData = {
     motto: "Kode yang baik berawal dari niat yang baik.",
     profil: "Mahasiswa Informatika Universitas PGRI Semarang angkatan 2024 berlatar belakang TJKT. Berfokus pada pengembangan web dan analisis sistem, aktif berorganisasi, serta terbiasa mengubah kebutuhan nyata menjadi aplikasi yang berguna.",
     fotoProfil: "assets/img/ahmad-athoillah-almadany.png",
+    fotoTentang: "aku.png",
+    aboutText: "Saya mahasiswa Informatika di Universitas PGRI Semarang (angkatan 2024) dengan latar belakang SMK TJKT. Fokus utama saya adalah rekayasa web dan analisis sistem. Bagi saya, pemrograman bukan sekadar menulis sintaks, melainkan memecahkan masalah nyata menjadi alat kerja yang efisien, tangguh, dan mudah digunakan orang lain. Selain aktif mengasah kode, saya terus mengasah kepemimpinan lewat organisasi kampus dan pengabdian masyarakat.",
+    profilFakta: [
+      { label: "Peran", value: "Web Developer" },
+      { label: "Fokus", value: "Pengembangan Web & Analisis Sistem" },
+      { label: "Kampus", value: "UPGRIS · S1 Informatika (2024 - Sekarang)" },
+      { label: "Latar Belakang", value: "SMK Syubbanul Wathon (TJKT)" },
+      { label: "Sertifikasi Unggulan", value: "MTCNA (MikroTik Certified Network Associate)" }
+    ],
     qrSertifikat: "assets/img/qr-sertifikat.png",
     qrSertifikatText: "Scan atau buka l1nk.dev/62ia9zm untuk melihat seluruh sertifikat",
     qrSertifikatUrl: "https://l1nk.dev/62ia9zm",
     printCv: "assets/img/print-cv.png"
+  },
+
+  // Microcopy Antarmuka (Gaya Poster Berani, Bahasa Indonesia Lugas Orang Pertama)
+  UI_TEXT: {
+    hero: {
+      badge: "TERBUKA UNTUK KOLABORASI & PROYEK NYATA",
+      brushAccent: "Siap bangun web solid!",
+      btnProyek: "Lihat Karya",
+      btnKontak: "Ajak Ngobrol",
+      btnCv: "Periksa CV"
+    },
+    tentang: {
+      badge: "01 TENTANG",
+      judulWord1: "SIAPA",
+      judulWord2: "SAYA?",
+      subjudul: "Fakta langsung tanpa basa-basi korporat.",
+      profilTitle: "Profil Profesional",
+      tentangTitle: "Tentang Saya",
+      statProyek: "Proyek Selesai",
+      statSertifikat: "Sertifikasi",
+      statOrganisasi: "Tahun Organisasi",
+      statTools: "Tools Dikuasai"
+    },
+    keterampilan: {
+      badge: "02 KETERAMPILAN",
+      judulWord1: "SENJATA",
+      judulWord2: "KODE",
+      subjudul: "Teknologi yang saya gunakan untuk mewujudkan ide menjadi produk fungsional."
+    },
+    proyek: {
+      badge: "03 PROYEK",
+      judulWord1: "KARYA",
+      judulWord2: "PILIHAN",
+      subjudul: "Aplikasi nyata yang saya rancang, bangun, dan luncurkan ke publik.",
+      btnLive: "Buka Live Demo",
+      btnGithub: "Kode Sumber",
+      modalPeran: "Peran Saya:",
+      modalTeknologi: "Teknologi Digunakan:"
+    },
+    sertifikat: {
+      badge: "04 SERTIFIKAT",
+      judulWord1: "BUKTI",
+      judulWord2: "KOMPETENSI",
+      subjudul: "Sertifikasi teknis, kepemimpinan, dan dedikasi pengabdian masyarakat.",
+      filterSemua: "SEMUA",
+      qrLabel: "ARSIP LENGKAP",
+      qrAction: "Buka l1nk.dev/62ia9zm ↗"
+    },
+    timeline: {
+      badge: "05 PERJALANAN",
+      judulWord1: "JEJAK",
+      judulWord2: "LANGKAH",
+      subjudul: "Jalur belajar formal, pendidikan agama, dan tempaan kepemimpinan.",
+      colPendidikan: "Riwayat Pendidikan",
+      colOrganisasi: "Organisasi & Pengabdian"
+    },
+    kontak: {
+      badge: "06 KONTAK",
+      judulWord1: "HUBUNGI",
+      judulWord2: "SAYA",
+      subjudul: "Punya ide proyek, tawaran magang, atau ingin berdiskusi? Pintu selalu terbuka.",
+      brushAccent: "Respon cepat via WhatsApp!",
+      btnWa: "Kirim WhatsApp",
+      formTitle: "Kirim Pesan Langsung",
+      labelNama: "Nama Lengkap",
+      labelEmail: "Alamat Email",
+      labelSubjek: "Topik Pesan",
+      labelPesan: "Detail Pesan Anda",
+      placeholderNama: "Tulis nama Anda...",
+      placeholderEmail: "emailanda@domain.com",
+      placeholderSubjek: "Misal: Rencana Pembuatan Web Portal",
+      placeholderPesan: "Tuliskan garis besar kebutuhan atau pesan Anda di sini...",
+      btnKirim: "Luncurkan Pesan (Mailto)"
+    },
+    footer: {
+      tagline: "Dibangun dengan presisi, tanpa template basi.",
+      copyright: "Hak Cipta © 2026 Ahmad Athoillah Almadany. Seluruh hak dilindungi.",
+      btnTop: "KEMBALI KE PUNCAK ↑"
+    }
   },
 
   // Keterampilan (Kelompok -> Daftar Item)

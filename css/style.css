@@ -1,7 +1,7 @@
 /* ==========================================================================
    css/style.css
    Portofolio Pribadi - Ahmad Athoillah Almadany
-   Design Tokens & Visual Identity (Dark & Light Mode, WCAG AA / AAA)
+   Sistem Desain "Poster Berani" (Bold & Graphic, WCAG AA / AAA)
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -10,88 +10,81 @@
 :root,
 [data-theme="dark"],
 html.dark {
-  --bg: #0B1B2E;
-  --bg-elev: #0F2742;
-  --bg-soft: #122C4B;
-  --text: #F1F5F9;
-  --text-muted: #94A3B8;
-  --text-subtle: #64748B;
-  --border: rgba(111, 211, 203, 0.18);
-  --border-hover: rgba(111, 211, 203, 0.45);
-  
-  --accent: #1F9E96;
-  --accent-hover: #17837C;
-  --accent-strong: #6FD3CB;
-  --accent-text: #6FD3CB;
-  --on-accent: #FFFFFF;
-  --chip-bg: rgba(31, 158, 150, 0.15);
-  --overlay: rgba(11, 27, 46, 0.88);
-  --focus: #6FD3CB;
-  --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.45);
-
-  --radius-card: 14px;
-  --radius-photo: 20px;
-  --radius-chip: 9999px;
+  --bg: #0A101C;          /* Hitam kebiruan pekat */
+  --bg-alt: #0F1828;      /* Biru malam kontras */
+  --surface: #121D30;     /* Kartu gelap solid */
+  --ink: #F2F5F9;         /* Teks utama terang tajam */
+  --ink-muted: #A9B6C7;   /* Teks sekunder terbaca */
+  --line: #F2F5F9;        /* Garis tebal kartu kontras */
+  --shadow-hard: #000000; /* Offset shadow keras tanpa blur */
+  --accent: #FFD21F;      /* Blok kuning bertenaga */
+  --on-accent: #0A101C;   /* Teks gelap di atas kuning */
+  --accent-2: #1F9E96;    /* Teal grafis */
+  --on-accent-2: #F2F5F9; /* Teks di atas teal */
+  --focus: #FFD21F;
+  --overlay: rgba(10, 16, 28, 0.90);
+  --chip-bg: #0F1828;
 
   /* Backward compatibility aliases */
-  --color-bg: var(--bg);
-  --color-surface: var(--bg-elev);
-  --color-surface-hover: var(--bg-soft);
-  --color-surface-card: var(--bg-elev);
-  --color-border: var(--border);
-  --color-border-hover: var(--border-hover);
-  --color-accent: var(--accent);
-  --color-accent-hover: var(--accent-hover);
-  --color-accent-light: var(--accent-text);
-  --color-accent-muted: var(--chip-bg);
-  --color-text-primary: var(--text);
-  --color-text-secondary: var(--text-muted);
-  --color-text-muted: var(--text-subtle);
+  --text: var(--ink);
+  --text-muted: var(--ink-muted);
+  --text-subtle: #7A8CA3;
+  --bg-elev: var(--surface);
+  --bg-soft: var(--bg-alt);
+  --border: var(--line);
+  --border-hover: var(--accent);
+  --accent-hover: #E5BC1B;
+  --accent-strong: #FFD21F;
+  --accent-text: #6FD3CB; /* Teal terang untuk teks di atas background gelap */
+  --shadow: 4px 4px 0 var(--shadow-hard);
 
-  /* Variabel Durasi & Easing */
+  --radius-card: 2px;
+  --radius-photo: 2px;
+  --radius-chip: 2px;
+
+  /* Durasi & Easing Snappy */
   --dur-fast: 150ms;
-  --dur-med: 300ms;
-  --dur-slow: 500ms;
+  --dur-med: 250ms;
+  --dur-slow: 400ms;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* --------------------------------------------------------------------------
-   DESIGN TOKENS: TEMA TERANG (AUDIT & REVISI MENYELURUH WCAG AA)
+   DESIGN TOKENS: TEMA TERANG (AUDIT WCAG AA)
    -------------------------------------------------------------------------- */
 [data-theme="light"],
 html.light {
-  --bg: #F4F7FB;
-  --bg-elev: #FFFFFF;
-  --bg-soft: #E8EEF5;
-  --text: #1B2733;
-  --text-muted: #4A5663;
-  --text-subtle: #64748B;
-  --border: #D5DEEA;
-  --border-hover: rgba(18, 118, 111, 0.5);
-  
-  --accent: #12766F;
-  --accent-hover: #0E5E58;
-  --accent-strong: #0B4E49;
-  --accent-text: #12766F; /* Kontras teks > 5.2:1 di atas background putih/terang */
-  --on-accent: #FFFFFF;
-  --chip-bg: rgba(18, 118, 111, 0.10);
-  --overlay: rgba(27, 39, 51, 0.75);
-  --focus: #12766F;
-  --shadow: 0 10px 30px -5px rgba(27, 39, 51, 0.08);
+  --bg: #F4F1E8;          /* Putih hangat poster */
+  --bg-alt: #EAE5D6;      /* Aksen krem vintage */
+  --surface: #FFFFFF;     /* Kartu putih bersih */
+  --ink: #10161F;         /* Teks hitam pekat */
+  --ink-muted: #4A5563;   /* Teks abu-abu terbaca */
+  --line: #10161F;        /* Garis tebal hitam tajam */
+  --shadow-hard: #10161F; /* Offset shadow hitam tajam */
+  --accent: #FFD21F;      /* Blok kuning bertenaga */
+  --on-accent: #10161F;   /* Teks hitam di atas kuning */
+  --accent-2: #0F6F69;    /* Teal gelap aman kontras WCAG > 5:1 */
+  --on-accent-2: #FFFFFF;
+  --focus: #10161F;
+  --overlay: rgba(244, 241, 232, 0.92);
+  --chip-bg: #EAE5D6;
 
-  --color-bg: var(--bg);
-  --color-surface: var(--bg-elev);
-  --color-surface-hover: var(--bg-soft);
-  --color-surface-card: var(--bg-elev);
-  --color-border: var(--border);
-  --color-border-hover: var(--border-hover);
-  --color-accent: var(--accent);
-  --color-accent-hover: var(--accent-hover);
-  --color-accent-light: var(--accent-text);
-  --color-accent-muted: var(--chip-bg);
-  --color-text-primary: var(--text);
-  --color-text-secondary: var(--text-muted);
-  --color-text-muted: var(--text-subtle);
+  /* Backward compatibility aliases */
+  --text: var(--ink);
+  --text-muted: var(--ink-muted);
+  --text-subtle: #6B7280;
+  --bg-elev: var(--surface);
+  --bg-soft: var(--bg-alt);
+  --border: var(--line);
+  --border-hover: var(--line);
+  --accent-hover: #E5BC1B;
+  --accent-strong: #10161F;
+  --accent-text: #0F6F69; /* Teal gelap aman untuk teks di atas background terang */
+  --shadow: 4px 4px 0 var(--shadow-hard);
+
+  --radius-card: 2px;
+  --radius-photo: 2px;
+  --radius-chip: 2px;
 }
 
 /* ==========================================================================
@@ -105,34 +98,48 @@ html.light {
 
 html {
   scroll-behavior: auto;
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background-color: var(--bg);
-  color: var(--text);
+  color: var(--ink);
   line-height: 1.6;
 }
 
 body {
   min-height: 100vh;
   background-color: var(--bg);
-  color: var(--text);
+  color: var(--ink);
   display: flex;
   flex-direction: column;
+  /* Pola halftone halus */
+  background-image: radial-gradient(var(--ink-muted) 0.65px, transparent 0.65px);
+  background-size: 20px 20px;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Space Grotesk', system-ui, sans-serif;
-  color: var(--text);
-  line-height: 1.25;
-  font-weight: 700;
+  font-family: 'Anton', Impact, sans-serif;
+  color: var(--ink);
+  line-height: 1.15;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-weight: 400;
 }
 
-/* Aksesibilitas: Focus ring yang tegas dan jelas */
+.font-anton {
+  font-family: 'Anton', Impact, sans-serif;
+}
+
+.font-marker {
+  font-family: 'Permanent Marker', cursive, sans-serif;
+}
+
+/* Aksesibilitas: Focus ring tegas tanpa blur */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 3px;
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
 }
 
 a {
@@ -140,91 +147,207 @@ a {
   text-decoration: none;
 }
 
-/* Kartu Tema Dinamis */
-.card-theme {
-  background-color: var(--bg-elev);
-  border: 1px solid var(--border);
+/* ==========================================================================
+   KOMPONEN DASAR GAYA "POSTER BERANI"
+   ========================================================================== */
+
+/* 1. Kartu Poster */
+.card-theme,
+.poster-card {
+  background-color: var(--surface);
+  border: 2.5px solid var(--line);
   border-radius: var(--radius-card);
-  box-shadow: var(--shadow);
+  box-shadow: 5px 5px 0 var(--shadow-hard);
+  transition: transform var(--dur-fast), box-shadow var(--dur-fast);
 }
 
-.card-theme:hover {
-  border-color: var(--border-hover);
+.poster-card-static {
+  background-color: var(--surface);
+  border: 2.5px solid var(--line);
+  border-radius: var(--radius-card);
+  box-shadow: 4px 4px 0 var(--shadow-hard);
 }
 
-/* Chip Keterampilan & Kategori */
-.chip-theme {
+.poster-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--shadow-hard);
+}
+
+/* 2. Chip Kotak */
+.chip-theme,
+.chip-poster {
   display: inline-flex;
   align-items: center;
-  padding: 4px 12px;
+  gap: 6px;
+  padding: 4px 10px;
   border-radius: var(--radius-chip);
+  font-family: 'Barlow', sans-serif;
   font-size: 0.8125rem;
-  font-weight: 600;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
   background-color: var(--chip-bg);
-  color: var(--accent-text);
-  border: 1px solid var(--border);
+  color: var(--ink);
+  border: 2px solid var(--line);
+  box-shadow: 2px 2px 0 var(--shadow-hard);
+  transition: transform var(--dur-fast), background-color var(--dur-fast), color var(--dur-fast);
 }
 
-/* Tombol Tema */
-.btn-primary {
+.chip-poster:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--shadow-hard);
+  background-color: var(--accent);
+  color: var(--on-accent);
+}
+
+/* 3. Tombol Poster */
+.btn-primary,
+.btn-poster-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   background-color: var(--accent);
   color: var(--on-accent);
-  font-weight: 600;
-  font-size: 0.9375rem;
-  padding: 10px 20px;
-  border-radius: 10px;
-  border: 1px solid transparent;
+  font-family: 'Anton', Impact, sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 10px 22px;
+  border-radius: 2px;
+  border: 2.5px solid var(--line);
+  box-shadow: 4px 4px 0 var(--shadow-hard);
   cursor: pointer;
+  transition: transform var(--dur-fast), box-shadow var(--dur-fast);
 }
 
-.btn-primary:hover {
-  background-color: var(--accent-hover);
+.btn-primary:hover,
+.btn-poster-primary:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--shadow-hard);
 }
 
-.btn-secondary {
+.btn-primary:active,
+.btn-poster-primary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--shadow-hard);
+}
+
+.btn-secondary,
+.btn-poster-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: var(--bg-elev);
-  color: var(--text);
-  font-weight: 600;
-  font-size: 0.9375rem;
-  padding: 10px 20px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
+  background-color: var(--surface);
+  color: var(--ink);
+  font-family: 'Anton', Impact, sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 10px 22px;
+  border-radius: 2px;
+  border: 2.5px solid var(--line);
+  box-shadow: 4px 4px 0 var(--shadow-hard);
   cursor: pointer;
+  transition: transform var(--dur-fast), box-shadow var(--dur-fast), background-color var(--dur-fast);
 }
 
-.btn-secondary:hover {
-  background-color: var(--bg-soft);
-  border-color: var(--border-hover);
+.btn-secondary:hover,
+.btn-poster-secondary:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--shadow-hard);
+  background-color: var(--bg-alt);
 }
 
-.btn-outline {
+.btn-secondary:active,
+.btn-poster-secondary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--shadow-hard);
+}
+
+.btn-outline,
+.btn-poster-outline {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  background-color: transparent;
-  color: var(--accent-text);
-  font-weight: 600;
-  font-size: 0.875rem;
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: 1.5px solid var(--accent);
+  background-color: var(--surface);
+  color: var(--ink);
+  font-family: 'Anton', Impact, sans-serif;
+  font-size: 0.9375rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  border-radius: 2px;
+  border: 2px solid var(--line);
+  box-shadow: 3px 3px 0 var(--shadow-hard);
   cursor: pointer;
+  transition: transform var(--dur-fast), box-shadow var(--dur-fast);
 }
 
-.btn-outline:hover {
+.btn-outline:hover,
+.btn-poster-outline:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--shadow-hard);
   background-color: var(--accent);
   color: var(--on-accent);
 }
 
+/* 4. Label Bernomor & Judul Bagian */
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  background-color: var(--surface);
+  border: 2px solid var(--line);
+  border-radius: 2px;
+  box-shadow: 3px 3px 0 var(--shadow-hard);
+  font-family: 'Anton', sans-serif;
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-family: 'Anton', Impact, sans-serif;
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink);
+  line-height: 1.05;
+}
+
+.title-highlight {
+  display: inline-block;
+  background-color: var(--accent);
+  color: var(--on-accent);
+  padding: 0 10px;
+  transform: rotate(-1.5deg);
+  box-shadow: 3px 3px 0 var(--shadow-hard);
+  margin-right: 4px;
+}
+
+/* Pemisah Diagonal Bagian */
+.section-diagonal {
+  position: relative;
+}
+
+.section-diagonal::after {
+  content: "";
+  position: absolute;
+  bottom: -16px;
+  left: 0;
+  width: 100%;
+  height: 16px;
+  background-color: var(--line);
+  clip-path: polygon(0 0, 100% 100%, 100% 0);
+  pointer-events: none;
+  opacity: 0.15;
+}
 /* ==========================================================================
    NAVBAR & STICKY HEADER
    ========================================================================== */
@@ -232,12 +355,12 @@ a {
   position: sticky;
   top: 0;
   z-index: 40;
-  background-color: var(--bg-elev);
-  border-bottom: 1px solid var(--border);
+  background-color: var(--surface);
+  border-bottom: 2.5px solid var(--line);
 }
 
 /* ==========================================================================
-   MODAL & LIGHTBOX STYLES
+   MODAL & LIGHTBOX STYLES (GAYA POSTER BERANI)
    ========================================================================== */
 .modal-overlay {
   display: none;
@@ -245,7 +368,7 @@ a {
   inset: 0;
   z-index: 50;
   background-color: var(--overlay);
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(4px);
   align-items: center;
   justify-content: center;
   padding: 16px;
@@ -257,8 +380,8 @@ a {
 }
 
 .modal-box {
-  background-color: var(--bg-elev);
-  border: 1px solid var(--border);
+  background-color: var(--surface);
+  border: 2.5px solid var(--line);
   border-radius: var(--radius-card);
   max-width: 900px;
   width: 100%;
@@ -266,7 +389,7 @@ a {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: var(--shadow);
+  box-shadow: 8px 8px 0 var(--shadow-hard);
 }
 
 .modal-header {
@@ -274,7 +397,8 @@ a {
   align-items: center;
   justify-content: space-between;
   padding: 16px 24px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 2.5px solid var(--line);
+  background-color: var(--bg-alt);
 }
 
 .modal-body {
@@ -288,7 +412,8 @@ a {
   justify-content: flex-end;
   gap: 12px;
   padding: 16px 24px;
-  border-top: 1px solid var(--border);
+  border-top: 2.5px solid var(--line);
+  background-color: var(--bg-alt);
 }
 
 /* Lightbox untuk Sertifikat */
@@ -298,7 +423,7 @@ a {
   inset: 0;
   z-index: 60;
   background-color: var(--overlay);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(6px);
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -316,34 +441,49 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 2.5px solid var(--line);
+  box-shadow: 8px 8px 0 var(--shadow-hard);
+  background-color: var(--surface);
 }
 
 .lightbox-img-wrapper img {
   max-width: 100%;
   max-height: 80vh;
   object-fit: contain;
-  border-radius: 8px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  display: block;
 }
 
 /* ==========================================================================
-   FOTO PROFIL FULL (PERBAIKAN 2: ASPECT RATIO 3:4 PORTRAIT)
+   FOTO HERO & TENTANG (GAYA POSTER BERANI, 3:4 UTUH)
    ========================================================================== */
+.hero-photo-container {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+}
+
+.hero-photo-bg-block {
+  position: absolute;
+  inset: 0;
+  background-color: var(--accent);
+  border: 2.5px solid var(--line);
+  transform: translate(14px, 14px) rotate(2.5deg);
+  z-index: 0;
+  pointer-events: none;
+}
+
 .hero-photo-wrapper {
   position: relative;
   aspect-ratio: 3 / 4;
   border-radius: var(--radius-photo);
   overflow: hidden;
-  background-color: var(--bg-elev);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
+  background-color: var(--surface);
+  border: 2.5px solid var(--line);
+  box-shadow: 6px 6px 0 var(--shadow-hard);
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.hero-photo-wrapper:hover {
-  border-color: var(--border-hover);
+  z-index: 1;
 }
 
 .hero-photo-img {
@@ -352,6 +492,68 @@ a {
   object-fit: cover;
   object-position: center top;
   display: block;
+}
+
+/* Foto Cutout Bagian Tentang */
+.about-photo-container {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.about-photo-bg-block {
+  position: absolute;
+  inset: 10% 4% 6% 4%;
+  background-color: var(--accent);
+  border: 2.5px solid var(--line);
+  transform: rotate(-3deg);
+  z-index: 0;
+}
+
+.about-photo-img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: contain;
+  object-position: center bottom;
+  display: block;
+  filter: drop-shadow(4px 4px 0 var(--shadow-hard));
+}
+
+/* Stiker Miring QR */
+.qr-sticker {
+  transform: rotate(3deg);
+  border: 2.5px solid var(--line);
+  box-shadow: 5px 5px 0 var(--shadow-hard);
+  background-color: var(--surface);
+  transition: transform var(--dur-fast);
+}
+
+.qr-sticker:hover {
+  transform: rotate(0deg) scale(1.02);
+}
+
+/* Marquee Baris Tak Berujung */
+.marquee-wrapper {
+  overflow: hidden;
+  position: relative;
+  border-top: 2.5px solid var(--line);
+  border-bottom: 2.5px solid var(--line);
+  background-color: var(--accent);
+  color: var(--on-accent);
+  padding: 12px 0;
+  font-family: 'Anton', Impact, sans-serif;
+  font-size: 1.125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  white-space: nowrap;
 }
 
 /* ==========================================================================

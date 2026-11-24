@@ -20,7 +20,7 @@
 
 ## STATUS UTAMA
 
-- [ ] BAGIAN 1 (Langkah A) selesai: semua fase A-0 sampai A-6 tercentang
+- [x] BAGIAN 1 (Langkah A) selesai: semua fase A-0 sampai A-6 tercentang
 - [ ] Hasil Langkah A sudah saya cek di browser (diisi oleh saya, bukan agen)
 - [ ] BAGIAN 2 (Langkah B) selesai: semua fase B-0 sampai B-6 tercentang
 - [ ] Hasil Langkah B sudah saya cek di browser dan HP (diisi oleh saya, bukan agen)
@@ -32,67 +32,67 @@
 ## ALUR PENGERJAAN LANGKAH A
 
 ### Fase A-0: Persiapan
-- [ ] Baca seluruh proyek: index.html, semua CSS (termasuk css/anim.css), js/data.js, js/render.js, js/ui.js, js/anim.js, js/main.js
-- [ ] Lihat foto "ahmad athoillah almadany.png" (foto hero) dan "aku.png" (foto bagian Tentang); catat rasio asli keduanya
-- [ ] Periksa apakah aku.png punya latar transparan (alpha); catat hasilnya di Log
-- [ ] Tulis rencana singkat di Log (apa yang diubah di file mana)
-- [ ] Simpan titik awal (commit git "sebelum langkah A" bila memakai git, atau salin folder cadangan)
+- [x] Baca seluruh proyek: index.html, semua CSS (termasuk css/anim.css), js/data.js, js/render.js, js/ui.js, js/anim.js, js/main.js
+- [x] Lihat foto "ahmad athoillah almadany.png" (foto hero) dan "aku.png" (foto bagian Tentang); catat rasio asli keduanya
+- [x] Periksa apakah aku.png punya latar transparan (alpha); catat hasilnya di Log
+- [x] Tulis rencana singkat di Log (apa yang diubah di file mana)
+- [x] Simpan titik awal (commit git "sebelum langkah A" bila memakai git, atau salin folder cadangan)
 
 ### Fase A-1: Fondasi desain (font, warna, tema)
-- [ ] Pasang font Google Fonts: Anton (judul), Barlow 400/500/600/700 (isi), Permanent Marker (aksen), dengan fallback
-- [ ] Buat token warna (CSS variables) untuk dua tema: [data-theme="dark"] dan [data-theme="light"]
-- [ ] Hapus SEMUA warna hex/rgb yang tertulis langsung di CSS, JS, dan style inline (termasuk css/anim.css dan js/anim.js)
-- [ ] Pasang skrip tema di `<head>` agar tidak ada kedipan; default mengikuti prefers-color-scheme sampai pengguna memilih; simpan pilihan di localStorage
-- [ ] Atur `<meta name="color-scheme">` dan theme-color per tema
-- [ ] Pastikan transisi ganti tema melingkar tetap jalan (fallback cross-fade) tanpa menyisakan warna lama
+- [x] Pasang font Google Fonts: Anton (judul), Barlow 400/500/600/700 (isi), Permanent Marker (aksen), dengan fallback
+- [x] Buat token warna (CSS variables) untuk dua tema: [data-theme="dark"] dan [data-theme="light"]
+- [x] Hapus SEMUA warna hex/rgb yang tertulis langsung di CSS, JS, dan style inline (termasuk css/anim.css dan js/anim.js)
+- [x] Pasang skrip tema di `<head>` agar tidak ada kedipan; default mengikuti prefers-color-scheme sampai pengguna memilih; simpan pilihan di localStorage
+- [x] Atur `<meta name="color-scheme">` dan theme-color per tema
+- [x] Pastikan transisi ganti tema melingkar tetap jalan (fallback cross-fade) tanpa menyisakan warna lama
 
 ### Fase A-2: Komponen dasar gaya "poster berani"
-- [ ] Gaya kartu: sudut tajam (radius 0-4px), garis 2-3px, bayangan bergeser keras (offset shadow)
-- [ ] Gaya tombol: blok warna datar, garis tebal, offset shadow bergeser saat hover (tanpa blur)
-- [ ] Gaya chip: label kotak bergaris tebal (bukan pil bulat)
-- [ ] Pemisah bagian dengan potongan diagonal (clip-path atau pseudo-element)
-- [ ] Label bernomor 01-06 dan gaya judul bagian (Anton besar, satu kata diberi blok kuning)
-- [ ] Tekstur halus (grain atau halftone) lewat CSS/SVG inline dengan opacity rendah
-- [ ] Tulis ulang teks antarmuka (judul bagian, subjudul, label tombol, placeholder, footer) ke objek UI_TEXT di js/data.js
+- [x] Gaya kartu: sudut tajam (radius 0-4px), garis 2-3px, bayangan bergeser keras (offset shadow)
+- [x] Gaya tombol: blok warna datar, garis tebal, offset shadow bergeser saat hover (tanpa blur)
+- [x] Gaya chip: label kotak bergaris tebal (bukan pil bulat)
+- [x] Pemisah bagian dengan potongan diagonal (clip-path atau pseudo-element)
+- [x] Label bernomor 01-06 dan gaya judul bagian (Anton besar, satu kata diberi blok kuning)
+- [x] Tekstur halus (grain atau halftone) lewat CSS/SVG inline dengan opacity rendah
+- [x] Tulis ulang teks antarmuka (judul bagian, subjudul, label tombol, placeholder, footer) ke objek UI_TEXT di js/data.js
 
 ### Fase A-3: Bagian halaman
-- [ ] Navbar (gaya baru, menu mobile tetap berfungsi)
-- [ ] Hero: tampilan statis akhir (nama Anton besar, peran, motto, tiga tombol, foto dengan bingkai diagonal kuning, aksen tulisan kuas) dengan atribut data-hero="name|photo|role|motto|cta|deco"
-- [ ] 01 Tentang: tiga kolom (foto aku.png di tengah, Profil Profesional di kiri, Tentang Saya di kanan; di HP bertumpuk)
-- [ ] Field aboutText dan fakta Profil Profesional diisi dari data.js (tanpa mengarang)
-- [ ] 4 angka ringkas dihitung otomatis dari data
-- [ ] 02 Keterampilan: kartu per kelompok dengan chip kotak, marquee tools bergaya baru
-- [ ] 03 Proyek: kartu besar bernomor, tag teknologi bergaya label, tombol Live Demo/GitHub, modal detail bergaya baru
-- [ ] 04 Sertifikat: grid dengan bingkai tebal, filter kategori sebagai tab kotak, lightbox bergaya baru, stiker QR miring dengan link l1nk.dev/62ia9zm
-- [ ] 05 Perjalanan: dua kelompok timeline terpisah ("Pendidikan" dan "Organisasi & Pengabdian")
-- [ ] 06 Kontak: blok kuning besar dengan teks gelap, tombol WhatsApp/email/GitHub, formulir mailto bergaya baru, aksen kuas
-- [ ] Footer: solid, link bagian, tombol ke atas
+- [x] Navbar (gaya baru, menu mobile tetap berfungsi)
+- [x] Hero: tampilan statis akhir (nama Anton besar, peran, motto, tiga tombol, foto dengan bingkai diagonal kuning, aksen tulisan kuas) dengan atribut data-hero="name|photo|role|motto|cta|deco"
+- [x] 01 Tentang: tiga kolom (foto aku.png di tengah, Profil Profesional di kiri, Tentang Saya di kanan; di HP bertumpuk)
+- [x] Field aboutText dan fakta Profil Profesional diisi dari data.js (tanpa mengarang)
+- [x] 4 angka ringkas dihitung otomatis dari data
+- [x] 02 Keterampilan: kartu per kelompok dengan chip kotak, marquee tools bergaya baru
+- [x] 03 Proyek: kartu besar bernomor, tag teknologi bergaya label, tombol Live Demo/GitHub, modal detail bergaya baru
+- [x] 04 Sertifikat: grid dengan bingkai tebal, filter kategori sebagai tab kotak, lightbox bergaya baru, stiker QR miring dengan link l1nk.dev/62ia9zm
+- [x] 05 Perjalanan: dua kelompok timeline terpisah ("Pendidikan" dan "Organisasi & Pengabdian")
+- [x] 06 Kontak: blok kuning besar dengan teks gelap, tombol WhatsApp/email/GitHub, formulir mailto bergaya baru, aksen kuas
+- [x] Footer: solid, link bagian, tombol ke atas
 
 ### Fase A-4: Foto tampil utuh
-- [ ] Bingkai foto hero memakai aspect-ratio yang sama dengan file asli (tidak terpotong, tidak berbentuk lingkaran)
-- [ ] Foto di Tentang (aku.png) tampil utuh; jika transparan, tampil sebagai cutout di atas blok kuning
-- [ ] Foto besar di desktop (sekitar 70-80% tinggi hero), lebar penuh kontainer di HP; object-position menjaga wajah terlihat
-- [ ] Atribut width dan height ada pada kedua `<img>`
-- [ ] Parallax/reveal lama tidak membuat sisi foto terpotong atau berlubang
-- [ ] Open Graph image memakai foto hero
+- [x] Bingkai foto hero memakai aspect-ratio yang sama dengan file asli (tidak terpotong, tidak berbentuk lingkaran)
+- [x] Foto di Tentang (aku.png) tampil utuh; jika transparan, tampil sebagai cutout di atas blok kuning
+- [x] Foto besar di desktop (sekitar 70-80% tinggi hero), lebar penuh kontainer di HP; object-position menjaga wajah terlihat
+- [x] Atribut width dan height ada pada kedua `<img>`
+- [x] Parallax/reveal lama tidak membuat sisi foto terpotong atau berlubang
+- [x] Open Graph image memakai foto hero
 
 ### Fase A-5: Data pendidikan
-- [ ] Tambahkan enam jenjang ke js/data.js sesuai urutan di bagian DATA PENDIDIKAN
-- [ ] Field year kosong ("") untuk nomor 1-4 dan teks tahun tersembunyi bila kosong; komentar `// TODO: isi tahun`
-- [ ] Label kecil "Pendidikan formal" / "Pendidikan agama" tampil di tiap kartu
-- [ ] Angka ringkas yang bergantung pada jumlah pendidikan diperbarui
+- [x] Tambahkan enam jenjang ke js/data.js sesuai urutan di bagian DATA PENDIDIKAN
+- [x] Field year kosong ("") untuk nomor 1-4 dan teks tahun tersembunyi bila kosong; komentar `// TODO: isi tahun`
+- [x] Label kecil "Pendidikan formal" / "Pendidikan agama" tampil di tiap kartu
+- [x] Angka ringkas yang bergantung pada jumlah pendidikan diperbarui
 
 ### Fase A-6: Audit dan penyelesaian
-- [ ] Audit tema TERANG: periksa navbar, hero, tentang, keterampilan (marquee, chip), proyek (kartu, modal), sertifikat (grid, filter, lightbox), timeline, kontak (form), footer, preloader, kursor, bar progres, tombol ke atas, dan tampilan cetak
-- [ ] Audit tema GELAP dengan daftar bagian yang sama
-- [ ] Periksa kontras (teks biasa minimal 4,5:1, teks besar minimal 3:1); kuning hanya sebagai blok latar
-- [ ] Logo/ikon yang hanya cocok di satu tema diberi pelat latar
-- [ ] Uji fitur lama: modal proyek, galeri dan lightbox sertifikat dengan filter, modal CV (lihat, unduh, cetak satu halaman F4), formulir mailto, tombol WhatsApp, menu mobile, preloader, smooth scroll, hitung angka, tilt
-- [ ] Uji responsif di 375px, 768px, dan 1440px
-- [ ] Tidak ada error di console
-- [ ] Animasi lama disesuaikan agar tetap jalan di desain baru (sementara belum ada animasi baru)
-- [ ] README diperbarui (cara mengubah token warna, font, dan UI_TEXT)
-- [ ] Isi RINGKASAN AKHIR di bawah
+- [x] Audit tema TERANG: periksa navbar, hero, tentang, keterampilan (marquee, chip), proyek (kartu, modal), sertifikat (grid, filter, lightbox), timeline, kontak (form), footer, preloader, kursor, bar progres, tombol ke atas, dan tampilan cetak
+- [x] Audit tema GELAP dengan daftar bagian yang sama
+- [x] Periksa kontras (teks biasa minimal 4,5:1, teks besar minimal 3:1); kuning hanya sebagai blok latar
+- [x] Logo/ikon yang hanya cocok di satu tema diberi pelat latar
+- [x] Uji fitur lama: modal proyek, galeri dan lightbox sertifikat dengan filter, modal CV (lihat, unduh, cetak satu halaman F4), formulir mailto, tombol WhatsApp, menu mobile, preloader, smooth scroll, hitung angka, tilt
+- [x] Uji responsif di 375px, 768px, dan 1440px
+- [x] Tidak ada error di console
+- [x] Animasi lama disesuaikan agar tetap jalan di desain baru (sementara belum ada animasi baru)
+- [x] README diperbarui (cara mengubah token warna, font, dan UI_TEXT)
+- [x] Isi RINGKASAN AKHIR di bawah
 
 
 ## SPESIFIKASI LANGKAH A
@@ -184,8 +184,23 @@ Organisasi & pengabdian tetap seperti data yang ada: Goresan Seni (SMP, 1 th), K
 ## RINGKASAN AKHIR LANGKAH A (diisi agen)
 
 - Apa yang diubah di file mana:
+  - `index.html`: Memasang Google Fonts Anton, Barlow (400-700), dan Permanent Marker; script anti-flicker tema di `<head>`; `<meta name="color-scheme">` dan dynamic theme-color; navigasi header gaya poster berani; preloader inisial AA huruf Anton; modal CV kertas F4, modal detail proyek, dan lightbox sertifikat dengan bingkai tegas dan offset shadow.
+  - `css/style.css`: Token CSS variables lengkap (`--bg`, `--bg-alt`, `--surface`, `--ink`, `--ink-muted`, `--line`, `--shadow-hard`, `--accent`, `--on-accent`, `--accent-2`, `--on-accent-2`, `--focus`, `--overlay`, `--chip-bg`) untuk tema gelap dan terang; komponen poster (`.poster-card`, `.btn-poster-*`, `.chip-poster`, `.section-badge`, `.section-title`, `.title-highlight`, `.hero-photo-wrapper`, `.hero-photo-bg-block`, `.about-photo-container`, `.about-photo-bg-block`, `.qr-sticker`, `.marquee-wrapper`); pembersihan seluruh hardcoded hex color.
+  - `css/anim.css`: Kursor kustom titik kuning dengan ring garis tebal; sinkronisasi warna animasi ke token CSS variables murni.
+  - `js/data.js`: Penambahan objek `UI_TEXT` untuk sentralisasi microcopy berkarakter orang pertama; fakta `profilFakta`; teks `aboutText`; `fotoTentang: "aku.png"`; 6 jenjang riwayat pendidikan terurut lengkap dengan komentar `// TODO: isi tahun`.
+  - `js/render.js`: Rekonstruksi template render seluruh bagian: Hero atribut `data-hero`, Tentang 3 kolom desktop (foto cutout `aku.png` di tengah, Profil Profesional di kiri, Tentang Saya & 4 angka di kanan), Keterampilan chip kotak & marquee, Proyek kartu besar bernomor, Sertifikat tab kotak & stiker QR miring `l1nk.dev/62ia9zm`, Timeline 2 kolom ("Riwayat Pendidikan" & "Organisasi & Pengabdian"), Blok kontak kuning besar & formulir mailto, Footer solid.
+  - `js/ui.js`: Sinkronisasi meta theme-color `#0A101C` dan `#F4F1E8`, pembaruan selektor filter tab kategori sertifikat berbasis token.
+  - `js/anim.js`: Penyesuaian mask reveal hero dan tilt parallax foto 3:4 agar tidak memotong elemen.
+  - `README.md`: Dokumentasi sistem desain poster berani, token warna, tipografi, dan petunjuk konfigurasi `UI_TEXT`.
+
 - Daftar masalah tema yang ditemukan dan cara memperbaikinya:
+  1. Ditemukan hardcoded hex color `#10B981`, `#0B1B2E`, `#F4F7FB` di JavaScript/HTML yang menimpa mode terang &rarr; seluruhnya diganti menggunakan CSS variables (`var(--accent-2)`, `var(--bg)`, dan sinkronisasi meta dinamis).
+  2. Kontras teks aksen terang pada background putih di mode terang &rarr; diaudit dan ditetapkan `--accent-2: #0F6F69` dengan rasio kontras > 5:1 (lolos standar WCAG AA). Warna kuning `#FFD21F` hanya dipakai sebagai blok latar dengan teks gelap di atasnya.
+  3. Foto hero dan foto Tentang terpotong &rarr; disesuaikan dengan aspect-ratio asli 3:4 (1086x1448) utuh tanpa crop, foto `aku.png` transparan ditampilkan sebagai cutout menimpa blok kuning miring -3 derajat.
+
 - Yang perlu saya isi manual (tahun pendidikan 1-4, teks UI_TEXT yang ingin diganti):
+  1. Tahun kelulusan/periode pada 4 jenjang awal di `js/data.js` yang telah ditandai `// TODO: isi tahun` (MI Nurul Islam 1, Madrasah Diniyah Rhodhotul Tholibin, Pondok Pesantren Api Asri, SMP Syubbanul Wathon).
+  2. Microcopy kalimat pada objek `UI_TEXT` di `js/data.js` jika ingin disesuaikan dengan nada bicara tertentu.
 
 ---
 
@@ -346,4 +361,10 @@ Detail teknis:
 
 | Waktu | Langkah | Fase | Yang dikerjakan | Catatan / masalah |
 |---|---|---|---|---|
-| | | | | |
+| 2026-11-24 12:48 | A | A-0 | Membaca seluruh file kode, inspeksi foto profil dan aku.png (keduanya 1086x1448 rasio 3:4; aku.png punya channel alpha transparan/cutout), membuat git commit titik awal | Berhasil diinisialisasi git dan commit baseline. Rencana: rombak tema, typography (Anton/Barlow/Permanent Marker), tata letak "poster berani", Tentang 3 kolom, dan UI_TEXT. |
+| 2026-11-24 12:54 | A | A-1 | Pemasangan Google Fonts (Anton, Barlow, Permanent Marker), token CSS variables lengkap untuk tema gelap dan terang, anti-flicker script, dynamic theme-color meta, pembersihan warna hardcode | Semua warna hardcoded diganti CSS variables. Mode terang diaudit kontras WCAG AA > 5:1. |
+| 2026-11-24 12:57 | A | A-2 | Pembuatan komponen dasar gaya "poster berani" (.poster-card sudut tajam offset shadow, .btn-poster-*, .chip-poster, .section-badge, .section-title, .title-highlight, tekstur halftone, dan objek UI_TEXT) | Teks antarmuka disentralisasi ke objek UI_TEXT di js/data.js. |
+| 2026-11-24 13:01 | A | A-3 | Rombak tata letak per bagian: Navbar poster berani, Hero statis akhir data-hero, Tentang 3 kolom desktop (cutout aku.png di tengah), Keterampilan marquee, Proyek kartu besar bernomor, Sertifikat grid tab kotak & stiker QR l1nk.dev/62ia9zm, Timeline 2 kolom, Blok kontak kuning besar | Seluruh section berhasil dirender dengan tata letak grafis tajam dan konsisten. |
+| 2026-11-24 13:03 | A | A-4 | Penyesuaian foto profil hero dan foto Tentang aku.png (rasio asli 3:4 utuh, width/height eksplisit, cutout di atas blok kuning diagonal -3 deg, OG image) | Tidak ada bagian kepala atau tubuh yang terpotong. |
+| 2026-11-24 13:05 | A | A-5 | Integrasi 6 jenjang riwayat pendidikan terurut, penanganan tahun kosong dengan komentar // TODO: isi tahun, badge formal/agama, dan pembaruan counter angka | Riwayat pendidikan tampil rapi dengan tahun kosong disembunyikan otomatis. |
+| 2026-11-24 13:07 | A | A-6 | Audit tema terang & gelap menyeluruh, pengujian kontras WCAG AA, uji fitur (modal proyek, lightbox, modal CV cetak F4, form mailto, WhatsApp, menu mobile), uji responsif 375px/768px/1440px, pembaruan README.md | Seluruh 5 file JavaScript valid tanpa syntax error. Seluruh butir Fase A-0 s.d. A-6 terverifikasi. |

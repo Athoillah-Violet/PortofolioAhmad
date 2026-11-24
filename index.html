@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="dark light">
-  <meta name="theme-color" id="theme-color-meta" content="#0B1B2E">
+  <meta name="theme-color" id="theme-color-meta" content="#0A101C">
   <title>Ahmad Athoillah Almadany | Web Developer &amp; Mahasiswa Informatika UPGRIS</title>
   
   <!-- Anti-Flicker (Mencegah kedipan tema saat halaman dimuat) -->
@@ -40,12 +40,12 @@
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
 
-  <!-- Google Fonts: Space Grotesk (Judul) & Inter (Isi) -->
+  <!-- Google Fonts: Anton (Judul), Barlow (Isi), Permanent Marker (Aksen Kuas) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Permanent+Marker&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS CDN (Pinned 3.4.1) dengan Mapping ke CSS Variables -->
+  <!-- Tailwind CSS CDN (Pinned 3.4.1) dengan Mapping ke CSS Variables "Poster Berani" -->
   <script src="https://cdn.tailwindcss.com/3.4.1"></script>
   <script>
     tailwind.config = {
@@ -54,18 +54,22 @@
         extend: {
           colors: {
             brand: {
-              darkBg: 'var(--bg)',
-              darkSurface: 'var(--bg-elev)',
-              darkCard: 'var(--bg-soft)',
+              bg: 'var(--bg)',
+              bgAlt: 'var(--bg-alt)',
+              surface: 'var(--surface)',
+              ink: 'var(--ink)',
+              inkMuted: 'var(--ink-muted)',
+              line: 'var(--line)',
               accent: 'var(--accent)',
-              accentLight: 'var(--accent-text)',
-              lightBg: 'var(--bg-soft)',
-              darkText: 'var(--text)'
+              onAccent: 'var(--on-accent)',
+              accent2: 'var(--accent-2)',
+              onAccent2: 'var(--on-accent-2)'
             }
           },
           fontFamily: {
-            heading: ['"Space Grotesk"', 'sans-serif'],
-            body: ['"Inter"', 'sans-serif']
+            heading: ['"Anton"', 'Impact', 'sans-serif'],
+            body: ['"Barlow"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+            marker: ['"Permanent Marker"', 'cursive', 'sans-serif']
           }
         }
       }
@@ -96,13 +100,11 @@
     <div class="preloader-curtain-top"></div>
     <div class="preloader-curtain-bottom"></div>
     <div class="preloader-content">
-      <!-- Monogram AA Bergaris Menggambar Diri -->
-      <svg class="preloader-logo-svg w-20 h-20 text-[var(--accent-text)]" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="8" y="8" width="84" height="84" rx="20" stroke="var(--accent)" stroke-width="2.5" />
-        <path d="M 28 66 L 38 32 L 48 66 M 32 54 L 44 54" stroke="var(--accent-text)" />
-        <path d="M 52 66 L 62 32 L 72 66 M 56 54 L 68 54" stroke="var(--accent)" />
-      </svg>
-      <div id="preloader-counter" class="preloader-counter">0%</div>
+      <!-- Inisial AA Huruf Anton Poster Berani -->
+      <div class="w-20 h-20 bg-[var(--accent)] text-[var(--on-accent)] border-4 border-[var(--line)] shadow-[6px_6px_0_var(--shadow-hard)] flex items-center justify-center font-anton text-4xl -rotate-2">
+        AA
+      </div>
+      <div id="preloader-counter" class="preloader-counter font-anton text-xl tracking-widest text-[var(--ink)] mt-2">0%</div>
     </div>
   </div>
 
@@ -114,62 +116,62 @@
   </div>
 
   <!-- ========================================================================
-       NAVIGASI ATAS (STICKY HEADER)
+       NAVIGASI ATAS (STICKY HEADER GAYA POSTER BERANI)
        ======================================================================== -->
   <header class="site-header sticky top-0 z-40 w-full" data-section="navbar">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       <!-- Logo / Inisial -->
       <a href="#hero" class="flex items-center gap-3 group" aria-label="Beranda Ahmad Athoillah Almadany">
-        <span class="w-10 h-10 rounded-xl bg-[var(--chip-bg)] border border-[var(--border)] flex items-center justify-center font-heading font-bold text-[var(--accent-text)] text-base group-hover:bg-[var(--accent)] group-hover:text-[var(--on-accent)] transition-colors">
+        <span class="w-10 h-10 bg-[var(--accent)] text-[var(--on-accent)] border-2 border-[var(--line)] shadow-[3px_3px_0_var(--shadow-hard)] flex items-center justify-center font-anton text-lg group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform">
           AA
         </span>
         <div class="flex flex-col">
-          <span class="font-heading font-bold text-base tracking-tight leading-tight text-[var(--text)]">Ahmad Athoillah</span>
-          <span class="text-xs text-[var(--accent-text)] leading-tight font-medium">Web Developer</span>
+          <span class="font-anton text-lg tracking-wide leading-none text-[var(--ink)]">Ahmad Athoillah</span>
+          <span class="text-[11px] text-[var(--accent-text)] uppercase font-bold tracking-wider leading-tight mt-0.5">Web Developer</span>
         </div>
       </a>
 
       <!-- Menu Desktop -->
-      <nav class="hidden md:flex items-center gap-1 lg:gap-2" aria-label="Menu Navigasi Utama">
-        <a href="#tentang" class="px-3 py-2 text-sm font-medium text-[var(--text-muted)] hover:text-[var(--accent-text)] rounded-md">Tentang</a>
-        <a href="#skill" class="px-3 py-2 text-sm font-medium text-[var(--text-muted)] hover:text-[var(--accent-text)] rounded-md">Keterampilan</a>
-        <a href="#proyek" class="px-3 py-2 text-sm font-medium text-[var(--text-muted)] hover:text-[var(--accent-text)] rounded-md">Proyek</a>
-        <a href="#sertifikat" class="px-3 py-2 text-sm font-medium text-[var(--text-muted)] hover:text-[var(--accent-text)] rounded-md">Sertifikat</a>
-        <a href="#timeline" class="px-3 py-2 text-sm font-medium text-[var(--text-muted)] hover:text-[var(--accent-text)] rounded-md">Pendidikan &amp; Organisasi</a>
-        <a href="#kontak" class="px-3 py-2 text-sm font-medium text-[var(--text-muted)] hover:text-[var(--accent-text)] rounded-md">Kontak</a>
+      <nav class="hidden md:flex items-center gap-2 lg:gap-3" aria-label="Menu Navigasi Utama">
+        <a href="#tentang" class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[var(--ink-muted)] hover:text-[var(--ink)] hover:bg-[var(--bg-alt)] border border-transparent hover:border-[var(--line)] transition-colors">Tentang</a>
+        <a href="#skill" class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[var(--ink-muted)] hover:text-[var(--ink)] hover:bg-[var(--bg-alt)] border border-transparent hover:border-[var(--line)] transition-colors">Keterampilan</a>
+        <a href="#proyek" class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[var(--ink-muted)] hover:text-[var(--ink)] hover:bg-[var(--bg-alt)] border border-transparent hover:border-[var(--line)] transition-colors">Proyek</a>
+        <a href="#sertifikat" class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[var(--ink-muted)] hover:text-[var(--ink)] hover:bg-[var(--bg-alt)] border border-transparent hover:border-[var(--line)] transition-colors">Sertifikat</a>
+        <a href="#timeline" class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[var(--ink-muted)] hover:text-[var(--ink)] hover:bg-[var(--bg-alt)] border border-transparent hover:border-[var(--line)] transition-colors">Perjalanan</a>
+        <a href="#kontak" class="px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-[var(--ink-muted)] hover:text-[var(--ink)] hover:bg-[var(--bg-alt)] border border-transparent hover:border-[var(--line)] transition-colors">Kontak</a>
       </nav>
 
       <!-- Tombol Aksi & Toggle Tema -->
       <div class="flex items-center gap-2 sm:gap-3">
         <!-- Tombol Buka Modal CV di Navbar -->
-        <button id="btn-nav-cv" type="button" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-[var(--chip-bg)] border border-[var(--border)] text-[var(--accent-text)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] transition-colors" aria-label="Lihat Curriculum Vitae">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        <button id="btn-nav-cv" type="button" class="hidden sm:inline-flex items-center gap-1.5 btn-poster-secondary text-xs py-1.5 px-3" aria-label="Lihat Curriculum Vitae">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
           Lihat CV
         </button>
 
         <!-- Toggle Mode Gelap / Terang -->
-        <button id="theme-toggle-btn" type="button" class="p-2 rounded-lg card-theme text-[var(--text-muted)] hover:text-[var(--text)] focus:outline-none" aria-label="Ganti Tema Terang/Gelap" title="Ganti Tema">
-          <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-          <svg id="moon-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        <button id="theme-toggle-btn" type="button" class="p-2 border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] bg-[var(--surface)] text-[var(--ink)] hover:bg-[var(--bg-alt)] cursor-pointer" aria-label="Ganti Tema Terang/Gelap" title="Ganti Tema">
+          <svg id="sun-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <svg id="moon-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
         </button>
 
         <!-- Hamburger Menu Button Mobile -->
-        <button id="mobile-menu-btn" type="button" class="md:hidden p-2 rounded-lg card-theme text-[var(--text-muted)] hover:text-[var(--text)]" aria-expanded="false" aria-controls="mobile-menu" aria-label="Buka Menu Navigasi">
-          <svg id="hamburger-open-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-          <svg id="hamburger-close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        <button id="mobile-menu-btn" type="button" class="md:hidden p-2 border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] bg-[var(--surface)] text-[var(--ink)]" aria-expanded="false" aria-controls="mobile-menu" aria-label="Buka Menu Navigasi">
+          <svg id="hamburger-open-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+          <svg id="hamburger-close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
     </div>
 
     <!-- Panel Menu Mobile -->
-    <div id="mobile-menu" class="hidden md:hidden border-b border-[var(--border)] bg-[var(--bg-elev)] px-4 pt-2 pb-4 space-y-1">
-      <a href="#tentang" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--chip-bg)] hover:text-[var(--accent-text)]">Tentang</a>
-      <a href="#skill" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--chip-bg)] hover:text-[var(--accent-text)]">Keterampilan</a>
-      <a href="#proyek" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--chip-bg)] hover:text-[var(--accent-text)]">Proyek</a>
-      <a href="#sertifikat" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--chip-bg)] hover:text-[var(--accent-text)]">Sertifikat</a>
-      <a href="#timeline" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--chip-bg)] hover:text-[var(--accent-text)]">Pendidikan &amp; Organisasi</a>
-      <a href="#kontak" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-[var(--text)] hover:bg-[var(--chip-bg)] hover:text-[var(--accent-text)]">Kontak</a>
-      <button id="btn-mobile-cv" type="button" class="w-full mt-2 text-left block px-3 py-2 rounded-md text-base font-medium text-[var(--accent-text)] bg-[var(--chip-bg)] border border-[var(--border)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)]">
+    <div id="mobile-menu" class="hidden md:hidden border-b-2 border-[var(--line)] bg-[var(--surface)] px-4 pt-3 pb-5 space-y-2 shadow-[0_6px_0_var(--shadow-hard)]">
+      <a href="#tentang" class="mobile-nav-link block px-3 py-2 text-sm font-bold uppercase tracking-wider text-[var(--ink)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] border-2 border-transparent hover:border-[var(--line)]">Tentang</a>
+      <a href="#skill" class="mobile-nav-link block px-3 py-2 text-sm font-bold uppercase tracking-wider text-[var(--ink)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] border-2 border-transparent hover:border-[var(--line)]">Keterampilan</a>
+      <a href="#proyek" class="mobile-nav-link block px-3 py-2 text-sm font-bold uppercase tracking-wider text-[var(--ink)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] border-2 border-transparent hover:border-[var(--line)]">Proyek</a>
+      <a href="#sertifikat" class="mobile-nav-link block px-3 py-2 text-sm font-bold uppercase tracking-wider text-[var(--ink)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] border-2 border-transparent hover:border-[var(--line)]">Sertifikat</a>
+      <a href="#timeline" class="mobile-nav-link block px-3 py-2 text-sm font-bold uppercase tracking-wider text-[var(--ink)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] border-2 border-transparent hover:border-[var(--line)]">Perjalanan</a>
+      <a href="#kontak" class="mobile-nav-link block px-3 py-2 text-sm font-bold uppercase tracking-wider text-[var(--ink)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] border-2 border-transparent hover:border-[var(--line)]">Kontak</a>
+      <button id="btn-mobile-cv" type="button" class="w-full mt-2 btn-poster-primary text-xs py-2.5">
         Lihat CV
       </button>
     </div>
@@ -245,33 +247,33 @@
     <div class="modal-box max-w-4xl">
       <div class="modal-header">
         <div class="flex items-center gap-3">
-          <span class="w-8 h-8 rounded-lg bg-[var(--chip-bg)] border border-[var(--border)] flex items-center justify-center text-[var(--accent-text)]">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          <span class="w-8 h-8 bg-[var(--accent)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] flex items-center justify-center text-[var(--on-accent)]">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
           </span>
           <div>
-            <h3 id="cv-modal-title" class="text-lg font-heading font-bold text-[var(--text)]">Curriculum Vitae</h3>
-            <p class="text-xs text-[var(--text-muted)]">Format cetak resmi ukuran F4 (215 mm x 330 mm)</p>
+            <h3 id="cv-modal-title" class="text-xl font-anton tracking-wide text-[var(--ink)]">Curriculum Vitae</h3>
+            <p class="text-xs font-bold uppercase tracking-wider text-[var(--ink-muted)]">Format cetak resmi ukuran F4 (215 mm x 330 mm)</p>
           </div>
         </div>
-        <button id="btn-close-cv-modal" type="button" class="p-2 text-[var(--text-muted)] hover:text-[var(--text)] rounded-lg card-theme" aria-label="Tutup modal CV">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        <button id="btn-close-cv-modal" type="button" class="p-2 text-[var(--ink)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] cursor-pointer" aria-label="Tutup modal CV">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
 
       <div class="modal-body flex justify-center bg-[var(--bg)] py-6">
-        <div class="max-w-xl w-full border border-[var(--border)] rounded-lg shadow-xl overflow-hidden bg-white">
+        <div class="max-w-xl w-full border-2 border-[var(--line)] shadow-[6px_6px_0_var(--shadow-hard)] overflow-hidden bg-white">
           <img id="cv-preview-img" src="assets/img/print-cv.png" alt="Pratinjau CV Ahmad Athoillah Almadany" class="w-full h-auto block" loading="lazy">
         </div>
       </div>
 
       <div class="modal-footer flex-wrap">
-        <a id="btn-download-cv" href="assets/img/print-cv.png" download="CV-Ahmad-Athoillah-Almadany.png" class="btn-secondary text-sm">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-          Unduh CV
+        <a id="btn-download-cv" href="assets/img/print-cv.png" download="CV-Ahmad-Athoillah-Almadany.png" class="btn-poster-secondary text-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+          Unduh Berkas CV
         </a>
-        <button id="btn-print-cv" type="button" class="btn-primary text-sm">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-          Cetak CV (Kertas F4)
+        <button id="btn-print-cv" type="button" class="btn-poster-primary text-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+          Cetak CV (Lembar F4)
         </button>
       </div>
     </div>
@@ -284,36 +286,36 @@
     <div class="modal-box max-w-3xl">
       <div class="modal-header">
         <div>
-          <span id="project-modal-role" class="text-xs font-mono font-bold text-[var(--accent-text)] uppercase tracking-wider block"></span>
-          <h3 id="project-modal-title" class="text-xl font-heading font-bold text-[var(--text)]"></h3>
+          <span id="project-modal-role" class="text-xs font-bold text-[var(--accent-text)] uppercase tracking-wider block"></span>
+          <h3 id="project-modal-title" class="text-2xl font-anton tracking-wide text-[var(--ink)]"></h3>
         </div>
-        <button id="btn-close-project-modal" type="button" class="p-2 text-[var(--text-muted)] hover:text-[var(--text)] rounded-lg card-theme" aria-label="Tutup detail proyek">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        <button id="btn-close-project-modal" type="button" class="p-2 text-[var(--ink)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] cursor-pointer" aria-label="Tutup detail proyek">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
 
       <div class="modal-body space-y-6">
-        <div id="project-modal-gallery" class="rounded-xl overflow-hidden border border-[var(--border)] bg-[var(--bg-soft)]"></div>
+        <div id="project-modal-gallery" class="overflow-hidden border-2 border-[var(--line)] bg-[var(--bg-alt)] shadow-[4px_4px_0_var(--shadow-hard)]"></div>
 
         <div>
-          <h4 class="text-sm font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-2 font-heading">Deskripsi Proyek</h4>
-          <p id="project-modal-desc" class="text-sm sm:text-base text-[var(--text)] leading-relaxed"></p>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[var(--ink-muted)] mb-2 font-anton">Deskripsi Proyek</h4>
+          <p id="project-modal-desc" class="text-sm sm:text-base text-[var(--ink)] leading-relaxed font-medium"></p>
         </div>
 
         <div>
-          <h4 class="text-sm font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-2 font-heading">Teknologi &amp; Alat</h4>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-[var(--ink-muted)] mb-2 font-anton">Teknologi Digunakan</h4>
           <div id="project-modal-tags" class="flex flex-wrap gap-2"></div>
         </div>
       </div>
 
       <div class="modal-footer">
-        <a id="project-modal-github" href="#" target="_blank" rel="noopener noreferrer" class="btn-secondary text-sm hidden">
+        <a id="project-modal-github" href="#" target="_blank" rel="noopener noreferrer" class="btn-poster-secondary text-sm hidden">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
-          Buka GitHub
+          Kode Sumber
         </a>
-        <a id="project-modal-live" href="#" target="_blank" rel="noopener noreferrer" class="btn-primary text-sm hidden">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-          Kunjungi Live Demo
+        <a id="project-modal-live" href="#" target="_blank" rel="noopener noreferrer" class="btn-poster-primary text-sm hidden">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+          Live Demo
         </a>
       </div>
     </div>
@@ -323,26 +325,26 @@
        LIGHTBOX FOTO SERTIFIKAT
        ======================================================================== -->
   <div id="certificate-lightbox" class="lightbox-container" role="dialog" aria-modal="true" aria-label="Tampilan Besar Sertifikat">
-    <button id="btn-close-lightbox" type="button" class="absolute top-4 right-4 sm:top-6 sm:right-6 p-3 rounded-full bg-[var(--bg-elev)] text-[var(--text)] border border-[var(--border)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] z-50 focus:outline-none" aria-label="Tutup lightbox (Esc)">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    <button id="btn-close-lightbox" type="button" class="absolute top-4 right-4 sm:top-6 sm:right-6 p-3 bg-[var(--surface)] text-[var(--ink)] border-2 border-[var(--line)] shadow-[3px_3px_0_var(--shadow-hard)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] z-50 focus:outline-none cursor-pointer" aria-label="Tutup lightbox (Esc)">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
     </button>
 
-    <button id="btn-prev-lightbox" type="button" class="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-[var(--bg-elev)] text-[var(--text)] border border-[var(--border)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] z-50 focus:outline-none" aria-label="Sertifikat sebelumnya (Panah Kiri)">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+    <button id="btn-prev-lightbox" type="button" class="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 p-3 bg-[var(--surface)] text-[var(--ink)] border-2 border-[var(--line)] shadow-[3px_3px_0_var(--shadow-hard)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] z-50 focus:outline-none cursor-pointer" aria-label="Sertifikat sebelumnya (Panah Kiri)">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
     </button>
 
     <div class="lightbox-img-wrapper">
       <img id="lightbox-img" src="" alt="Pratinjau Sertifikat" width="1200" height="850">
     </div>
 
-    <button id="btn-next-lightbox" type="button" class="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-[var(--bg-elev)] text-[var(--text)] border border-[var(--border)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] z-50 focus:outline-none" aria-label="Sertifikat berikutnya (Panah Kanan)">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+    <button id="btn-next-lightbox" type="button" class="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 p-3 bg-[var(--surface)] text-[var(--ink)] border-2 border-[var(--line)] shadow-[3px_3px_0_var(--shadow-hard)] hover:bg-[var(--accent)] hover:text-[var(--on-accent)] z-50 focus:outline-none cursor-pointer" aria-label="Sertifikat berikutnya (Panah Kanan)">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
     </button>
 
-    <div class="mt-4 text-center max-w-2xl px-4">
-      <div id="lightbox-badge" class="inline-block chip-theme mb-2 text-xs"></div>
-      <h3 id="lightbox-title" class="text-base sm:text-lg font-heading font-bold text-[var(--text)] mb-1"></h3>
-      <p id="lightbox-meta" class="text-xs sm:text-sm text-[var(--text-muted)]"></p>
+    <div class="mt-5 text-center max-w-2xl px-4">
+      <div id="lightbox-badge" class="inline-block chip-poster mb-2 text-xs"></div>
+      <h3 id="lightbox-title" class="font-anton text-lg sm:text-xl text-[var(--ink)] mb-1"></h3>
+      <p id="lightbox-meta" class="text-xs sm:text-sm font-semibold text-[var(--ink-muted)]"></p>
     </div>
   </div>
 

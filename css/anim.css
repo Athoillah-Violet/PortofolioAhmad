@@ -109,7 +109,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   4. KURSOR KUSTOM (Desktop Pointer Halus Saja)
+   4. KURSOR KUSTOM (Titik Kuning dengan Cincin Garis Tebal)
    -------------------------------------------------------------------------- */
 @media (hover: hover) and (pointer: fine) {
   #custom-cursor-dot,
@@ -125,16 +125,16 @@
   }
 
   #custom-cursor-dot {
-    width: 6px;
-    height: 6px;
-    background-color: var(--accent-text);
+    width: 7px;
+    height: 7px;
+    background-color: var(--accent);
     transition: transform var(--dur-fast) var(--ease), background-color var(--dur-fast);
   }
 
   #custom-cursor-ring {
-    width: 36px;
-    height: 36px;
-    border: 1.5px solid var(--border-hover);
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--line);
     background-color: transparent;
     transition: width var(--dur-fast) var(--ease),
                 height var(--dur-fast) var(--ease),
@@ -144,15 +144,15 @@
 
   /* Status Aktif Saat Hover Elemen Interaktif */
   body.cursor-active #custom-cursor-dot {
-    transform: translate(-50%, -50%) scale(0.4);
+    transform: translate(-50%, -50%) scale(0.5);
     background-color: var(--accent);
   }
 
   body.cursor-active #custom-cursor-ring {
-    width: 52px;
-    height: 52px;
+    width: 46px;
+    height: 46px;
     border-color: var(--accent);
-    background-color: var(--chip-bg);
+    background-color: transparent;
   }
 
   body.cursor-click #custom-cursor-ring {

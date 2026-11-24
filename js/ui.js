@@ -36,13 +36,13 @@ const PortfolioUI = {
         rootHtml.classList.add('light');
         if (sunIcon) sunIcon.classList.remove('hidden');
         if (moonIcon) moonIcon.classList.add('hidden');
-        if (themeColorMeta) themeColorMeta.setAttribute('content', '#F4F7FB');
+        if (themeColorMeta) themeColorMeta.setAttribute('content', '#F4F1E8');
       } else {
         rootHtml.classList.remove('light');
         rootHtml.classList.add('dark');
         if (sunIcon) sunIcon.classList.add('hidden');
         if (moonIcon) moonIcon.classList.remove('hidden');
-        if (themeColorMeta) themeColorMeta.setAttribute('content', '#0B1B2E');
+        if (themeColorMeta) themeColorMeta.setAttribute('content', '#0A101C');
       }
 
       if (saveExplicit) {
@@ -339,11 +339,11 @@ const PortfolioUI = {
         const filter = btn.getAttribute('data-filter');
 
         filterButtons.forEach(b => {
-          b.classList.remove('bg-[var(--accent)]', 'text-[var(--on-accent)]', 'border-[var(--accent)]');
-          b.classList.add('card-theme', 'text-[var(--text-muted)]', 'border-[var(--border)]');
+          b.classList.remove('bg-[var(--accent)]', 'text-[var(--on-accent)]');
+          b.classList.add('bg-[var(--surface)]', 'text-[var(--ink)]');
         });
-        btn.classList.add('bg-[var(--accent)]', 'text-[var(--on-accent)]', 'border-[var(--accent)]');
-        btn.classList.remove('card-theme', 'text-[var(--text-muted)]', 'border-[var(--border)]');
+        btn.classList.add('bg-[var(--accent)]', 'text-[var(--on-accent)]');
+        btn.classList.remove('bg-[var(--surface)]', 'text-[var(--ink)]');
 
         const matchedIndices = [];
         certCards.forEach(card => {

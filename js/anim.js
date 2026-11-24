@@ -237,37 +237,10 @@ const PortfolioAnim = {
 
   // 4. Injeksi & Animasi Marquee Keterampilan
   initSkillMarquee() {
-    const skillContainer = document.getElementById('skill-container');
-    if (!skillContainer) return;
-
-    let allSkills = [];
-    if (window.portfolioData && window.portfolioData.keterampilan) {
-      window.portfolioData.keterampilan.forEach(cat => {
-        allSkills = allSkills.concat(cat.items);
-      });
-    }
-
-    if (allSkills.length === 0) return;
-
-    const duplicatedSkills = [...allSkills, ...allSkills];
-
-    const marqueeEl = document.createElement('div');
-    marqueeEl.className = 'marquee-container my-8';
-    marqueeEl.setAttribute('aria-hidden', 'true');
-    marqueeEl.innerHTML = `
-      <div class="marquee-track">
-        ${duplicatedSkills.map(skill => `
-          <div class="marquee-item">
-            <span class="w-2 h-2 rounded-full bg-[var(--accent)]"></span>
-            <span>${skill}</span>
-          </div>
-        `).join('')}
-      </div>
-    `;
-
-    const grid = skillContainer.querySelector('.grid');
-    if (grid) {
-      grid.parentNode.insertBefore(marqueeEl, grid);
+    const existingMarquee = document.querySelector('.marquee-wrapper');
+    if (existingMarquee) {
+      // Marquee sudah dirender rapi di bawah grid keterampilan
+      return;
     }
   },
 
@@ -280,40 +253,24 @@ const PortfolioAnim = {
     const shape1 = document.createElement('div');
     shape1.className = 'hero-floating-shape bg-[var(--accent)] w-72 h-72 -top-10 -left-10';
     const shape2 = document.createElement('div');
-    shape2.className = 'hero-floating-shape bg-[var(--accent-strong)] w-96 h-96 -bottom-20 -right-20';
+    shape2.className = 'hero-floating-shape bg-[var(--accent-2)] w-96 h-96 -bottom-20 -right-20';
     heroSection.appendChild(shape1);
     heroSection.appendChild(shape2);
-
-    const badgeCode = document.createElement('div');
-    badgeCode.className = 'hero-code-badge top-12 right-12 hidden lg:block';
-    badgeCode.textContent = '</> Clean Code';
-    heroSection.appendChild(badgeCode);
 
     if (typeof gsap !== 'undefined') {
       gsap.to(shape1, { y: 20, x: 10, duration: 6, repeat: -1, yoyo: true, ease: 'sine.inOut' });
       gsap.to(shape2, { y: -24, x: -12, duration: 8, repeat: -1, yoyo: true, ease: 'sine.inOut' });
-      gsap.to(badgeCode, { y: -10, duration: 3.5, repeat: -1, yoyo: true, ease: 'power1.inOut' });
     }
 
-    // Mask Reveal pada nama hero
-    const heading = heroSection.querySelector('h1');
+    // Mask Reveal halus pada nama hero tanpa merusak span badge kuning
+    const heading = heroSection.querySelector('h1[data-hero="name"]');
     if (heading && typeof gsap !== 'undefined') {
-      const originalText = heading.textContent.trim();
-      heading.setAttribute('aria-label', originalText);
-      const words = originalText.split(' ');
-      heading.innerHTML = words.map(word => `
-        <span class="mask-text-line" aria-hidden="true">
-          <span class="mask-text-inner">${word}&nbsp;</span>
-        </span>
-      `).join('');
-
-      const inners = heading.querySelectorAll('.mask-text-inner');
-      gsap.to(inners, {
-        y: '0%',
+      gsap.from(heading, {
+        y: 28,
+        opacity: 0,
         duration: 0.85,
-        stagger: 0.12,
         ease: 'power3.out',
-        delay: 0.2
+        delay: 0.15
       });
     }
 
@@ -328,13 +285,18 @@ const PortfolioAnim = {
           rotateY: x * 6,
           rotateX: -y * 6,
           transformPerspective: 1000,
-          duration: 0.5,
-          ease: 'power2.out'
+          ease: 'power1.out',
+          duration: 0.5
         });
       });
 
       heroSection.addEventListener('mouseleave', () => {
-        gsap.to(photoWrapper, { rotateY: 0, rotateX: 0, duration: 0.7, ease: 'power2.out' });
+        gsap.to(photoWrapper, {
+          rotateX: 0,
+          rotateY: 0,
+          ease: 'power2.out',
+          duration: 0.7
+        });
       });
     }
   },

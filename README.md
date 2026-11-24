@@ -176,9 +176,38 @@ const ANIM_CONFIG = {
 
 ---
 
-## 🎨 Token Desain & Mode Terang / Gelap (Tahap 3)
-Website kini menggunakan sistem token CSS kustom yang konsisten di `css/style.css`:
-- `[data-theme="dark"]` dan `[data-theme="light"]` dengan anti-flicker di `<head>` dan sinkronisasi `<meta name="theme-color">`.
-- Kontras teks pada mode terang telah diaudit memenuhi standar WCAG AA (rasio kontras teks aksen `#12766F` > 5:1 terhadap latar putih).
-- Foto profil ditampilkan utuh tanpa crop dengan rasio potret presisi 3:4 (`1086px x 1448px`).
-- Timeline dibagi menjadi dua kelompok terpisah yang rapi: **Riwayat Pendidikan** (lengkap dengan label formal/agama) dan **Organisasi & Pengabdian**.
+## 🎨 Sistem Desain: "Poster Berani" (Langkah A)
+Website kini menerapkan sistem desain poster berani grafis (*bold poster style*) tanpa gradien atau template klise:
+
+### 1. Tipografi (Google Fonts)
+- **Judul**: `Anton` (huruf kapital, tebal, rapat, impact visual tinggi).
+- **Teks Isi**: `Barlow` (bobot 400, 500, 600, 700, bersih dan mudah dibaca).
+- **Aksen Tulisan Tangan/Kuas**: `Permanent Marker` (dipakai hemat untuk aksen miring yang menonjol).
+
+### 2. Token Warna (CSS Variables di `css/style.css`)
+Dikelola penuh lewat token `:root`, `[data-theme="dark"]`, dan `[data-theme="light"]`:
+- `--bg`: `#0A101C` (gelap) / `#F4F1E8` (terang)
+- `--bg-alt`: `#0F1828` (gelap) / `#EAE5D6` (terang)
+- `--surface`: `#121D30` (gelap) / `#FFFFFF` (terang)
+- `--ink`: `#F2F5F9` (gelap) / `#10161F` (terang)
+- `--ink-muted`: `#A9B6C7` (gelap) / `#4A5563` (terang)
+- `--line`: `#F2F5F9` (gelap) / `#10161F` (terang, garis tebal kartu & tombol)
+- `--shadow-hard`: `#000000` (gelap) / `#10161F` (terang, bayangan bergeser keras tanpa blur)
+- `--accent`: `#FFD21F` (kuning pekat bertenaga)
+- `--on-accent`: `#0A101C` (gelap) / `#10161F` (terang)
+- `--accent-2`: `#1F9E96` (gelap) / `#0F6F69` (terang, teks aman WCAG AA > 5:1)
+
+### 3. Mengubah Microcopy Antarmuka (`UI_TEXT`)
+Buka `js/data.js` pada bagian `UI_TEXT` untuk mengubah teks antarmuka (judul bagian, subjudul, tombol, placeholder formulir, dan teks footer) tanpa mengubah kode logika rendering:
+```javascript
+window.portfolioData.UI_TEXT = {
+  hero: { ... },
+  tentang: { ... },
+  keterampilan: { ... },
+  proyek: { ... },
+  sertifikat: { ... },
+  timeline: { ... },
+  kontak: { ... },
+  footer: { ... }
+};
+```
