@@ -367,26 +367,32 @@ const PortfolioRenderer = {
                 </span>
               </div>
               
-              <div class="p-6">
+              <div class="p-6 proyek-card-body">
                 <div class="flex items-center gap-2 mb-2">
                   <span class="text-xs font-bold uppercase tracking-wider text-[var(--accent-text)]">${p.peran}</span>
                 </div>
                 <h3 class="font-anton text-2xl tracking-wide text-[var(--ink)] group-hover:text-[var(--accent)] transition-colors">
                   ${p.judul}
                 </h3>
-                <p class="mt-2 text-xs sm:text-sm text-[var(--ink-muted)] leading-relaxed font-medium">
+                <p class="project-desc-short mt-2 text-xs sm:text-sm text-[var(--ink-muted)] leading-relaxed font-medium">
                   ${p.deskripsiSingkat}
                 </p>
               </div>
             </div>
 
             <div class="p-6 pt-0">
-              <!-- Chip Teknologi Kotak -->
+              <!-- Chip Teknologi Kotak: max 3 chip + "+n" sisanya -->
               <div class="flex flex-wrap gap-1.5 mb-4">
-                ${p.teknologi.map(t => `<span class="chip-poster text-[11px] py-0.5 px-2">${t}</span>`).join('')}
+                ${(function() {
+                  const tags = p.teknologi;
+                  const maxTags = 3;
+                  const visible = tags.slice(0, maxTags).map(t => `<span class="chip-poster text-[11px] py-0.5 px-2">${t}</span>`).join('');
+                  const extra = tags.length > maxTags ? `<span class="chip-poster text-[11px] py-0.5 px-2">+${tags.length - maxTags}</span>` : '';
+                  return visible + extra;
+                })()}
               </div>
 
-              <div class="flex items-center justify-between gap-2 pt-3 border-t-2 border-[var(--line)]">
+              <div class="project-cta-row flex items-center justify-between gap-2 pt-3 border-t-2 border-[var(--line)]">
                 <span class="text-xs font-bold uppercase tracking-wider text-[var(--ink-muted)]">Detail Proyek &rarr;</span>
                 <div class="flex items-center gap-2">
                   ${githubBtnHtml}

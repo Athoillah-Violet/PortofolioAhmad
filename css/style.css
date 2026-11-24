@@ -102,8 +102,13 @@ html {
   background-color: var(--bg);
   color: var(--ink);
   line-height: 1.6;
-  overflow-x: clip; /* Mencegah overflow horizontal tanpa merusak sticky positioning */
-  max-width: 100%;
+  /* Kunci responsivitas: cegah konten melebar & zoom-out terpotong di HP */
+  overflow-x: hidden;
+  overflow-x: clip;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  touch-action: pan-y;
 }
 
 body {
@@ -112,11 +117,22 @@ body {
   color: var(--ink);
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
   overflow-x: clip;
-  max-width: 100%;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  position: relative;
+  touch-action: pan-y;
   /* Pola halftone halus */
   background-image: radial-gradient(var(--ink-muted) 0.65px, transparent 0.65px);
   background-size: 20px 20px;
+}
+
+/* Semua elemen: box-sizing border-box + tidak boleh melebar dari induknya */
+*, *::before, *::after {
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -149,6 +165,49 @@ select:focus-visible {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+/* ==========================================================================
+   RESPONSIVITAS GLOBAL — SEMUA SECTION & WRAPPER TIDAK BOLEH MELEBAR
+   ========================================================================== */
+
+/* Semua section, footer, main tidak boleh melebihi 100% lebar layar */
+section,
+footer,
+main {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  overflow-x: clip;
+  box-sizing: border-box;
+}
+
+/* Navbar */
+.site-header {
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+.site-header > div {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Semua gambar dan video responsif */
+img,
+video,
+iframe,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Container max-w-7xl */
+.max-w-7xl {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* ==========================================================================
@@ -541,7 +600,7 @@ a {
 
 /* Marquee Baris Tak Berujung */
 .marquee-wrapper {
-  overflow: hidden;
+  overflow: hidden;    /* Kunci utama: marquee tidak meluber ke luar */
   position: relative;
   border-top: 2.5px solid var(--line);
   border-bottom: 2.5px solid var(--line);
@@ -558,6 +617,184 @@ a {
   display: flex;
   width: max-content;
   white-space: nowrap;
+}
+
+/* ==========================================================================
+   DUA KOLOM DI HP (< 640px) — KETERAMPILAN, PROYEK, SERTIFIKAT, PERJALANAN
+   ========================================================================== */
+
+/* Grid 2 kolom dasar — diterapkan di semua seksi yang perlu */
+@media (max-width: 639px) {
+  /* ---- Komponen kartu di mobile: shadow lebih kecil agar tidak tabrakan ---- */
+  .poster-card {
+    box-shadow: 3px 3px 0 var(--shadow-hard);
+  }
+  .poster-card:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--shadow-hard);
+  }
+
+  /* ---- KETERAMPILAN ---- */
+  #skill-container .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  /* Kartu skill: padding lebih kecil di mobile */
+  #skill-container .poster-card {
+    padding: 0.75rem !important;
+  }
+  #skill-container .poster-card h3 {
+    font-size: 0.875rem;
+  }
+  #skill-container .chip-poster {
+    font-size: 0.65rem;
+    padding: 2px 6px;
+  }
+
+  /* ---- PROYEK ---- */
+  #proyek-container .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  /* Padding dalam kartu proyek dikecilkan */
+  #proyek-container .project-card-tilt .p-6 {
+    padding: 0.6rem !important;
+  }
+  /* Judul proyek maksimal 2 baris */
+  #proyek-container h3.font-anton {
+    font-size: 0.875rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  /* Deskripsi singkat disembunyikan di HP — teks penuh tersedia di modal */
+  #proyek-container .project-desc-short {
+    display: none;
+  }
+  /* Tag teknologi: font lebih kecil, shadow lebih kecil */
+  #proyek-container .chip-poster {
+    font-size: 0.6rem;
+    padding: 2px 5px;
+    box-shadow: 1px 1px 0 var(--shadow-hard);
+  }
+  /* Tombol link proyek: ditumpuk vertikal, font kecil */
+  #proyek-container .project-cta-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+  #proyek-container .project-cta-row .btn-poster-primary,
+  #proyek-container .project-cta-row .btn-poster-secondary {
+    font-size: 0.6rem;
+    padding: 4px 8px;
+    box-shadow: 2px 2px 0 var(--shadow-hard);
+  }
+  #proyek-container .project-cta-row {
+    padding-top: 0.5rem;
+  }
+
+  /* ---- SERTIFIKAT ---- */
+  #sertifikat-container #certs-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  #sertifikat-container .cert-card .p-5 {
+    padding: 0.5rem !important;
+  }
+  #sertifikat-container .cert-card h3 {
+    font-size: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  #sertifikat-container .cert-card p {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  /* Baris "Peran" dan "Buka" diperkecil */
+  #sertifikat-container .cert-card .pt-3 {
+    padding-top: 0.4rem;
+    font-size: 0.6rem;
+  }
+  /* Filter sertifikat: scroll horizontal, tidak melebar ke luar */
+  #sertifikat-container .flex.flex-wrap.items-center.justify-center.gap-3 {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    gap: 6px;
+  }
+  #sertifikat-container .cert-filter-btn {
+    flex-shrink: 0;
+    font-size: 0.65rem;
+    padding: 5px 8px;
+    box-shadow: 2px 2px 0 var(--shadow-hard);
+  }
+
+  /* ---- PERJALANAN (TIMELINE) ---- */
+  /* Di mobile, dua kolom timeline berdampingan tetap — kolom lg-cols-2 sudah ada */
+  #timeline-container .grid.grid-cols-1.lg\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    align-items: start;
+  }
+  /* Kartu timeline: kompak */
+  #timeline-container .poster-card.p-5 {
+    padding: 0.5rem !important;
+  }
+  #timeline-container h4.font-anton {
+    font-size: 0.75rem;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+  #timeline-container .text-xs,
+  #timeline-container .text-sm {
+    font-size: 0.65rem;
+  }
+  #timeline-container .chip-poster {
+    font-size: 0.6rem;
+    padding: 1px 5px;
+    box-shadow: 1px 1px 0 var(--shadow-hard);
+  }
+  /* Kurangi indent pl-8 timeline agar tidak terlalu sempit */
+  #timeline-container .relative.pl-8 {
+    padding-left: 1.25rem;
+  }
+  /* Garis dan titik timeline tetap di dalam kolom */
+  #timeline-container .absolute.left-3 {
+    left: 0.4rem;
+  }
+  #timeline-container .absolute.left-1 {
+    left: 0;
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+
+  /* ---- Fallback satu kolom di lebar < 340px ---- */
+  @media (max-width: 339px) {
+    #skill-container .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3,
+    #proyek-container .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3,
+    #sertifikat-container #certs-grid,
+    #timeline-container .grid.grid-cols-1.lg\:grid-cols-2 {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---- Nonaktifkan tilt 3D dan hover berat di HP ---- */
+  .project-card-tilt {
+    transform: none !important;
+    transform-style: flat !important;
+    perspective: none !important;
+  }
+  .card-glare-layer {
+    display: none !important;
+  }
 }
 
 /* ==========================================================================
