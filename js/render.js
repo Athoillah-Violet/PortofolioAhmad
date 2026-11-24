@@ -207,7 +207,7 @@ const PortfolioRenderer = {
               
               <!-- Foto Cutout Utuh -->
               <img 
-                src="${fotoTentang || 'aku.png'}" 
+                src="${fotoTentang || 'assets/img/aku.png'}" 
                 alt="Ahmad Athoillah Almadany - Foto Profil" 
                 width="1086" 
                 height="1448" 

@@ -22,7 +22,7 @@ window.portfolioData = {
     motto: "Kode yang baik berawal dari niat yang baik.",
     profil: "Mahasiswa Informatika Universitas PGRI Semarang angkatan 2024 berlatar belakang TJKT. Berfokus pada pengembangan web dan analisis sistem, aktif berorganisasi, serta terbiasa mengubah kebutuhan nyata menjadi aplikasi yang berguna.",
     fotoProfil: "assets/img/ahmad-athoillah-almadany.png",
-    fotoTentang: "aku.png",
+    fotoTentang: "assets/img/aku.png",
     aboutText: "Saya mahasiswa Informatika di Universitas PGRI Semarang (angkatan 2024) dengan latar belakang SMK TJKT. Fokus utama saya adalah rekayasa web dan analisis sistem. Bagi saya, pemrograman bukan sekadar menulis sintaks, melainkan memecahkan masalah nyata menjadi alat kerja yang efisien, tangguh, dan mudah digunakan orang lain. Selain aktif mengasah kode, saya terus mengasah kepemimpinan lewat organisasi kampus dan pengabdian masyarakat.",
     profilFakta: [
       { label: "Peran", value: "Web Developer" },
