@@ -359,6 +359,14 @@ const PortfolioUI = {
         });
 
         this.activeFilterCerts = matchedIndices;
+
+        // Segarkan posisi AOS dan ScrollTrigger setelah layout berubah akibat filter
+        if (typeof AOS !== 'undefined' && AOS.refreshHard) {
+          AOS.refreshHard();
+        }
+        if (typeof ScrollTrigger !== 'undefined') {
+          ScrollTrigger.refresh();
+        }
       });
     });
   },

@@ -40,25 +40,26 @@
   display: none !important;
 }
 
-/* Dua Panel Pembuka (Curtain Split Reveal) */
+/* Dua Panel Pembuka (Curtain Split Reveal - Kuning & Hitam Gaya Poster Berani) */
 .preloader-curtain-top,
 .preloader-curtain-bottom {
   position: absolute;
   left: 0;
   width: 100%;
   height: 50%;
-  background-color: var(--bg);
   z-index: 1;
 }
 .preloader-curtain-top {
   top: 0;
   transform-origin: top;
-  border-bottom: 1px solid var(--border);
+  background-color: var(--accent);
+  border-bottom: 3px solid var(--line);
 }
 .preloader-curtain-bottom {
   bottom: 0;
   transform-origin: bottom;
-  border-top: 1px solid var(--border);
+  background-color: var(--bg);
+  border-top: 3px solid var(--line);
 }
 
 .preloader-content {
@@ -177,6 +178,29 @@
   box-shadow: var(--shadow);
   height: 3.75rem !important;
   transition: background-color var(--dur-med) var(--ease), height var(--dur-med) var(--ease), box-shadow var(--dur-med);
+}
+
+/* Aksesibilitas: Header selalu tampil jika ada elemen anak yang menerima fokus keyboard Tab */
+.site-header:focus-within {
+  transform: translateY(0%) !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Pembungkus Proyek untuk memisahkan AOS reveal dan 3D tilt */
+.project-aos-wrap {
+  display: block;
+  height: 100%;
+}
+
+/* Konfigurasi Hero untuk Pinning Desktop */
+@media (min-width: 768px) {
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 }
 
 .nav-link-active {

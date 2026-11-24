@@ -1,7 +1,7 @@
 /**
  * js/render.js
  * Bertanggung jawab merender seluruh komponen HTML dinamis dari window.portfolioData.
- * Mengusung sistem desain "Poster Berani" (Bold & Graphic, WCAG AA / AAA, CSS Variables Murni).
+ * Mengintegrasikan atribut data-aos dan data-hero untuk orkestrasi animasi AOS + GSAP ScrollTrigger.
  */
 
 const PortfolioRenderer = {
@@ -10,7 +10,7 @@ const PortfolioRenderer = {
     return data.UI_TEXT || {};
   },
 
-  // 1. Render Hero Section
+  // 1. Render Hero Section (Komponen data-hero untuk GSAP ScrollTrigger sequence)
   renderHero(data) {
     const container = document.getElementById('hero-container');
     if (!container) return;
@@ -19,86 +19,96 @@ const PortfolioRenderer = {
     const UI = this.getUI(data);
 
     container.innerHTML = `
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-        <!-- Kolom Foto Hero (3:4 Utuh, Bingkai Diagonal Kuning di Belakang) -->
-        <div class="lg:col-span-5 flex justify-center lg:justify-start" data-reveal data-hero="photo">
-          <div class="hero-photo-container">
-            <!-- Blok Kuning Diagonal di Belakang Foto -->
-            <div class="hero-photo-bg-block" aria-hidden="true"></div>
-            
-            <!-- Bingkai Foto Asli 3:4 -->
-            <div class="hero-photo-wrapper">
-              <img 
-                src="${fotoProfil}" 
-                alt="Foto Profil ${nama}" 
-                width="1086" 
-                height="1448" 
-                class="hero-photo-img"
-                loading="eager"
-              >
+      <div class="relative min-h-[75vh] flex flex-col justify-center">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          
+          <!-- Kolom Foto Hero (3:4 Utuh, Bingkai Diagonal Kuning di Belakang) -->
+          <div class="lg:col-span-5 flex justify-center lg:justify-start" data-hero="photo">
+            <div class="hero-photo-container">
+              <!-- Blok Kuning Diagonal di Belakang Foto -->
+              <div class="hero-photo-bg-block" aria-hidden="true"></div>
+              
+              <!-- Bingkai Foto Asli 3:4 -->
+              <div class="hero-photo-wrapper">
+                <img 
+                  src="${fotoProfil}" 
+                  alt="Foto Profil ${nama}" 
+                  width="1086" 
+                  height="1448" 
+                  class="hero-photo-img"
+                  loading="eager"
+                >
+              </div>
+              
+              <!-- Stiker Lokasi Bergaya Poster -->
+              <div data-hero="deco" class="absolute -bottom-4 right-2 sm:right-4 px-3.5 py-1.5 bg-[var(--surface)] border-2 border-[var(--line)] shadow-[3px_3px_0_var(--shadow-hard)] flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--ink)] z-10 -rotate-2">
+                <span class="w-2.5 h-2.5 bg-[var(--accent)] border border-[var(--line)]"></span>
+                <span>Semarang, ID</span>
+              </div>
             </div>
-            
-            <!-- Stiker Lokasi Bergaya Poster -->
-            <div class="absolute -bottom-4 right-2 sm:right-4 px-3.5 py-1.5 bg-[var(--surface)] border-2 border-[var(--line)] shadow-[3px_3px_0_var(--shadow-hard)] flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--ink)] z-10 -rotate-2">
-              <span class="w-2.5 h-2.5 bg-[var(--accent)] border border-[var(--line)]"></span>
-              <span>Semarang, ID</span>
+          </div>
+
+          <!-- Kolom Teks & Aksi Hero -->
+          <div class="lg:col-span-7 text-center lg:text-left space-y-5">
+            <!-- Badge Hero -->
+            <div data-hero="role" class="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[var(--surface)] border-2 border-[var(--line)] shadow-[3px_3px_0_var(--shadow-hard)] text-xs font-bold uppercase tracking-widest text-[var(--ink)]">
+              <span class="w-2 h-2 bg-[var(--accent)] border border-[var(--line)]"></span>
+              <span>${UI.hero?.badge || "TERBUKA UNTUK KOLABORASI & PROYEK NYATA"}</span>
+            </div>
+
+            <!-- Nama Besar Anton dengan Blok Kuning -->
+            <h1 data-hero="name" class="font-anton text-4xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl leading-[0.95] tracking-tight text-[var(--ink)]">
+              AHMAD <span class="bg-[var(--accent)] text-[var(--on-accent)] px-3 py-1 inline-block -rotate-1 border-2 border-[var(--line)] shadow-[4px_4px_0_var(--shadow-hard)]">ATHOILLAH</span> ALMADANY
+            </h1>
+
+            <!-- Peran Profesional -->
+            <p data-hero="role" class="text-lg sm:text-xl md:text-2xl font-bold uppercase tracking-wider text-[var(--accent-text)]">
+              ${peran}
+            </p>
+
+            <!-- Motto -->
+            <blockquote data-hero="motto" class="border-l-4 border-[var(--accent)] pl-4 py-1.5 text-base sm:text-lg font-medium text-[var(--ink-muted)] italic text-left inline-block">
+              &ldquo;${motto}&rdquo;
+            </blockquote>
+
+            <!-- Aksen Tulisan Kuas Permanent Marker -->
+            <div data-hero="deco" class="pt-1">
+              <span class="font-marker text-lg sm:text-xl text-[var(--accent)] -rotate-3 inline-block select-none drop-shadow-sm">
+                ✍️ ${UI.hero?.brushAccent || "Siap bangun web solid!"}
+              </span>
+            </div>
+
+            <!-- Tiga Tombol Aksi Hero -->
+            <div data-hero="cta" class="flex flex-wrap items-center justify-center lg:justify-start gap-3.5 pt-3">
+              <a href="#proyek" class="btn-poster-primary" aria-label="Lihat daftar proyek saya">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                ${UI.hero?.btnProyek || "Lihat Karya"}
+              </a>
+              
+              <a href="#kontak" class="btn-poster-secondary" aria-label="Hubungi saya langsung">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                ${UI.hero?.btnKontak || "Ajak Ngobrol"}
+              </a>
+
+              <button type="button" id="btn-hero-cv" class="btn-poster-outline" aria-label="Buka pratinjau Curriculum Vitae">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                ${UI.hero?.btnCv || "Periksa CV"}
+              </button>
             </div>
           </div>
         </div>
 
-        <!-- Kolom Teks & Aksi Hero -->
-        <div class="lg:col-span-7 text-center lg:text-left space-y-5" data-reveal>
-          <!-- Badge Hero -->
-          <div data-hero="role" class="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[var(--surface)] border-2 border-[var(--line)] shadow-[3px_3px_0_var(--shadow-hard)] text-xs font-bold uppercase tracking-widest text-[var(--ink)]">
-            <span class="w-2 h-2 bg-[var(--accent)] border border-[var(--line)]"></span>
-            <span>${UI.hero?.badge || "TERBUKA UNTUK KOLABORASI & PROYEK NYATA"}</span>
-          </div>
-
-          <!-- Nama Besar Anton dengan Blok Kuning -->
-          <h1 data-hero="name" class="font-anton text-4xl sm:text-6xl md:text-7xl lg:text-7xl xl:text-8xl leading-[0.95] tracking-tight text-[var(--ink)]">
-            AHMAD <span class="bg-[var(--accent)] text-[var(--on-accent)] px-3 py-1 inline-block -rotate-1 border-2 border-[var(--line)] shadow-[4px_4px_0_var(--shadow-hard)]">ATHOILLAH</span> ALMADANY
-          </h1>
-
-          <!-- Peran Profesional -->
-          <p data-hero="role" class="text-lg sm:text-xl md:text-2xl font-bold uppercase tracking-wider text-[var(--accent-text)]">
-            ${peran}
-          </p>
-
-          <!-- Motto -->
-          <blockquote data-hero="motto" class="border-l-4 border-[var(--accent)] pl-4 py-1.5 text-base sm:text-lg font-medium text-[var(--ink-muted)] italic text-left inline-block">
-            &ldquo;${motto}&rdquo;
-          </blockquote>
-
-          <!-- Aksen Tulisan Kuas Permanent Marker -->
-          <div data-hero="deco" class="pt-1">
-            <span class="font-marker text-lg sm:text-xl text-[var(--accent)] -rotate-3 inline-block select-none drop-shadow-sm">
-              ✍️ ${UI.hero?.brushAccent || "Siap bangun web solid!"}
-            </span>
-          </div>
-
-          <!-- Tiga Tombol Aksi Hero -->
-          <div data-hero="cta" class="flex flex-wrap items-center justify-center lg:justify-start gap-3.5 pt-3">
-            <a href="#proyek" class="btn-poster-primary" aria-label="Lihat daftar proyek saya">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-              ${UI.hero?.btnProyek || "Lihat Karya"}
-            </a>
-            
-            <a href="#kontak" class="btn-poster-secondary" aria-label="Hubungi saya langsung">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-              ${UI.hero?.btnKontak || "Ajak Ngobrol"}
-            </a>
-
-            <button type="button" id="btn-hero-cv" class="btn-poster-outline" aria-label="Buka pratinjau Curriculum Vitae">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-              ${UI.hero?.btnCv || "Periksa CV"}
-            </button>
-          </div>
+        <!-- Petunjuk Scroll Kecil -->
+        <div data-hero="hint" class="pt-8 text-center" aria-hidden="true">
+          <span class="inline-flex items-center gap-2 px-3 py-1 bg-[var(--surface)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] font-anton text-xs tracking-widest text-[var(--accent-text)] uppercase animate-bounce">
+            ↓ GULIR KE BAWAH ↓
+          </span>
         </div>
       </div>
     `;
   },
 
-  // 2. Render Tentang Saya Section (TIGA KOLOM DI DESKTOP)
+  // 2. Render Tentang Saya Section (AOS: Foto zoom-in, Profil fade-right, Tentang fade-left)
   renderTentang(data) {
     const container = document.getElementById('tentang-container');
     if (!container) return;
@@ -143,8 +153,8 @@ const PortfolioRenderer = {
     container.innerHTML = `
       <div class="space-y-12">
         <!-- Header Judul Bagian -->
-        <div class="text-center max-w-3xl mx-auto" data-reveal>
-          <div class="section-badge">${UI.tentang?.badge || "01 TENTANG"}</div>
+        <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
+          <div class="section-badge" data-aos="zoom-in" data-aos-duration="450">${UI.tentang?.badge || "01 TENTANG"}</div>
           <h2 class="section-title">
             <span class="title-highlight">${UI.tentang?.judulWord1 || "SIAPA"}</span> ${UI.tentang?.judulWord2 || "SAYA?"}
           </h2>
@@ -157,7 +167,7 @@ const PortfolioRenderer = {
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           <!-- Kolom 1 (Desktop Kiri / Order 1): Profil Profesional -->
-          <div class="lg:col-span-4 lg:order-1 poster-card p-6 sm:p-7 space-y-4" data-reveal>
+          <div class="lg:col-span-4 lg:order-1 poster-card p-6 sm:p-7 space-y-4" data-aos="fade-right">
             <div class="flex items-center gap-2 pb-3 border-b-2 border-[var(--line)]">
               <span class="w-3 h-3 bg-[var(--accent)] border border-[var(--line)]"></span>
               <h3 class="font-anton text-xl sm:text-2xl tracking-wide text-[var(--ink)]">
@@ -170,7 +180,7 @@ const PortfolioRenderer = {
           </div>
 
           <!-- Kolom 2 (Desktop Tengah / Order 2): Foto Cutout aku.png di atas Blok Kuning -->
-          <div class="lg:col-span-4 lg:order-2 flex justify-center items-center" data-reveal>
+          <div class="lg:col-span-4 lg:order-2 flex justify-center items-center" data-aos="zoom-in">
             <div class="about-photo-container">
               <!-- Blok Kuning Miring di Belakang Foto Cutout -->
               <div class="about-photo-bg-block" aria-hidden="true"></div>
@@ -188,7 +198,7 @@ const PortfolioRenderer = {
           </div>
 
           <!-- Kolom 3 (Desktop Kanan / Order 3): Tentang Saya & 4 Angka Ringkas -->
-          <div class="lg:col-span-4 lg:order-3 poster-card p-6 sm:p-7 space-y-6" data-reveal>
+          <div class="lg:col-span-4 lg:order-3 poster-card p-6 sm:p-7 space-y-6" data-aos="fade-left">
             <div>
               <div class="flex items-center gap-2 pb-3 border-b-2 border-[var(--line)]">
                 <span class="w-3 h-3 bg-[var(--accent)] border border-[var(--line)]"></span>
@@ -204,23 +214,23 @@ const PortfolioRenderer = {
             <!-- 4 Angka Ringkas (2x2 Grid) -->
             <div class="pt-4 border-t-2 border-[var(--line)]">
               <div class="grid grid-cols-2 gap-3">
-                <div class="p-3.5 bg-[var(--bg-alt)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] text-center">
-                  <div class="font-anton text-3xl sm:text-4xl text-[var(--ink)] leading-none">${totalProyek}</div>
+                <div class="p-3.5 bg-[var(--bg-alt)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] text-center stat-counter-box" data-aos="fade-up" data-aos-delay="50">
+                  <div class="font-anton text-3xl sm:text-4xl text-[var(--ink)] leading-none stat-number" data-target="${totalProyek}">${totalProyek}</div>
                   <div class="text-[11px] font-bold uppercase tracking-wider text-[var(--ink-muted)] mt-1.5">${UI.tentang?.statProyek || "Proyek"}</div>
                 </div>
 
-                <div class="p-3.5 bg-[var(--bg-alt)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] text-center">
-                  <div class="font-anton text-3xl sm:text-4xl text-[var(--ink)] leading-none">${totalSertifikat}</div>
+                <div class="p-3.5 bg-[var(--bg-alt)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] text-center stat-counter-box" data-aos="fade-up" data-aos-delay="100">
+                  <div class="font-anton text-3xl sm:text-4xl text-[var(--ink)] leading-none stat-number" data-target="${totalSertifikat}">${totalSertifikat}</div>
                   <div class="text-[11px] font-bold uppercase tracking-wider text-[var(--ink-muted)] mt-1.5">${UI.tentang?.statSertifikat || "Sertifikasi"}</div>
                 </div>
 
-                <div class="p-3.5 bg-[var(--bg-alt)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] text-center">
-                  <div class="font-anton text-3xl sm:text-4xl text-[var(--ink)] leading-none">${totalTahunOrganisasi}+</div>
+                <div class="p-3.5 bg-[var(--bg-alt)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] text-center stat-counter-box" data-aos="fade-up" data-aos-delay="150">
+                  <div class="font-anton text-3xl sm:text-4xl text-[var(--ink)] leading-none"><span class="stat-number" data-target="${totalTahunOrganisasi}">${totalTahunOrganisasi}</span>+</div>
                   <div class="text-[11px] font-bold uppercase tracking-wider text-[var(--ink-muted)] mt-1.5">${UI.tentang?.statOrganisasi || "Thn Org"}</div>
                 </div>
 
-                <div class="p-3.5 bg-[var(--bg-alt)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] text-center">
-                  <div class="font-anton text-3xl sm:text-4xl text-[var(--ink)] leading-none">${totalSkills}+</div>
+                <div class="p-3.5 bg-[var(--bg-alt)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] text-center stat-counter-box" data-aos="fade-up" data-aos-delay="200">
+                  <div class="font-anton text-3xl sm:text-4xl text-[var(--ink)] leading-none"><span class="stat-number" data-target="${totalSkills}">${totalSkills}</span>+</div>
                   <div class="text-[11px] font-bold uppercase tracking-wider text-[var(--ink-muted)] mt-1.5">${UI.tentang?.statTools || "Skills"}</div>
                 </div>
               </div>
@@ -232,15 +242,15 @@ const PortfolioRenderer = {
     `;
   },
 
-  // 3. Render Keterampilan Section (Kartu Poster + Chip Kotak + Marquee)
+  // 3. Render Keterampilan Section (AOS: fade-up per kelompok dengan delay bertahap)
   renderKeterampilan(data) {
     const container = document.getElementById('skill-container');
     if (!container) return;
 
     const UI = this.getUI(data);
 
-    const cardsHtml = data.keterampilan.map(kat => `
-      <div class="poster-card p-6 sm:p-7 flex flex-col justify-between" data-reveal>
+    const cardsHtml = data.keterampilan.map((kat, idx) => `
+      <div class="poster-card p-6 sm:p-7 flex flex-col justify-between" data-aos="fade-up" data-aos-delay="${idx * 120}">
         <div>
           <div class="flex items-center justify-between pb-3 mb-3 border-b-2 border-[var(--line)]">
             <h3 class="font-anton text-xl tracking-wide text-[var(--ink)]">${kat.kategori}</h3>
@@ -268,8 +278,8 @@ const PortfolioRenderer = {
 
     container.innerHTML = `
       <div class="space-y-12">
-        <div class="text-center max-w-3xl mx-auto" data-reveal>
-          <div class="section-badge">${UI.keterampilan?.badge || "02 KETERAMPILAN"}</div>
+        <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
+          <div class="section-badge" data-aos="zoom-in" data-aos-duration="450">${UI.keterampilan?.badge || "02 KETERAMPILAN"}</div>
           <h2 class="section-title">
             <span class="title-highlight">${UI.keterampilan?.judulWord1 || "SENJATA"}</span> ${UI.keterampilan?.judulWord2 || "KODE"}
           </h2>
@@ -283,7 +293,7 @@ const PortfolioRenderer = {
         </div>
 
         <!-- Marquee Baris Tak Berujung Bergaya Poster -->
-        <div class="marquee-wrapper mt-8" data-reveal>
+        <div class="marquee-wrapper mt-8" data-aos="fade-up">
           <div class="marquee-track font-anton">
             ${marqueeHtml}
           </div>
@@ -292,7 +302,7 @@ const PortfolioRenderer = {
     `;
   },
 
-  // 4. Render Proyek Section (Kartu Besar Bernomor)
+  // 4. Render Proyek Section (AOS di wrapper .project-aos-wrap, Tilt di anak .project-card-tilt)
   renderProyek(data) {
     const container = document.getElementById('proyek-container');
     if (!container) return;
@@ -301,6 +311,7 @@ const PortfolioRenderer = {
 
     const cardsHtml = data.proyek.map((p, index) => {
       const projectNum = String(index + 1).padStart(2, '0');
+      const delay = (index % 3) * 120;
 
       const liveBtnHtml = p.linkLive ? `
         <a href="${p.linkLive}" target="_blank" rel="noopener noreferrer" class="btn-poster-primary text-xs py-2 px-3" aria-label="Kunjungi demo live ${p.judul}" onclick="event.stopPropagation()">
@@ -317,59 +328,61 @@ const PortfolioRenderer = {
       ` : '';
 
       return `
-        <article class="poster-card flex flex-col justify-between overflow-hidden cursor-pointer group" data-project-id="${p.id}" data-reveal tabindex="0" role="button" aria-label="Buka detail proyek ${p.judul}">
-          <div>
-            <!-- Gambar Proyek -->
-            <div class="relative w-full aspect-video bg-[var(--bg-alt)] overflow-hidden border-b-2 border-[var(--line)]">
-              <img 
-                src="${p.gambar}" 
-                alt="Mockup proyek ${p.judul}" 
-                width="800" 
-                height="450" 
-                class="w-full h-full object-cover block group-hover:scale-105 transition-transform duration-300"
-                loading="lazy"
-              >
-              <!-- Nomor Proyek Kotak Besar -->
-              <span class="absolute top-3 left-3 px-2.5 py-1 bg-[var(--accent)] text-[var(--on-accent)] font-anton text-base border-2 border-[var(--line)] shadow-[3px_3px_0_var(--shadow-hard)]">
-                #${projectNum}
-              </span>
-            </div>
-            
-            <div class="p-6">
-              <div class="flex items-center gap-2 mb-2">
-                <span class="text-xs font-bold uppercase tracking-wider text-[var(--accent-text)]">${p.peran}</span>
+        <div class="project-aos-wrap" data-aos="fade-up" data-aos-delay="${delay}">
+          <article class="project-card-tilt poster-card flex flex-col justify-between overflow-hidden cursor-pointer group h-full" data-project-id="${p.id}" tabindex="0" role="button" aria-label="Buka detail proyek ${p.judul}">
+            <div>
+              <!-- Gambar Proyek -->
+              <div class="relative w-full aspect-video bg-[var(--bg-alt)] overflow-hidden border-b-2 border-[var(--line)]">
+                <img 
+                  src="${p.gambar}" 
+                  alt="Mockup proyek ${p.judul}" 
+                  width="800" 
+                  height="450" 
+                  class="w-full h-full object-cover block group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                >
+                <!-- Nomor Proyek Kotak Besar -->
+                <span class="absolute top-3 left-3 px-2.5 py-1 bg-[var(--accent)] text-[var(--on-accent)] font-anton text-base border-2 border-[var(--line)] shadow-[3px_3px_0_var(--shadow-hard)]">
+                  #${projectNum}
+                </span>
               </div>
-              <h3 class="font-anton text-2xl tracking-wide text-[var(--ink)] group-hover:text-[var(--accent)] transition-colors">
-                ${p.judul}
-              </h3>
-              <p class="mt-2 text-xs sm:text-sm text-[var(--ink-muted)] leading-relaxed font-medium">
-                ${p.deskripsiSingkat}
-              </p>
-            </div>
-          </div>
-
-          <div class="p-6 pt-0">
-            <!-- Chip Teknologi Kotak -->
-            <div class="flex flex-wrap gap-1.5 mb-4">
-              ${p.teknologi.map(t => `<span class="chip-poster text-[11px] py-0.5 px-2">${t}</span>`).join('')}
-            </div>
-
-            <div class="flex items-center justify-between gap-2 pt-3 border-t-2 border-[var(--line)]">
-              <span class="text-xs font-bold uppercase tracking-wider text-[var(--ink-muted)]">Detail Proyek &rarr;</span>
-              <div class="flex items-center gap-2">
-                ${githubBtnHtml}
-                ${liveBtnHtml}
+              
+              <div class="p-6">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="text-xs font-bold uppercase tracking-wider text-[var(--accent-text)]">${p.peran}</span>
+                </div>
+                <h3 class="font-anton text-2xl tracking-wide text-[var(--ink)] group-hover:text-[var(--accent)] transition-colors">
+                  ${p.judul}
+                </h3>
+                <p class="mt-2 text-xs sm:text-sm text-[var(--ink-muted)] leading-relaxed font-medium">
+                  ${p.deskripsiSingkat}
+                </p>
               </div>
             </div>
-          </div>
-        </article>
+
+            <div class="p-6 pt-0">
+              <!-- Chip Teknologi Kotak -->
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                ${p.teknologi.map(t => `<span class="chip-poster text-[11px] py-0.5 px-2">${t}</span>`).join('')}
+              </div>
+
+              <div class="flex items-center justify-between gap-2 pt-3 border-t-2 border-[var(--line)]">
+                <span class="text-xs font-bold uppercase tracking-wider text-[var(--ink-muted)]">Detail Proyek &rarr;</span>
+                <div class="flex items-center gap-2">
+                  ${githubBtnHtml}
+                  ${liveBtnHtml}
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
       `;
     }).join('');
 
     container.innerHTML = `
       <div class="space-y-12">
-        <div class="text-center max-w-3xl mx-auto" data-reveal>
-          <div class="section-badge">${UI.proyek?.badge || "03 PROYEK"}</div>
+        <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
+          <div class="section-badge" data-aos="zoom-in" data-aos-duration="450">${UI.proyek?.badge || "03 PROYEK"}</div>
           <h2 class="section-title">
             <span class="title-highlight">${UI.proyek?.judulWord1 || "KARYA"}</span> ${UI.proyek?.judulWord2 || "PILIHAN"}
           </h2>
@@ -382,7 +395,7 @@ const PortfolioRenderer = {
           ${cardsHtml}
         </div>
 
-        <div class="text-center pt-4" data-reveal>
+        <div class="text-center pt-4" data-aos="fade-up">
           <a href="${data.identitas.githubUrl}" target="_blank" rel="noopener noreferrer" class="btn-poster-secondary inline-flex items-center gap-2">
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
             Jelajahi Repositori GitHub (${data.identitas.githubUsername}) &rarr;
@@ -392,7 +405,7 @@ const PortfolioRenderer = {
     `;
   },
 
-  // 5. Render Sertifikat Section (Grid Tegas + Tab Kotak + Stiker Miring QR)
+  // 5. Render Sertifikat Section (AOS: zoom-in-up kartu sertifikat, zoom-in stiker QR)
   renderSertifikat(data) {
     const container = document.getElementById('sertifikat-container');
     if (!container) return;
@@ -413,59 +426,63 @@ const PortfolioRenderer = {
       </button>
     `).join('');
 
-    const certsHtml = data.sertifikat.map((c, index) => `
-      <div 
-        class="cert-card poster-card overflow-hidden flex flex-col justify-between cursor-pointer group" 
-        data-category="${c.kategori}" 
-        data-cert-index="${index}" 
-        data-reveal 
-        tabindex="0" 
-        role="button" 
-        aria-label="Lihat sertifikat ${c.judul}"
-      >
-        <div>
-          <div class="relative w-full aspect-[4/3] bg-[var(--bg-alt)] overflow-hidden border-b-2 border-[var(--line)] flex items-center justify-center">
-            <img 
-              src="${c.gambar}" 
-              alt="${c.judul}" 
-              width="600" 
-              height="450" 
-              class="w-full h-full object-contain block p-2"
-              loading="lazy"
-            >
-            <div class="absolute inset-0 bg-[var(--overlay)] opacity-0 group-hover:opacity-100 flex items-center justify-center text-[var(--ink)] text-xs font-bold uppercase tracking-wider gap-2 transition-opacity">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
-              Klik Pratinjau
+    const certsHtml = data.sertifikat.map((c, index) => {
+      const delay = (index % 3) * 80;
+      return `
+        <div 
+          class="cert-card poster-card overflow-hidden flex flex-col justify-between cursor-pointer group" 
+          data-category="${c.kategori}" 
+          data-cert-index="${index}" 
+          data-aos="zoom-in-up" 
+          data-aos-delay="${delay}"
+          tabindex="0" 
+          role="button" 
+          aria-label="Lihat sertifikat ${c.judul}"
+        >
+          <div>
+            <div class="relative w-full aspect-[4/3] bg-[var(--bg-alt)] overflow-hidden border-b-2 border-[var(--line)] flex items-center justify-center">
+              <img 
+                src="${c.gambar}" 
+                alt="${c.judul}" 
+                width="600" 
+                height="450" 
+                class="w-full h-full object-contain block p-2"
+                loading="lazy"
+              >
+              <div class="absolute inset-0 bg-[var(--overlay)] opacity-0 group-hover:opacity-100 flex items-center justify-center text-[var(--ink)] text-xs font-bold uppercase tracking-wider gap-2 transition-opacity">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
+                Klik Pratinjau
+              </div>
+            </div>
+
+            <div class="p-5">
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="chip-poster text-[11px] py-0.5 px-2">${c.kategori}</span>
+                <span class="text-xs font-mono font-bold text-[var(--ink-muted)]">${c.tahun}</span>
+              </div>
+              <h3 class="font-anton text-base sm:text-lg tracking-wide text-[var(--ink)] group-hover:text-[var(--accent)] line-clamp-2">
+                ${c.judul}
+              </h3>
+              <p class="mt-1 text-xs text-[var(--ink-muted)] font-medium">
+                ${c.penerbit}
+              </p>
             </div>
           </div>
 
-          <div class="p-5">
-            <div class="flex items-center justify-between gap-2 mb-2">
-              <span class="chip-poster text-[11px] py-0.5 px-2">${c.kategori}</span>
-              <span class="text-xs font-mono font-bold text-[var(--ink-muted)]">${c.tahun}</span>
+          <div class="p-5 pt-0">
+            <div class="pt-3 border-t-2 border-[var(--line)] flex items-center justify-between text-xs text-[var(--ink-muted)]">
+              <span>Peran: <strong class="text-[var(--ink)]">${c.peran}</strong></span>
+              <span class="text-[var(--accent-text)] font-bold">Buka &rarr;</span>
             </div>
-            <h3 class="font-anton text-base sm:text-lg tracking-wide text-[var(--ink)] group-hover:text-[var(--accent)] line-clamp-2">
-              ${c.judul}
-            </h3>
-            <p class="mt-1 text-xs text-[var(--ink-muted)] font-medium">
-              ${c.penerbit}
-            </p>
           </div>
         </div>
-
-        <div class="p-5 pt-0">
-          <div class="pt-3 border-t-2 border-[var(--line)] flex items-center justify-between text-xs text-[var(--ink-muted)]">
-            <span>Peran: <strong class="text-[var(--ink)]">${c.peran}</strong></span>
-            <span class="text-[var(--accent-text)] font-bold">Buka &rarr;</span>
-          </div>
-        </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
 
     container.innerHTML = `
       <div class="space-y-12">
-        <div class="text-center max-w-3xl mx-auto" data-reveal>
-          <div class="section-badge">${UI.sertifikat?.badge || "04 SERTIFIKAT"}</div>
+        <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
+          <div class="section-badge" data-aos="zoom-in" data-aos-duration="450">${UI.sertifikat?.badge || "04 SERTIFIKAT"}</div>
           <h2 class="section-title">
             <span class="title-highlight">${UI.sertifikat?.judulWord1 || "BUKTI"}</span> ${UI.sertifikat?.judulWord2 || "KOMPETENSI"}
           </h2>
@@ -475,7 +492,7 @@ const PortfolioRenderer = {
         </div>
 
         <!-- Filter Tab Kotak -->
-        <div class="flex flex-wrap items-center justify-center gap-3" data-reveal>
+        <div class="flex flex-wrap items-center justify-center gap-3" data-aos="fade-up">
           ${filterBtnsHtml}
         </div>
 
@@ -485,7 +502,7 @@ const PortfolioRenderer = {
         </div>
 
         <!-- Stiker Miring QR Code Sertifikat Lengkap -->
-        <div class="qr-sticker p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6" data-reveal>
+        <div class="qr-sticker p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6" data-aos="zoom-in">
           <div class="flex items-center gap-5">
             <div class="w-24 h-24 sm:w-28 sm:h-28 bg-white p-2 border-2 border-[var(--line)] shadow-[3px_3px_0_var(--shadow-hard)] flex-shrink-0 flex items-center justify-center">
               <img 
@@ -515,7 +532,7 @@ const PortfolioRenderer = {
     `;
   },
 
-  // 6. Render Pendidikan & Organisasi (Dua Kolom Terpisah)
+  // 6. Render Pendidikan & Organisasi (AOS: Pendidikan fade-right, Organisasi fade-left)
   renderTimeline(data) {
     const container = document.getElementById('timeline-container');
     if (!container) return;
@@ -530,7 +547,7 @@ const PortfolioRenderer = {
       const descParagraph = e.deskripsi ? `<p class="text-xs sm:text-sm text-[var(--ink-muted)] mt-2 leading-relaxed font-medium">${e.deskripsi}</p>` : '';
 
       return `
-        <div class="relative pl-8 pb-8 last:pb-0 group" data-reveal>
+        <div class="relative pl-8 pb-8 last:pb-0 group" data-aos="fade-right">
           <div class="absolute left-3 top-2.5 bottom-0 w-0.5 bg-[var(--line)] group-last:hidden"></div>
           <div class="absolute left-1 top-2 w-4 h-4 bg-[var(--accent)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)]"></div>
           
@@ -549,7 +566,7 @@ const PortfolioRenderer = {
 
     // Organisasi & Pengabdian
     const orgHtml = data.organisasiPengabdian.map(o => `
-      <div class="relative pl-8 pb-8 last:pb-0 group" data-reveal>
+      <div class="relative pl-8 pb-8 last:pb-0 group" data-aos="fade-left">
         <div class="absolute left-3 top-2.5 bottom-0 w-0.5 bg-[var(--line)] group-last:hidden"></div>
         <div class="absolute left-1 top-2 w-4 h-4 bg-[var(--accent-2)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)]"></div>
         
@@ -567,8 +584,8 @@ const PortfolioRenderer = {
 
     container.innerHTML = `
       <div class="space-y-12">
-        <div class="text-center max-w-3xl mx-auto" data-reveal>
-          <div class="section-badge">${UI.timeline?.badge || "05 PERJALANAN"}</div>
+        <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
+          <div class="section-badge" data-aos="zoom-in" data-aos-duration="450">${UI.timeline?.badge || "05 PERJALANAN"}</div>
           <h2 class="section-title">
             <span class="title-highlight">${UI.timeline?.judulWord1 || "JEJAK"}</span> ${UI.timeline?.judulWord2 || "LANGKAH"}
           </h2>
@@ -580,7 +597,7 @@ const PortfolioRenderer = {
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <!-- Kolom 1: Riwayat Pendidikan -->
           <div>
-            <div class="flex items-center gap-2 mb-6" data-reveal>
+            <div class="flex items-center gap-2 mb-6" data-aos="fade-up">
               <span class="w-8 h-8 bg-[var(--surface)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] flex items-center justify-center text-[var(--ink)]">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 14l9-5-9-5-9 5 9 5z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg>
               </span>
@@ -593,9 +610,9 @@ const PortfolioRenderer = {
 
           <!-- Kolom 2: Organisasi & Pengabdian -->
           <div>
-            <div class="flex items-center gap-2 mb-6" data-reveal>
+            <div class="flex items-center gap-2 mb-6" data-aos="fade-up">
               <span class="w-8 h-8 bg-[var(--surface)] border-2 border-[var(--line)] shadow-[2px_2px_0_var(--shadow-hard)] flex items-center justify-center text-[var(--ink)]">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
               </span>
               <h3 class="font-anton text-2xl tracking-wide text-[var(--ink)]">${UI.timeline?.colOrganisasi || "Organisasi & Pengabdian"}</h3>
             </div>
@@ -608,7 +625,7 @@ const PortfolioRenderer = {
     `;
   },
 
-  // 7. Render Kontak Section (Blok Kuning Besar & Form Mailto)
+  // 7. Render Kontak Section (AOS: fade-up pada blok kontak)
   renderKontak(data) {
     const container = document.getElementById('kontak-container');
     if (!container) return;
@@ -618,15 +635,15 @@ const PortfolioRenderer = {
 
     container.innerHTML = `
       <div class="space-y-12">
-        <div class="text-center max-w-3xl mx-auto" data-reveal>
-          <div class="section-badge">${UI.kontak?.badge || "06 KONTAK"}</div>
+        <div class="text-center max-w-3xl mx-auto" data-aos="fade-up">
+          <div class="section-badge" data-aos="zoom-in" data-aos-duration="450">${UI.kontak?.badge || "06 KONTAK"}</div>
           <h2 class="section-title">
             <span class="title-highlight">${UI.kontak?.judulWord1 || "HUBUNGI"}</span> ${UI.kontak?.judulWord2 || "SAYA"}
           </h2>
           <p class="mt-3 text-base sm:text-lg text-[var(--ink-muted)] font-medium">
             ${UI.kontak?.subjudul || "Punya ide proyek, tawaran magang, atau ingin berdiskusi? Pintu selalu terbuka."}
           </p>
-          <div class="mt-2">
+          <div class="mt-2" data-aos="zoom-in">
             <span class="font-marker text-base sm:text-lg text-[var(--accent)] -rotate-2 inline-block">
               ⚡ ${UI.kontak?.brushAccent || "Respon cepat via WhatsApp!"}
             </span>
@@ -634,7 +651,7 @@ const PortfolioRenderer = {
         </div>
 
         <!-- Blok Kuning Besar Poster -->
-        <div class="bg-[var(--accent)] text-[var(--on-accent)] border-[2.5px] border-[var(--line)] shadow-[8px_8px_0_var(--shadow-hard)] p-6 sm:p-10 lg:p-12" data-reveal>
+        <div class="bg-[var(--accent)] text-[var(--on-accent)] border-[2.5px] border-[var(--line)] shadow-[8px_8px_0_var(--shadow-hard)] p-6 sm:p-10 lg:p-12" data-aos="fade-up">
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
             <!-- Kolom Info Saluran Kontak -->
@@ -741,7 +758,7 @@ const PortfolioRenderer = {
     `;
   },
 
-  // 8. Render Footer Section
+  // 8. Render Footer Section (AOS: fade)
   renderFooter(data) {
     const container = document.getElementById('footer-container');
     if (!container) return;
@@ -750,7 +767,7 @@ const PortfolioRenderer = {
     const { nama, peran } = data.identitas;
 
     container.innerHTML = `
-      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6" data-aos="fade">
         <div class="text-center md:text-left">
           <span class="font-anton text-2xl tracking-wide text-[var(--ink)] block">${nama}</span>
           <span class="text-xs font-bold uppercase tracking-wider text-[var(--accent-text)]">${peran}</span>
@@ -767,7 +784,7 @@ const PortfolioRenderer = {
           <a href="#kontak" class="hover:text-[var(--accent)] transition-colors">Kontak</a>
         </nav>
 
-        <button id="btn-back-to-top" type="button" class="btn-poster-secondary text-xs py-2 px-3.5 flex items-center gap-2" aria-label="Kembali ke bagian atas halaman">
+        <button id="btn-back-to-top" type="button" class="btn-poster-secondary text-xs py-2 px-3.5 flex items-center gap-2 cursor-pointer" aria-label="Kembali ke bagian atas halaman">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
           ${UI.footer?.btnTop || "KE PUNCAK ↑"}
         </button>
@@ -793,6 +810,11 @@ const PortfolioRenderer = {
     this.renderTimeline(data);
     this.renderKontak(data);
     this.renderFooter(data);
+
+    // Refresh AOS setelah seluruh elemen selesai dirender
+    if (typeof AOS !== 'undefined') {
+      AOS.refreshHard();
+    }
   }
 };
 

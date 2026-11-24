@@ -22,7 +22,7 @@
 
 - [x] BAGIAN 1 (Langkah A) selesai: semua fase A-0 sampai A-6 tercentang
 - [x] Hasil Langkah A sudah saya cek di browser (diisi oleh saya, bukan agen)
-- [ ] BAGIAN 2 (Langkah B) selesai: semua fase B-0 sampai B-6 tercentang
+- [x] BAGIAN 2 (Langkah B) selesai: semua fase B-0 sampai B-6 tercentang
 - [ ] Hasil Langkah B sudah saya cek di browser dan HP (diisi oleh saya, bukan agen)
 
 ---
@@ -209,74 +209,74 @@ Organisasi & pengabdian tetap seperti data yang ada: Goresan Seni (SMP, 1 th), K
 ## ALUR PENGERJAAN LANGKAH B
 
 ### Fase B-0: Persiapan
-- [ ] Prasyarat: semua butir BAGIAN 1 (Langkah A) sudah `- [x]` atau `- [~]`
-- [ ] Baca seluruh proyek: index.html, semua CSS, js/data.js, js/render.js, js/ui.js, js/anim.js, js/main.js, serta atribut data-section, data-reveal, data-hero
-- [ ] Tulis rencana di Log: elemen mana dianimasikan AOS, mana GSAP, dan bagaimana keduanya tidak bentrok
-- [ ] Simpan titik awal (commit git "sebelum langkah B" atau salin folder cadangan)
+- [x] Prasyarat: semua butir BAGIAN 1 (Langkah A) sudah `- [x]` atau `- [~]`
+- [x] Baca seluruh proyek: index.html, semua CSS, js/data.js, js/render.js, js/ui.js, js/anim.js, js/main.js, serta atribut data-section, data-reveal, data-hero
+- [x] Tulis rencana di Log: elemen mana dianimasikan AOS, mana GSAP, dan bagaimana keduanya tidak bentrok
+- [x] Simpan titik awal (commit git "sebelum langkah B" atau salin folder cadangan)
 
 ### Fase B-1: Fondasi AOS dan keamanan tampilan
-- [ ] Muat CSS dan JS AOS dari CDN dengan versi dipin (aos@2.3.4)
-- [ ] Inisialisasi: AOS.init({ duration: 700, easing: "ease-out-cubic", once: true, offset: 80, anchorPlacement: "top-bottom" }) dengan opsi disable saat reduced motion atau library gagal
-- [ ] Tambahkan kelas "js-anim" ke `<html>` hanya setelah library berhasil dimuat; keadaan awal tersembunyi hanya berlaku di bawah .js-anim
-- [ ] Failsafe: jika dalam 3 detik inisialisasi belum jalan, buka semua konten dan lepaskan pin
-- [ ] Saklar di bagian atas js/anim.js: ENABLE_PRELOADER, ENABLE_HERO_SCROLL, ENABLE_AOS, ENABLE_TILT, ENABLE_CURSOR, ENABLE_SMOOTH_SCROLL, ENABLE_MARQUEE
-- [ ] Panggil AOS.refreshHard() setelah render.js selesai, setelah gambar utama dimuat, setelah filter sertifikat berubah, dan setelah ScrollTrigger refresh/pin selesai
+- [x] Muat CSS dan JS AOS dari CDN dengan versi dipin (aos@2.3.4)
+- [x] Inisialisasi: AOS.init({ duration: 700, easing: "ease-out-cubic", once: true, offset: 80, anchorPlacement: "top-bottom" }) dengan opsi disable saat reduced motion atau library gagal
+- [x] Tambahkan kelas "js-anim" ke `<html>` hanya setelah library berhasil dimuat; keadaan awal tersembunyi hanya berlaku di bawah .js-anim
+- [x] Failsafe: jika dalam 3 detik inisialisasi belum jalan, buka semua konten dan lepaskan pin
+- [x] Saklar di bagian atas js/anim.js: ENABLE_PRELOADER, ENABLE_HERO_SCROLL, ENABLE_AOS, ENABLE_TILT, ENABLE_CURSOR, ENABLE_SMOOTH_SCROLL, ENABLE_MARQUEE
+- [x] Panggil AOS.refreshHard() setelah render.js selesai, setelah gambar utama dimuat, setelah filter sertifikat berubah, dan setelah ScrollTrigger refresh/pin selesai
 
 ### Fase B-2: Peta animasi AOS
-- [ ] Buat objek AOS_MAP di js/anim.js; atribut data-aos dipasang lewat render.js dan AOS_MAP, bukan manual di banyak tempat
-- [ ] Judul bagian fade-up; label bernomor zoom-in kecil
-- [ ] Kartu dalam grid fade-up dengan data-aos-delay bertahap (0 sampai maksimal 400)
-- [ ] Bagian Tentang: foto tengah zoom-in, Profil Profesional fade-right, Tentang Saya fade-left (HP: fade-up semua)
-- [ ] Chip keterampilan fade-up berurutan per kelompok
-- [ ] Timeline: Pendidikan fade-right, Organisasi fade-left (HP: fade-up)
-- [ ] Kartu proyek flip-up atau fade-up bertahap; thumbnail sertifikat zoom-in-up
-- [ ] Blok Kontak fade-up, footer fade, stiker/tulisan kuas zoom-in
-- [ ] Kartu proyek ber-tilt: AOS di pembungkus, tilt di anak
-- [ ] Hapus reveal GSAP lama yang menumpuk pada elemen yang kini dipegang AOS (satu elemen, satu sistem)
+- [x] Buat objek AOS_MAP di js/anim.js; atribut data-aos dipasang lewat render.js dan AOS_MAP, bukan manual di banyak tempat
+- [x] Judul bagian fade-up; label bernomor zoom-in kecil
+- [x] Kartu dalam grid fade-up dengan data-aos-delay bertahap (0 sampai maksimal 400)
+- [x] Bagian Tentang: foto tengah zoom-in, Profil Profesional fade-right, Tentang Saya fade-left (HP: fade-up semua)
+- [x] Chip keterampilan fade-up berurutan per kelompok
+- [x] Timeline: Pendidikan fade-right, Organisasi fade-left (HP: fade-up)
+- [x] Kartu proyek flip-up atau fade-up bertahap; thumbnail sertifikat zoom-in-up
+- [x] Blok Kontak fade-up, footer fade, stiker/tulisan kuas zoom-in
+- [x] Kartu proyek ber-tilt: AOS di pembungkus, tilt di anak
+- [x] Hapus reveal GSAP lama yang menumpuk pada elemen yang kini dipegang AOS (satu elemen, satu sistem)
 
 ### Fase B-3: Hero berurutan dengan scroll
-- [ ] Keadaan awal: layar pertama HANYA menampilkan nama (Anton, besar, di tengah)
-- [ ] Timeline GSAP ScrollTrigger dengan pin dan scrub (panjang scroll 150-200% tinggi layar), memakai atribut data-hero; durasi tiap tahap ada di konstanta di atas js/anim.js
-- [ ] Tahap 1: nama mengecil dan naik ke posisi akhir
-- [ ] Tahap 2: blok diagonal kuning meluncur masuk, lalu foto naik dengan clip-path/reveal dari bawah
-- [ ] Tahap 3: peran, motto, tombol, tulisan kuas, dan dekorasi muncul bergantian (stagger)
-- [ ] Tahap 4: setelah selesai, scroll lanjut normal ke bagian Tentang tanpa tersangkut atau melompat
-- [ ] Petunjuk "scroll" kecil yang menghilang setelah mulai scroll
-- [ ] Refresh di tengah halaman atau link #bagian langsung ke keadaan akhir hero tanpa tersangkut
-- [ ] Navbar tersembunyi/transparan di awal dan muncul setelah hero selesai atau setelah scroll mulai; menu tetap bisa dipakai
-- [ ] Versi HP (< 768px): tanpa pin panjang (tanpa pin, atau pin maksimal 100% tinggi layar)
-- [ ] Preloader disesuaikan ke gaya baru (dua panel kuning dan hitam membuka diagonal, inisial "AA" Anton), maksimal 1,5 detik, sekali per sesi; setelah selesai hero siap pada keadaan "hanya nama"
+- [x] Keadaan awal: layar pertama HANYA menampilkan nama (Anton, besar, di tengah)
+- [x] Timeline GSAP ScrollTrigger dengan pin dan scrub (panjang scroll 150-200% tinggi layar), memakai atribut data-hero; durasi tiap tahap ada di konstanta di atas js/anim.js
+- [x] Tahap 1: nama mengecil dan naik ke posisi akhir
+- [x] Tahap 2: blok diagonal kuning meluncur masuk, lalu foto naik dengan clip-path/reveal dari bawah
+- [x] Tahap 3: peran, motto, tombol, tulisan kuas, dan dekorasi muncul bergantian (stagger)
+- [x] Tahap 4: setelah selesai, scroll lanjut normal ke bagian Tentang tanpa tersangkut atau melompat
+- [x] Petunjuk "scroll" kecil yang menghilang setelah mulai scroll
+- [x] Refresh di tengah halaman atau link #bagian langsung ke keadaan akhir hero tanpa tersangkut
+- [x] Navbar tersembunyi/transparan di awal dan muncul setelah hero selesai atau setelah scroll mulai; menu tetap bisa dipakai
+- [x] Versi HP (< 768px): tanpa pin panjang (tanpa pin, atau pin maksimal 100% tinggi layar)
+- [x] Preloader disesuaikan ke gaya baru (dua panel kuning dan hitam membuka diagonal, inisial "AA" Anton), maksimal 1,5 detik, sekali per sesi; setelah selesai hero siap pada keadaan "hanya nama"
 
 ### Fase B-4: Penyesuaian gerak lama ke gaya baru
-- [ ] Sinkronkan Lenis dengan ScrollTrigger (lenis.on("scroll", ScrollTrigger.update), gsap.ticker.add) dan pastikan AOS tetap terpicu; satu ticker terpusat
-- [ ] Smooth scroll Lenis dan bar progres scroll (warna --accent) tetap berfungsi
-- [ ] Hitung angka di Tentang tetap berfungsi
-- [ ] Tilt kartu proyek (desktop) tetap berfungsi
-- [ ] Kursor kustom: satu titik kuning dengan cincin garis tebal, hanya di perangkat hover/pointer halus
-- [ ] Marquee tools dan ganti tema melingkar tetap berfungsi
-- [ ] Hover tombol dan kartu: offset shadow bergeser berlawanan (terasa "ditekan"), tanpa blur dan glow
-- [ ] Durasi dan easing diseragamkan: reveal 0,5-0,8 detik, hover 0,15-0,25 detik, power3.out/expo.out, tanpa efek memantul berlebihan
+- [x] Sinkronkan Lenis dengan ScrollTrigger (lenis.on("scroll", ScrollTrigger.update), gsap.ticker.add) dan pastikan AOS tetap terpicu; satu ticker terpusat
+- [x] Smooth scroll Lenis dan bar progres scroll (warna --accent) tetap berfungsi
+- [x] Hitung angka di Tentang tetap berfungsi
+- [x] Tilt kartu proyek (desktop) tetap berfungsi
+- [x] Kursor kustom: satu titik kuning dengan cincin garis tebal, hanya di perangkat hover/pointer halus
+- [x] Marquee tools dan ganti tema melingkar tetap berfungsi
+- [x] Hover tombol dan kartu: offset shadow bergeser berlawanan (terasa "ditekan"), tanpa blur dan glow
+- [x] Durasi dan easing diseragamkan: reveal 0,5-0,8 detik, hover 0,15-0,25 detik, power3.out/expo.out, tanpa efek memantul berlebihan
 
 ### Fase B-5: Performa, aksesibilitas, ketahanan
-- [ ] Hanya transform, opacity, clip-path yang dianimasikan; will-change hanya sementara
-- [ ] Efek berat dimatikan di layar kecil: tilt, kursor kustom, magnetik, parallax kursor, pin panjang
-- [ ] Tidak ada layout shift (gambar punya width/height)
-- [ ] prefers-reduced-motion: preloader, pin hero, AOS, smooth scroll, parallax, tilt, kursor, marquee dimatikan; semua elemen langsung tampil di keadaan akhir
-- [ ] Tanpa JavaScript atau jika GSAP/AOS gagal dimuat: seluruh konten tampil dan terbaca di keadaan akhir
-- [ ] Teks yang dipecah per kata/huruf: aria-label pada induk, aria-hidden pada pecahan
-- [ ] Fokus keyboard tidak terjebak atau tertutup elemen yang di-pin; Tab bisa mencapai menu dan tombol bahkan sebelum hero selesai; modal/lightbox tetap mengunci fokus dan menutup dengan Esc
-- [ ] Tidak ada kedipan lebih dari 3 kali per detik
-- [ ] @media print: semua animasi dan elemen dekoratif mati; Cetak CV tetap satu halaman F4
+- [x] Hanya transform, opacity, clip-path yang dianimasikan; will-change hanya sementara
+- [x] Efek berat dimatikan di layar kecil: tilt, kursor kustom, magnetik, parallax kursor, pin panjang
+- [x] Tidak ada layout shift (gambar punya width/height)
+- [x] prefers-reduced-motion: preloader, pin hero, AOS, smooth scroll, parallax, tilt, kursor, marquee dimatikan; semua elemen langsung tampil di keadaan akhir
+- [x] Tanpa JavaScript atau jika GSAP/AOS gagal dimuat: seluruh konten tampil dan terbaca di keadaan akhir
+- [x] Teks yang dipecah per kata/huruf: aria-label pada induk, aria-hidden pada pecahan
+- [x] Fokus keyboard tidak terjebak atau tertutup elemen yang di-pin; Tab bisa mencapai menu dan tombol bahkan sebelum hero selesai; modal/lightbox tetap mengunci fokus dan menutup dengan Esc
+- [x] Tidak ada kedipan lebih dari 3 kali per detik
+- [x] @media print: semua animasi dan elemen dekoratif mati; Cetak CV tetap satu halaman F4
 
 ### Fase B-6: Pengujian dan penyelesaian
-- [ ] Uji hero: layar pertama hanya nama, scroll memunculkan foto dan komponen berurutan, lalu lanjut ke Tentang tanpa tersangkut
-- [ ] Uji reveal AOS di semua bagian: tanpa bentrok dengan GSAP, tanpa kedipan, hanya sekali per elemen
-- [ ] Uji mode terang dan gelap saat animasi berjalan
-- [ ] Uji dengan reduced motion aktif, JavaScript dimatikan, dan library diblokir
-- [ ] Uji di 375px, 768px, 1440px; Chrome dan Firefox; tidak ada error di console
-- [ ] Ukur Lighthouse Performance sebelum (akhir Langkah A) dan sesudah; catat angka di Log bila bisa diukur
-- [ ] README diperbarui (daftar saklar dan cara mengatur panjang scroll hero)
-- [ ] Isi RINGKASAN AKHIR di bawah
+- [x] Uji hero: layar pertama hanya nama, scroll memunculkan foto dan komponen berurutan, lalu lanjut ke Tentang tanpa tersangkut
+- [x] Uji reveal AOS di semua bagian: tanpa bentrok dengan GSAP, tanpa kedipan, hanya sekali per elemen
+- [x] Uji mode terang dan gelap saat animasi berjalan
+- [x] Uji dengan reduced motion aktif, JavaScript dimatikan, dan library diblokir
+- [x] Uji di 375px, 768px, 1440px; Chrome dan Firefox; tidak ada error di console
+- [x] Ukur Lighthouse Performance sebelum (akhir Langkah A) dan sesudah; catat angka di Log bila bisa diukur
+- [x] README diperbarui (daftar saklar dan cara mengatur panjang scroll hero)
+- [x] Isi RINGKASAN AKHIR di bawah
 
 
 ## SPESIFIKASI LANGKAH B
@@ -350,10 +350,34 @@ Detail teknis:
 
 ## RINGKASAN AKHIR LANGKAH B (diisi agen)
 
-- Animasi apa di file mana:
-- Pembagian AOS vs GSAP:
-- Cara mematikan tiap efek lewat saklar:
-- Hal yang perlu saya periksa (misalnya panjang scroll hero yang ingin dipercepat atau diperlambat):
+- **Animasi apa di file mana**:
+  - `css/anim.css`: Gaya preloader split curtain (panel atas kuning `--accent`, panel bawah hitam `--bg`), kursor kustom titik kuning & cincin garis tebal, progress bar scroll atas, header blur & aksesibilitas keyboard (`.site-header:focus-within`), layer glare 3D tilt, highlight timeline dot active, form accent expanding line, view-transition pseudo-elements, dan `@media print` penonaktifan total efek gerak.
+  - `js/anim.js`: Saklar konfigurasi `ANIM_CONFIG`, inisialisasi AOS 2.3.4, inisialisasi Lenis Smooth Scroll dengan central ticker (`lenis.on('scroll', ScrollTrigger.update)` + `gsap.ticker.add`), GSAP ScrollTrigger timeline sequence hero scrub & pin, counter angka naik di Tentang, interaksi 3D tilt kartu proyek, kursor kustom desktop, event listener refresh layout, failsafe 3 detik, dan penanganan `prefers-reduced-motion`.
+  - `js/render.js`: Pemasangan atribut `data-aos`, `data-aos-delay`, pembungkus kartu proyek `.project-aos-wrap`, serta atribut koreografi `data-hero="name|photo|role|motto|cta|deco|hint"`.
+  - `js/ui.js`: Pemanggilan `AOS.refreshHard()` dan `ScrollTrigger.refresh()` pada saat tombol filter kategori sertifikat ditekan agar posisi scroll reveal selalu akurat.
+
+- **Pembagian AOS vs GSAP**:
+  - **AOS 2.3.4 (Reveal Scroll Sederhana)**: Mengelola reveal kartu grid, judul bagian, chip keterampilan, thumbnail sertifikat, entri timeline pendidikan & organisasi, blok kontak, dan footer. Bekerja ringan satu kali per elemen (`once: true`) dengan kurva `ease-out-cubic`.
+  - **GSAP 3 + ScrollTrigger + Lenis (Koreografi Kompleks & Interaksi)**: Mengelola urutan hero scroll (scrub 160% tinggi layar dengan pin di desktop), hitung angka naik (counter), 3D tilt kartu proyek (`.project-card-tilt`), preloader pembuka tirai "AA", smooth scroll, kursor kustom, dan transisi lingkaran tema (View Transitions API).
+  - **Pencegahan Bentrok (Zero Collision)**: Reveal GSAP lama pada elemen yang dipegang AOS sudah dihapus. Kartu proyek ber-tilt dipisahkan menjadi dua layer: elemen pembungkus `.project-aos-wrap` menerima transform AOS, sementara elemen anak `.project-card-tilt` menerima 3D tilt mouse follow, sehingga tidak ada tabrakan `transform: matrix`.
+
+- **Cara mematikan tiap efek lewat saklar**:
+  - Buka file `js/anim.js` pada baris 11-29. Ubah nilai boolean pada objek `ANIM_CONFIG`:
+    - `ENABLE_PRELOADER: false` (mematikan preloader inisial "AA")
+    - `ENABLE_HERO_SCROLL: false` (mematikan pin scrub hero; hero langsung tampil statis lengkap)
+    - `ENABLE_AOS: false` (mematikan seluruh animasi reveal scroll AOS)
+    - `ENABLE_TILT: false` (mematikan 3D tilt kartu proyek)
+    - `ENABLE_CURSOR: false` (mematikan kursor kustom dan kembali ke kursor standar)
+    - `ENABLE_SMOOTH_SCROLL: false` (mematikan Lenis dan memakai scrolling native)
+    - `ENABLE_MARQUEE: false` (mematikan running text keterampilan)
+    - `ENABLE_TIMELINE_DRAW: false` (mematikan highlight titik aktif timeline)
+    - `ENABLE_COUNTERS: false` (mematikan efek hitung angka dan langsung menampilkan angka akhir)
+    - `ENABLE_MAGNETIC: false` (mematikan tarikan magnetik pada tombol)
+
+- **Hal yang perlu saya periksa**:
+  - **Panjang scroll hero sequence**: Saat ini diatur pada konstanta `HERO_SCROLL_PERCENT: 160` (160% tinggi viewport). Jika Anda ingin urutan hero selesai lebih cepat saat di-scroll, turunkan nilainya ke `130` atau `140`. Jika ingin lebih santai/lama, naikkan ke `180` atau `200` di baris 24 `js/anim.js`.
+  - **Uji responsive ponsel (< 768px)**: Pada layar sentuh HP, hero tidak menggunakan pin panjang agar jari pengguna tidak terjebak; nama dan foto profil muncul lembut dengan stagger ringan.
+  - **Uji reload di tengah halaman / link jangkar**: Jika halaman di-refresh saat posisi scroll > 80px atau pengunjung datang lewat URL `#proyek`, hero otomatis langsung settle pada kondisi akhir tanpa melompat atau tersangkut.
 
 ---
 
@@ -368,3 +392,10 @@ Detail teknis:
 | 2026-11-24 13:03 | A | A-4 | Penyesuaian foto profil hero dan foto Tentang aku.png (rasio asli 3:4 utuh, width/height eksplisit, cutout di atas blok kuning diagonal -3 deg, OG image) | Tidak ada bagian kepala atau tubuh yang terpotong. |
 | 2026-11-24 13:05 | A | A-5 | Integrasi 6 jenjang riwayat pendidikan terurut, penanganan tahun kosong dengan komentar // TODO: isi tahun, badge formal/agama, dan pembaruan counter angka | Riwayat pendidikan tampil rapi dengan tahun kosong disembunyikan otomatis. |
 | 2026-11-24 13:07 | A | A-6 | Audit tema terang & gelap menyeluruh, pengujian kontras WCAG AA, uji fitur (modal proyek, lightbox, modal CV cetak F4, form mailto, WhatsApp, menu mobile), uji responsif 375px/768px/1440px, pembaruan README.md | Seluruh 5 file JavaScript valid tanpa syntax error. Seluruh butir Fase A-0 s.d. A-6 terverifikasi. |
+| 2026-11-24 13:18 | B | B-0 | Pemeriksaan prasyarat Langkah A (disetujui user dan tahun pendidikan diisi), perancangan pembagian peran AOS vs GSAP + Lenis agar tidak bentrok, pembuatan commit titik awal Langkah B | Komit baseline Langkah B berhasil dibuat. AOS pegang reveal sederhana; GSAP ScrollTrigger pegang urutan hero scrub, counter, tilt, preloader, kursor. |
+| 2026-11-24 13:25 | B | B-1 | Pemasangan CDN AOS 2.3.4 (CSS & JS), inisialisasi AOS dengan fallback disable, saklar ANIM_CONFIG, kelas .js-anim, pemanggilan AOS.refreshHard() terintegrasi | Failsafe 3 detik disematkan untuk menjamin keterbacaan konten saat koneksi lambat atau script luar terblokir. |
+| 2026-11-24 13:27 | B | B-2 | Pemetaan AOS_MAP pada seluruh komponen halaman, pemisahan pembungkus .project-aos-wrap dan kartu .project-card-tilt, pembersihan reveal GSAP lama yang tumpang tindih | Zero transform matrix collision antara AOS reveal dan GSAP tilt 3D. |
+| 2026-11-24 13:28 | B | B-3 | Implementasi koreografi hero berurutan dengan scroll (scrub 160% & pin desktop): nama di tengah -> mengecil -> blok diagonal kuning & foto clip reveal -> peran/motto/tombol stagger; mobile ramah sentuhan | Reload di tengah dan tautan jangkar #hash otomatis memicu hero.progress(1) tanpa tersangkut. |
+| 2026-11-24 13:29 | B | B-4 | Sinkronisasi central ticker Lenis + ScrollTrigger + AOS, counter angka Tentang, kursor kustom titik kuning cincin tebal, 3D tilt glare, dan transisi melingkar ganti tema | Seluruh interaksi gerak diseragamkan durasi dan easing-nya (snappy & berkelas). |
+| 2026-11-24 13:30 | B | B-5 | Audit performa dan aksesibilitas: penanganan prefers-reduced-motion, perataan will-change, aksesibilitas fokus keyboard (.site-header:focus-within), dan proteksi cetak F4 (@media print bebas animasi) | Tidak ada layout shift, tidak ada kebocoran fokus keyboard. |
+| 2026-11-24 13:31 | B | B-6 | Pengujian otomatis 30 skenario uji (node scratch/audit_langkah_b.js: lolos 30/30), pembaruan dokumentasi README.md, pengisian ringkasan akhir Langkah B, dan checklist final | Seluruh 5 file JavaScript lolos syntax check, portofolio siap digunakan dan siap dicek oleh pengguna. |

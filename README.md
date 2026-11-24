@@ -137,35 +137,50 @@ Website dilengkapi modal CV yang dapat mencetak lembar CV resmi secara langsung:
 
 ---
 
-## ✨ Fitur Animasi & Interaksi Gerak (Tahap 2)
+## ✨ Fitur Animasi & Interaksi Gerak (Langkah B)
 
-Animasi dikoreografi secara modular di [css/anim.css](file:///d:/web%20portofolio/css/anim.css) dan [js/anim.js](file:///d:/web%20portofolio/js/anim.js) menggunakan GSAP 3, ScrollTrigger, dan Lenis Smooth Scroll:
-1. **Preloader Singkat (< 1.5s)**: Animasi gambar garis SVG logo "AA", hitungan persen, dan pembukaan tirai ganda (*curtain split*). Hanya muncul sekali per sesi browser (`sessionStorage`).
-2. **Hero Intro & Parallax**: Mask reveal pada nama, stagger pada tombol, parallax mouse follow pada foto profil desktop, dan dekorasi background mengambang.
-3. **Smooth Scroll & Progress Bar**: Smooth scrolling dengan Lenis, indikator progress bar teal di atas halaman, serta navbar dinamis saat di-scroll.
-4. **Scroll Reveal**: Efek reveal berkelas pada judul, kartu, dan paragraf saat masuk viewport (hanya sekali per elemen).
-5. **Counter Angka**: Angka statistik di bagian Tentang menghitung naik dari 0 ke nilai target dengan kurva easing halus.
-6. **Infinite Marquee**: Baris horizontal berjalan tak berujung menampilkan seluruh daftar teknologi, jeda otomatis saat di-hover.
-7. **3D Tilt Kartu Proyek**: Efek kemiringan interaktif 3D (maks 6-8 derajat) dengan lapisan kilau (*glare*) dinamis mengikuti kursor (desktop).
-8. **FLIP Filter Sertifikat & Lightbox**: Transisi penyusunan ulang kartu sertifikat yang mulus, lightbox zoom-in dengan navigasi keyboard (`Esc`, panah) dan swipe layar sentuh.
-9. **Timeline Draw**: Garis vertikal timeline bertumbuh seiring scroll dan titik-titik menyala (*glow*) saat disentuh.
-10. **Magnetic Buttons & Form Accent**: Tombol utama memiliki gaya tarik magnetik ringan ke arah kursor, dan kolom input memiliki garis fokus melebar dari tengah.
-11. **Kursor Kustom**: Kursor dot & ring halus dengan lerp yang membesar di atas elemen interaktif (hanya aktif pada perangkat mouse desktop).
-12. **Theme Circular Transition**: Pergantian tema gelap/terang dengan animasi lingkaran meluas (View Transitions API).
+Animasi dikoreografi secara modular dan terpisah di [css/anim.css](file:///d:/web%20portofolio/css/anim.css) dan [js/anim.js](file:///d:/web%20portofolio/js/anim.js) dengan pembagian tugas yang jelas tanpa bentrok:
+- **AOS 2.3.4**: Menangani *reveal* sederhana (judul bagian, kartu grid, chip keterampilan, thumbnail sertifikat, entri timeline, blok kontak, footer).
+- **GSAP 3 + ScrollTrigger + Lenis**: Menangani koreografi kompleks (urutan hero scroll berurutan, counter angka naik, 3D tilt kartu proyek, preloader, kursor kustom, smooth scroll, marquee).
+
+### Fitur Utama Animasi Langkah B:
+1. **Preloader Gaya Poster Berani (< 1.5s)**: Tirai kuning dan hitam membuka (*curtain split*), inisial "AA" huruf Anton, dan hitungan persen. Tampil 1x per sesi peramban (`sessionStorage`).
+2. **Koreografi Hero Scroll Berurutan (Scrub & Pin)**:
+   - Keadaan awal: layar pertama **hanya nama** (Anton, besar, di tengah).
+   - Saat pengunjung melakukan scroll:
+     - Tahap 1: Nama mengecil dan naik ke posisi grid hero.
+     - Tahap 2: Blok diagonal kuning meluncur masuk, lalu foto profil naik dengan efek *clip-path*.
+     - Tahap 3: Peran, motto, tombol aksi, tulisan kuas, dan dekorasi muncul bergantian (*stagger*).
+     - Tahap 4: Scroll berlanjut secara normal ke bagian Tentang tanpa tersangkut atau melompat.
+   - Petunjuk scroll kecil otomatis menghilang saat scroll dimulai.
+   - **Tahan Reload / Hash**: Jika pengunjung me-reload halaman di posisi tengah atau membuka tautan langsung ke `#proyek`, hero langsung berada di kondisi akhir tanpa terjebak.
+   - **Versi Layar Ponsel (< 768px)**: Tanpa *pinning* panjang untuk menjaga kelancaran gulir sentuh.
+3. **Pemisahan Tilt & AOS**: Kartu proyek dibungkus oleh `.project-aos-wrap` (AOS reveal) dan kartu anak `.project-card-tilt` (3D tilt & glare), mencegah tabrakan *matrix transform*.
+4. **Central Ticker Terpusat**: Lenis `on('scroll')` sinkron dengan `ScrollTrigger.update`, dan `ScrollTrigger.refresh()` otomatis menyegarkan `AOS.refreshHard()`.
+5. **Aksesibilitas & Keyboard Focus**: Navigasi atas otomatis terlihat jika elemen menu/tombol menerima fokus keyboard (Tab) melalui `.site-header:focus-within`.
 
 ### Cara Mematikan atau Menyesuaikan Efek Tertentu
-Buka file `js/anim.js`, di bagian paling atas terdapat objek konfigurasi `ANIM_CONFIG`:
+Buka berkas `js/anim.js`, di bagian paling atas terdapat objek konfigurasi `ANIM_CONFIG`:
 ```javascript
 const ANIM_CONFIG = {
-  ENABLE_PRELOADER: true,      // Set ke false untuk menonaktifkan preloader
-  ENABLE_SMOOTH_SCROLL: true,  // Set ke false untuk menggunakan native scroll
-  ENABLE_CURSOR: true,         // Set ke false untuk memakai kursor standar
-  ENABLE_TILT: true,           // Set ke false untuk menonaktifkan 3D tilt kartu
-  ENABLE_MAGNETIC: true,       // Set ke false untuk mematikan efek magnet tombol
-  ENABLE_MARQUEE: true,        // Set ke false untuk mematikan marquee
-  ENABLE_TIMELINE_DRAW: true,  // Set ke false untuk timeline statis
-  ENABLE_COUNTERS: true,       // Set ke false untuk angka statis
-  ENABLE_THEME_TRANSITION: true // Set ke false untuk toggle tema instan
+  ENABLE_PRELOADER: true,       // false: nonaktifkan preloader
+  ENABLE_HERO_SCROLL: true,     // false: matikan pin scrub hero (hero langsung tampil statis)
+  ENABLE_AOS: true,             // false: nonaktifkan reveal scroll AOS
+  ENABLE_TILT: true,            // false: matikan efek 3D tilt kartu proyek
+  ENABLE_CURSOR: true,          // false: gunakan kursor standar sistem
+  ENABLE_SMOOTH_SCROLL: true,   // false: gunakan native scrolling bawaan browser
+  ENABLE_MARQUEE: true,         // false: matikan marquee teknologi
+  ENABLE_TIMELINE_DRAW: true,   // false: timeline statis tanpa highlight scroll
+  ENABLE_COUNTERS: true,        // false: tampilkan angka statistik langsung
+  ENABLE_MAGNETIC: true,        // false: matikan efek magnet pada tombol utama
+  ENABLE_THEME_TRANSITION: true,// false: transisi tema instan tanpa view transitions
+
+  // Pengaturan Jarak Scroll Hero Sequence:
+  HERO_SCROLL_PERCENT: 160,     // Panjang scrub scroll hero (150-200% dari tinggi layar)
+  HERO_STAGE1_DURATION: 0.9,    // Durasi scrub tahap nama
+  HERO_STAGE2_DURATION: 0.85,   // Durasi scrub tahap foto profil
+  HERO_STAGE3_DURATION: 0.9,    // Durasi scrub tahap peran, motto, tombol
+  HERO_BUFFER_DURATION: 0.3     // Buffer penstabilan sebelum unpin
 };
 ```
 
