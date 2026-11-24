@@ -32,8 +32,8 @@ window.portfolioData = {
       { label: "Sertifikasi Unggulan", value: "MTCNA (MikroTik Certified Network Associate)" }
     ],
     qrSertifikat: "assets/img/qr-sertifikat.png",
-    qrSertifikatText: "Scan atau buka l1nk.dev/62ia9zm untuk melihat seluruh sertifikat",
-    qrSertifikatUrl: "https://l1nk.dev/62ia9zm",
+    qrSertifikatText: "Scan atau buka l1nk.dev/0f7udm0 untuk melihat seluruh sertifikat",
+    qrSertifikatUrl: "https://l1nk.dev/0f7udm0",
     printCv: "assets/img/print-cv.png"
   },
 
@@ -81,7 +81,7 @@ window.portfolioData = {
       subjudul: "Sertifikasi teknis, kepemimpinan, dan dedikasi pengabdian masyarakat.",
       filterSemua: "SEMUA",
       qrLabel: "ARSIP LENGKAP",
-      qrAction: "Buka l1nk.dev/62ia9zm ↗"
+      qrAction: "Buka l1nk.dev/0f7udm0 ↗"
     },
     timeline: {
       badge: "05 PERJALANAN",

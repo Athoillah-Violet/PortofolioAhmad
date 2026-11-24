@@ -138,7 +138,7 @@ const PortfolioRenderer = {
 
     const totalProyek = data.proyek.length;
     const totalSertifikat = data.sertifikat.length;
-    
+
     let totalTahunOrganisasi = 0;
     data.organisasiPengabdian.forEach(item => {
       const match = item.durasi.match(/(\d+)\s*tahun/i);
@@ -383,13 +383,13 @@ const PortfolioRenderer = {
             <div class="p-6 pt-0">
               <!-- Chip Teknologi Kotak: max 3 chip + "+n" sisanya -->
               <div class="flex flex-wrap gap-1.5 mb-4">
-                ${(function() {
-                  const tags = p.teknologi;
-                  const maxTags = 3;
-                  const visible = tags.slice(0, maxTags).map(t => `<span class="chip-poster text-[11px] py-0.5 px-2">${t}</span>`).join('');
-                  const extra = tags.length > maxTags ? `<span class="chip-poster text-[11px] py-0.5 px-2">+${tags.length - maxTags}</span>` : '';
-                  return visible + extra;
-                })()}
+                ${(function () {
+          const tags = p.teknologi;
+          const maxTags = 3;
+          const visible = tags.slice(0, maxTags).map(t => `<span class="chip-poster text-[11px] py-0.5 px-2">${t}</span>`).join('');
+          const extra = tags.length > maxTags ? `<span class="chip-poster text-[11px] py-0.5 px-2">+${tags.length - maxTags}</span>` : '';
+          return visible + extra;
+        })()}
               </div>
 
               <div class="project-cta-row flex items-center justify-between gap-2 pt-3 border-t-2 border-[var(--line)]">
@@ -549,9 +549,9 @@ const PortfolioRenderer = {
             </div>
           </div>
 
-          <a href="${qrSertifikatUrl}" target="_blank" rel="noopener noreferrer" class="btn-poster-primary text-sm whitespace-nowrap w-full md:w-auto" aria-label="Buka arsip seluruh sertifikat di l1nk.dev/62ia9zm">
+          <a href="${qrSertifikatUrl}" target="_blank" rel="noopener noreferrer" class="btn-poster-primary text-sm whitespace-nowrap w-full md:w-auto" aria-label="Buka arsip seluruh sertifikat di ${qrSertifikatUrl}">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-            ${UI.sertifikat?.qrAction || "Buka l1nk.dev/62ia9zm ↗"}
+            ${UI.sertifikat?.qrAction || "Buka l1nk.dev/0f7udm0 ↗"}
           </a>
         </div>
       </div>

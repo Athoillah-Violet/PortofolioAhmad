@@ -1,0 +1,10 @@
+# Temporary & testing
+scratch/
+.gemini/
+*.log
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
