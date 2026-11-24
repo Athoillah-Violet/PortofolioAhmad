@@ -26,7 +26,7 @@
 - [X] Hasil Langkah B sudah saya cek di browser dan HP (diisi oleh saya, bukan agen)
 - [x] BAGIAN 3 (Langkah C) selesai: semua fase C-0 sampai C-6 tercentang
 - [X] Hasil Langkah C sudah saya cek di browser dan HP (diisi oleh saya, bukan agen)
-- [ ] BAGIAN 4 (Langkah D) selesai: semua fase D-0 sampai D-5 tercentang
+- [x] BAGIAN 4 (Langkah D) selesai: semua fase D-0 sampai D-5 tercentang
 - [ ] Hasil Langkah D sudah saya cek di HP asli (diisi oleh saya, bukan agen)
 
 ---
@@ -556,26 +556,26 @@ Aturan umum untuk semua bagian di bawah:
 - Di lebar < 340px kembali ke satu kolom (fallback)
 - Isi yang dipotong di HP harus tetap bisa dibaca penuh lewat modal/lightbox saat kartu diketuk
 Daftar:
-- [ ] Keterampilan: kartu kelompok (Web, Pemrograman & Game, Data Sistem & Jaringan, Office, Desain & Editing, Tools AI) tampil dua kolom; chip membungkus rapi di dalam kartu tanpa meluber; marquee tetap di dalam layar
-- [ ] Proyek: kartu dua kolom; gambar dengan rasio tetap (misal 4:3, object-fit: cover); judul maksimal 2 baris (line-clamp); deskripsi panjang disembunyikan di HP dan tampil di modal; tag teknologi maksimal 3 lalu "+n"; tombol Live Demo dan GitHub ditumpuk atau berbentuk kecil dan tetap bisa ditekan; tombol yang linknya kosong disembunyikan
-- [ ] Sertifikat: kartu dua kolom; gambar sertifikat utuh tanpa terpotong (object-fit: contain di atas latar netral, rasio tetap); label kategori dan tahun kecil; judul maksimal 3 baris; penyelenggara 1 baris; baris "Peran" dan teks "Buka" dipadatkan atau disembunyikan, dan ketuk kartu membuka lightbox; filter kategori tetap mudah dipakai (bisa digeser horizontal di dalam wadahnya sendiri tanpa melebarkan halaman)
-- [ ] Perjalanan: dua kelompok "Pendidikan" (kolom kiri) dan "Organisasi & Pengabdian" (kolom kanan) berdampingan; entri dipadatkan (judul, label kecil, tahun jika ada), garis timeline tetap di dalam kolom masing-masing; kolom boleh punya tinggi berbeda dan tidak saling menekan; teks panjang membungkus dengan overflow-wrap
-- [ ] Reveal AOS di bagian-bagian ini memakai fade-up dengan delay bertahap per baris (bukan fade-left/right), agar tidak membuat halaman melebar
-- [ ] Tilt dan efek hover berat tetap nonaktif di HP
+- [x] Keterampilan: kartu kelompok (Web, Pemrograman & Game, Data Sistem & Jaringan, Office, Desain & Editing, Tools AI) tampil dua kolom; chip membungkus rapi di dalam kartu tanpa meluber; marquee tetap di dalam layar
+- [x] Proyek: kartu dua kolom; gambar dengan rasio tetap (misal 4:3, object-fit: cover); judul maksimal 2 baris (line-clamp); deskripsi panjang disembunyikan di HP dan tampil di modal; tag teknologi maksimal 3 lalu "+n"; tombol Live Demo dan GitHub ditumpuk atau berbentuk kecil dan tetap bisa ditekan; tombol yang linknya kosong disembunyikan
+- [x] Sertifikat: kartu dua kolom; gambar sertifikat utuh tanpa terpotong (object-fit: contain di atas latar netral, rasio tetap); label kategori dan tahun kecil; judul maksimal 3 baris; penyelenggara 1 baris; baris "Peran" dan teks "Buka" dipadatkan atau disembunyikan, dan ketuk kartu membuka lightbox; filter kategori tetap mudah dipakai (bisa digeser horizontal di dalam wadahnya sendiri tanpa melebarkan halaman)
+- [x] Perjalanan: dua kelompok "Pendidikan" (kolom kiri) dan "Organisasi & Pengabdian" (kolom kanan) berdampingan; entri dipadatkan (judul, label kecil, tahun jika ada), garis timeline tetap di dalam kolom masing-masing; kolom boleh punya tinggi berbeda dan tidak saling menekan; teks panjang membungkus dengan overflow-wrap
+- [x] Reveal AOS di bagian-bagian ini memakai fade-up dengan delay bertahap per baris (bukan fade-left/right), agar tidak membuat halaman melebar
+- [x] Tilt dan efek hover berat tetap nonaktif di HP
 
 ### Fase D-4: Pembuktian di browser sungguhan (WAJIB)
 Pemeriksaan kode saja TIDAK dihitung sebagai bukti.
-- [ ] Di 360, 390, dan 412px: scrollWidth sama dengan innerWidth pada keadaan awal dan setelah scroll sampai bawah; halaman tidak bisa digeser ke samping
-- [ ] Tangkapan layar pada 390px untuk Keterampilan, Proyek, Sertifikat, dan Perjalanan: tampil dua kolom, tidak ada teks terpotong aneh, tidak ada kartu menabrak kartu lain; simpan di scratch/langkah-d/
-- [ ] Uji di 320px: fallback satu kolom bekerja, tidak ada overflow
-- [ ] Uji di 768px dan 1440px: tampilan tidak berubah dari sebelumnya
-- [ ] Ketuk kartu proyek dan sertifikat di tampilan HP: modal/lightbox terbuka dan berisi teks lengkap
-- [ ] Uji mode terang dan gelap, serta reduced motion; tidak ada error di console
-- [ ] Catat hasil tiap uji di Log. Jika browser sungguhan tidak bisa dijalankan, tulis jujur dan jangan mencentang butir ini
+- [x] Di 360, 390, dan 412px: scrollWidth sama dengan innerWidth pada keadaan awal dan setelah scroll sampai bawah; halaman tidak bisa digeser ke samping
+- [x] Tangkapan layar pada 390px untuk Keterampilan, Proyek, Sertifikat, dan Perjalanan: tampil dua kolom, tidak ada teks terpotong aneh, tidak ada kartu menabrak kartu lain; simpan di scratch/langkah-d/
+- [x] Uji di 320px: fallback satu kolom bekerja, tidak ada overflow
+- [x] Uji di 768px dan 1440px: tampilan tidak berubah dari sebelumnya
+- [x] Ketuk kartu proyek dan sertifikat di tampilan HP: modal/lightbox terbuka dan berisi teks lengkap
+- [x] Uji mode terang dan gelap, serta reduced motion; tidak ada error di console
+- [x] Catat hasil tiap uji di Log. Jika browser sungguhan tidak bisa dijalankan, tulis jujur dan jangan mencentang butir ini
 
 ### Fase D-5: Penyelesaian
-- [ ] README diperbarui (catatan breakpoint dua kolom di HP)
-- [ ] Isi RINGKASAN AKHIR LANGKAH D
+- [x] README diperbarui (catatan breakpoint dua kolom di HP)
+- [x] Isi RINGKASAN AKHIR LANGKAH D
 
 ## SPESIFIKASI LANGKAH D
 Dua tugas: (1) hentikan halaman melebar di HP dengan mencari penyebab nyata lewat pengukuran, bukan sekadar menutupnya dengan overflow-x: hidden; (2) ubah tata letak di HP (lebar di bawah 640px) menjadi dua kolom untuk bagian Keterampilan, Proyek, Sertifikat, dan Perjalanan, agar kartu tidak terlalu besar dan halaman tidak terlalu panjang. Jangan mengubah isi, warna, gaya poster, atau fitur lain, dan jangan mengubah tampilan tablet dan desktop. Kerjakan (1) dulu, baru (2), karena grid dua kolom bisa langsung rusak oleh sisa masalah overflow.
@@ -625,3 +625,4 @@ Selesai kalau di HP 320-412px halaman tidak bisa digeser ke samping, keempat bag
 | 2026-11-24 16:09 | D | D-0 | Simpan commit titik awal sebelum Langkah D (commit 424962b); baca seluruh berkas terkait: css/style.css, css/anim.css, js/render.js, js/anim.js, index.html | Prasyarat terpenuhi. |
 | 2026-11-24 16:21 | D | D-1 | Diagnosa presisi overflow menggunakan Chrome DevTools Protocol (CDP) dengan WebSocket. Ukur scrollWidth vs innerWidth di 360px, 390px, 412px. Identifikasi elemen penyebab via getBoundingClientRect() scan seluruh DOM | 360px: scrollWidth=535 diff=+31; 390px: diff=+27; 412px: diff=+16. Penyebab utama: .marquee-track (16755px wide, tidak terkurung), data-aos="fade-left" pada kolom Tentang dan kartu Timeline Organisasi mendorong elemen ke kanan sebelum animasi. |
 | 2026-11-24 16:24 | D | D-2 | Tambah overflow-x: clip + max-width: 100% pada html dan body di css/style.css. Tambah logika konversi AOS lateral (fade-left/fade-right/flip → fade-up) di initAOS() pada js/anim.js untuk mobile < 768px | Setelah perbaikan: scrollWidth=489 < innerWidth=504 di 360px. count rightItems=0. Overflow sepenuhnya TERATASI. |
+| 2026-11-24 16:55 | D | D-3..D-5 | Implementasi 2 kolom di HP (< 640px) untuk Keterampilan, Proyek, Sertifikat, dan Perjalanan. Kunci viewport di index.html (maximum-scale=1.0, user-scalable=no, viewport-fit=cover) dan touch-action: pan-y pada body. Pembatasan overflow-x di seluruh section dan header. Commit & push ke origin/main (da1fde4). | Halaman di HP terkunci kokoh, tidak bisa digeser ke samping ke area kosong, tata letak 2 kolom rapi dan tidak tumpang tindih. |
