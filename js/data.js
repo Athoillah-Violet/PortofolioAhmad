@@ -319,19 +319,19 @@ window.portfolioData = {
       unggulan: true
     },
     {
-      id: "baca-buku",
-      slug: "baca-buku",
-      judul: "Baca-Buku",
-      deskripsiSingkat: "Platform web katalog dan pembacaan koleksi buku digital berbasis framework Laravel.",
-      deskripsiLengkap: "Baca-Buku adalah aplikasi web manajemen katalog buku dan e-reading yang dibangun dengan arsitektur MVC Laravel. Memiliki fitur autentikasi pengguna, kategorisasi koleksi bacaan, pencarian terstruktur, dan antarmuka responsif untuk membaca konten buku secara nyaman di berbagai ukuran layar.",
-      peran: "Backend & Frontend Developer",
-      teknologi: ["Laravel", "PHP", "MySQL", "Bootstrap"],
-      gambar: "assets/proyek/baca-buku/Screenshot 2026-11-24 100905.png",
+      id: "veritas-digital-signature",
+      slug: "veritas-digital-signature",
+      judul: "Veritas Digital Signature",
+      deskripsiSingkat: "Platform tanda tangan digital dan verifikasi integritas dokumen PDF berbasis web dengan kriptografi SHA-256 dan stempel QR Code.",
+      deskripsiLengkap: "VERITAS adalah aplikasi web tanda tangan digital dan verifikasi keaslian dokumen PDF. Mengusung arsitektur zero-storage dengan kriptografi hash SHA-256 dan kunci asimetris server untuk menjamin integritas bit-level dokumen tanpa menyimpan file pengguna di server. Dilengkapi fitur stempel QR Code interaktif untuk verifikasi instan keabsahan berkas secara real-time.",
+      peran: "Fullstack Web & Security Developer",
+      teknologi: ["Next.js", "TypeScript", "Tailwind CSS", "SHA-256", "Vercel"],
+      gambar: "assets/proyek/veritas-digital-signature/preview.png",
       galeri: [
-        "assets/proyek/baca-buku/Screenshot 2026-11-24 100905.png"
+        "assets/proyek/veritas-digital-signature/preview.png"
       ],
-      linkLive: "",
-      linkGithub: "https://github.com/Athoillah-Violet/baca-buku",
+      linkLive: "https://digitalsignature-swart.vercel.app/",
+      linkGithub: "https://github.com/Athoillah-Violet/DigitalSignature.git",
       unggulan: false
     },
     {
